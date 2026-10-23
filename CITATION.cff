@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite the paper and this software as below."
+type: software
+title: "Rational quivers: Lean 4 formalization of Rational structures on quivers and a generalization of Gelfand's equivalence"
+version: "0.9.0"
+date-released: "2026-10-23"
+license: Apache-2.0
+repository-code: "https://github.com/drjanosch42/rational_quivers"
+authors:
+  - family-names: Januszewski
+    given-names: Fabian
+    affiliation: "Paderborn University"
+keywords:
+  - Lean 4
+  - mathlib
+  - formalization
+  - quiver representations
+  - Harish-Chandra modules
+  - Galois descent
+  - Gelfand's equivalence
+abstract: >-
+  Lean 4 and mathlib formalization of the manuscript "Rational structures on quivers and a
+  generalization of Gelfand's equivalence": for every field E of characteristic 0 and every
+  l >= 0, the functor E_E is an equivalence of abelian categories between the category of
+  E-rational Harish-Chandra modules HC_lambda(sl_2, SO(2))_E, lambda = l^2, and the nilpotent
+  representations of the E-rational Gelfand quiver (Theorem B; Theorem A is the case E = Q),
+  together with the twisted forms. The formalization was carried out with the assistance of
+  AI agents (Claude Code and Anthropic's Claude models) under the author's direction.
+preferred-citation:
+  type: article
+  title: "Rational structures on quivers and a generalization of Gelfand's equivalence"
+  authors:
+    - family-names: Januszewski
+      given-names: Fabian
+      affiliation: "Paderborn University"

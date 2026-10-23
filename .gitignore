@@ -1,0 +1,9 @@
+/lean/.lake/
+/latex/*.aux
+/latex/*.log
+/latex/*.out
+/latex/*.toc
+/latex/*.pdf
+/latex/*.fls
+/latex/*.fdb_latexmk
+/latex/*.synctex.gz

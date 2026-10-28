@@ -1,11 +1,12 @@
 {
   "title": "Rational quivers: Lean 4 formalization of Rational structures on quivers and a generalization of Gelfand's equivalence",
   "upload_type": "software",
-  "version": "0.9.0",
+  "version": "1.0.1",
   "description": "<p>Lean 4 and mathlib formalization, together with the LaTeX source, of the manuscript <em>Rational structures on quivers and a generalization of Gelfand's equivalence</em>. For every field E of characteristic 0 and every l &ge; 0, the functor E_E is an equivalence of abelian categories between the E-rational Harish-Chandra modules HC_&lambda;(sl_2, SO(2))_E, &lambda; = l<sup>2</sup>, and the nilpotent representations of the E-rational Gelfand quiver (Theorem B; Theorem A is the case E = Q), together with the twisted forms.</p><p>The formalization was carried out with the assistance of AI agents (Claude Code and Anthropic's Claude models) under the author's direction. The author reviewed the results and takes full responsibility for the content.</p>",
   "creators": [
     {
       "name": "Januszewski, Fabian",
+      "orcid": "0000-0002-3184-237X",
       "affiliation": "Paderborn University"
     }
   ],
@@ -19,7 +20,7 @@
     "Galois descent",
     "Gelfand's equivalence"
   ],
-  "notes": "Lean code: Apache-2.0. Manuscript source (latex/): CC BY 4.0. Exported from the private development repository at commit 360b8c87a066b555947975d40fc9a4cff0431ca5; see EXPORT-PROVENANCE.",
+  "notes": "Lean code: Apache-2.0. Manuscript source (latex/): CC BY 4.0. Exported from the private development repository at commit a155fd7173150417b85225af1b8956c0afa29275; see EXPORT-PROVENANCE.",
   "related_identifiers": [
     {
       "identifier": "https://github.com/drjanosch42/rational_quivers",

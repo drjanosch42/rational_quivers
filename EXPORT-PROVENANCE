@@ -2,10 +2,10 @@
 #
 # This tree is a snapshot export of the private development repository of *Rational quivers*.
 # Files marked 'verbatim' are byte-identical to the source commit; the others are generated.
-source-commit: 360b8c87a066b555947975d40fc9a4cff0431ca5
-source-commit-date: 2026-10-23T09:01:41+02:00
+source-commit: a155fd7173150417b85225af1b8956c0afa29275
+source-commit-date: 2026-10-28T17:36:36+01:00
 export-script: tools/export-public.sh v2 at e6938650fb9ba33cf923ea92da4b90027ec0c718
-version: 0.9.0
+version: 1.0.1
 lean-toolchain: leanprover/lean4:v4.31.0
 mathlib: fabf563a7c95a166b8d7b6efca11c8b4dc9d911f
 claimed-declarations: 109 of 126 labelled statements
@@ -16,16 +16,16 @@ census: correspondence/LABEL-DECL.tsv = workflow/v2/census/LABEL-DECL.tsv, corre
 # sha256  origin  path
 069f42c6635e3760f10c333629e198c3a20dc67afc415ae0a40dcbfec5e66f56  generated  .github/workflows/ci.yml
 3ccd16c58f204e8b478f26ab53644a9a99c312d83af10d011cb8df0fdd353fd0  generated  .gitignore
-4f1d5f2009ca62fa3b89005d64dbec8ee94a0412304536ce59272f97c5da3d01  generated  .zenodo.json
-073f6bf84a34b14ef6356269f40fc5b743fd919b7a8e5e0001acd786c7a029a4  generated  CITATION.cff
+d504e7ebfddabac2b562441ee1803e263343a8d9ab1f4bc311616be4a6caebb2  generated  .zenodo.json
+fd18c73386b4763db0c9db3055db8250d88111575d30e986571baecb7eec1340  generated  CITATION.cff
 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  generated  LICENSE
 8cc5926324e61fcb876517bc91d525071af8730949f1becb957bed95ccce7203  generated  LICENSE-paper.md
-56adbfdc2199e363635805cb47cf216961bdc8841e5e90c5a0b6a6ea79cf37d8  generated  README.md
+ad082d0746b6e3dad4b078064af5181acebb8b35d5cb18b4d9709248eb6a4d71  generated  README.md
 41f746de83054944b4861c00889ccc77b02ffc26b7fe2fa685324ce1f533c9e1  generated  correspondence/CORRESPONDENCE.md
 31b2d9db1e93eed0b1891c81323608cc7312233b3e12450c5ab1bc9c4e3f8839  verbatim  correspondence/LABEL-DECL.tsv
 4536fa791654d9844cb9bb647a5067630a85ccf6d0b957f26d7d1a7fbbaf298f  generated  correspondence/README.md
 785c22e5cd1d548c49e83b55c0e1eb871bb6b69a426872111b5139babaf4151c  verbatim  correspondence/STATEMENTS.tsv
-93d827e40d9e82dce2cabee6a10d40ee793d3602cc29b5e87cd60282308e07ef  verbatim  latex/lean-refs.tex
+4388fc4d2b1322bc77b5e0245af779d79ad4d0a5aafdf21a2fab56b55658c9d2  verbatim  latex/lean-refs.tex
 a5e1290ee1d85a3026a696d000acacb9f40f92bbf4adb644f280202b87a15fe4  verbatim  latex/rational_quivers.tex
 4e15ca5ae8eeb3d1ac968af435307e322862b1232d9d15377bf214fc36f63b32  generated  lean/Check/Axioms.lean
 07e5b8d5ad679bfe73576c75d1b04c46d1c72b72f5939935199e5438a91e8941  generated  lean/RationalQuivers.lean

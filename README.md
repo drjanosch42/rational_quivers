@@ -22,7 +22,7 @@ Every theorem of the manuscript that the formalization claims (109 labelled stat
 [`correspondence/`](correspondence/)) is proved in Lean without `sorry` and with no axioms beyond
 `propext`, `Classical.choice` and `Quot.sound`. CI checks both on every push.
 
-Exported from the development repository at commit `360b8c87a066b555947975d40fc9a4cff0431ca5` (version 0.9.0).
+Exported from the development repository at commit `a155fd7173150417b85225af1b8956c0afa29275` (version 1.0.1).
 
 ## Paper ↔ Lean
 
@@ -151,7 +151,7 @@ and takes full responsibility for the content.
 ## Citing
 
 See [`CITATION.cff`](CITATION.cff). Please cite the paper, and the archived version of this
-repository (on Zenodo from the first release on; its DOI will be added here) together with the commit you used.
+repository (Zenodo DOI `10.5281/zenodo.23735853`) together with the commit you used.
 
 ## Provenance
 

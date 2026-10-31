@@ -1,0 +1,219 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4 for the Lean formalization of
+# F. Januszewski, "Rational structures on quivers and a generalization of Gelfand's equivalence",
+# submitted to Palomar with project path palomar/ of drjanosch42/rational_quivers.
+# Paths in this file are relative to the repository root.
+version: "v0.4"
+
+project:
+  name: "Rational structures on quivers and a generalization of Gelfand's equivalence: Theorem B"
+  description: >-
+    For every field E of characteristic 0 and every integer l >= 0 (lambda = l^2), the category
+    HC_lambda(sl_2, SO(2))_E of E-rational Harish-Chandra modules for (sl_2, SO(2)) with generalized
+    infinitesimal character lambda is equivalent to the category Rep^nil(Gamma_E) of
+    finite-dimensional nilpotent representations of an E-rational quiver Gamma_E: the Gelfand quiver
+    (with the relation a_- b_- = a_+ b_+) if l >= 1 and the cyclic quiver if l = 0, carrying the
+    action of Gal(E(sqrt(-1))/E) that swaps the two outer vertices when sqrt(-1) is not in E.  For E
+    = C this is Gelfand's classical equivalence; E = Q is Theorem A of the paper.  Harish-Chandra
+    modules over E are modelled by Galois descent: an E-vector space M_E together with the weight
+    decomposition and the sl_2-action on L_E (x)_E M_E, L_E = E(sqrt(-1)), and the condition that
+    these structures are defined over E.  The compared statement asserts the existence of an
+    equivalence; the underlying formalization proves that the paper's explicit functor E_E is one.
+  # Formalizers (humans only; AI systems are recorded under automation).
+  authors:
+    - name: "Fabian Januszewski"
+      orcid: "0000-0002-3184-237X"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - name: "Fabian Januszewski"
+      orcid: "0000-0002-3184-237X"
+
+# `repository` is omitted: the submitted repository contains the substantive development (the
+# Lean package lean/, which the Comparator project palomar/ requires as a contained path
+# dependency), so Palomar records the default role substantive-development.
+
+classification:
+  arxiv: ["math.RT", "math.RA"]
+  msc2020: ["16G20", "22E47", "68V20"]  # as in the paper: primary 16G20; secondary 22E47, 68V20
+
+sources:
+  - title: "Rational structures on quivers and a generalization of Gelfand's equivalence"
+    authors:
+      - name: "Fabian Januszewski"
+        orcid: "0000-0002-3184-237X"
+    id: "arXiv:2506.23251"
+    type: paper
+    location: "https://arxiv.org/abs/2506.23251 (v2, 2026-10-30); submitted to the Journal of Algebra"
+    relationship: formalizes
+    note: >-
+      Theorem B (thm:introB) of the paper, for every field E of characteristic 0; Theorem A is the
+      case E = Q.  The formalization was written alongside the final revision of the paper; the
+      printed statements adopt the generality of the Lean statements, and the paper's appendix lists
+      the 109 formalized statements with their Lean declarations at commit b69c173.
+    license: "CC BY 4.0 (arXiv v2 and the LaTeX source in the repository)"
+    author_endorsement: participated
+  - title: "The cohomology of infinite dimensional Lie algebras; some questions of integral geometry"
+    authors:
+      - "I. M. Gelfand"
+    type: paper
+    location: "Actes du Congrès International des Mathématiciens (Nice, 1970), Tome 1, Gauthier-Villars, 1971, pp. 95-111"
+    relationship: background
+    note: >-
+      Gelfand's equivalence between Harish-Chandra modules and nilpotent representations of the
+      Gelfand quiver over C, which Theorem B generalizes to every field of characteristic 0 (the
+      case E = C reproves it; it is not assumed anywhere in the formalization).
+    author_endorsement: n/a
+
+related_formalizations:
+  - id: "https://github.com/drjanosch42/rational_quivers/tree/v1.0.0 (commit b69c1739..., Zenodo 10.5281/zenodo.23735854)"
+    relationship: builds-on
+    note: >-
+      The version of the formalization cited by the paper (Lean v4.31.0, Mathlib fabf563a).  The
+      Lean package lean/ of the submitted commit is that of tag v1.1.0 (commit 23dabdf6...), which
+      ports it to Lean v4.35.0, Mathlib v4.35.0 and the Lean module system, which Palomar
+      requires.  Port summary: every file is a `module` with
+      `public import`s and an `@[expose] public section`; 13 private helpers were made public (names
+      unchanged); no declaration was renamed or deleted and no statement was edited; Mathlib's
+      change of `CategoryTheory.Aut X` from `X ≅ X` to a one-field structure is absorbed by
+      accessor abbreviations `RQuiver.Aut.hom/inv`; the Galois action on L ⊗_K V is now Mathlib's
+      `TensorProduct.leftDistribMulAction` (same name and type); 523 declarations (or sections)
+      carry `set_option backward.isDefEq.respectTransparency.types false`, an elaborator
+      unification setting restoring the pre-v4.3x behaviour for types (it affects elaboration
+      only; the kernel check is unaffected).  The port's own audit: 0 sorry and only propext,
+      Classical.choice, Quot.sound over all 11638 declarations; the 109 formalized statements
+      of the paper's appendix have the same types as in v1.0.0 under the default printer (with
+      explicit printing they differ only in Mathlib's instance paths and three Mathlib renames).
+
+status:
+  scope: >-
+    Compared: (1) RQStatement.Palomar.theoremB: for every field E of characteristic 0, every datum
+    D = (L_E, i) with L_E generated over E by a square root i of -1, and every l >= 0, there exists
+    an equivalence of categories HC l E D ≌ Rep^nil(Gamma_E); (2) imagUnit_nonempty: such a datum
+    exists for every field E.  Weaker than the paper and the formalization in lean/ in one
+    respect: the paper (and RationalQuivers.Gelfand.gelfand_equivalence) states that the explicit
+    functor E_E is an equivalence (∃ e, e.functor = E_E); restating E_E in the Challenge would add
+    several thousand lines, so the compared statement is the existence of an equivalence.  Modelling
+    choices (all visible in the Challenge): HC_lambda(g,K)_E is the descent presentation (an
+    E-vector space with weight data on its base change to L_E that is Galois-compatible); the
+    intrinsic (g_E, K_E)-module reading is formalized only for E = C (in lean/,
+    not compared here); lambda = l^2 is built in; L_E is an abstract field generated by sqrt(-1)
+    rather than a subfield of an algebraic closure; M_E and E live in Type 0.  Not compared here
+    (proved in lean/): that the equivalence is E_E, that both categories
+    are abelian (Rep^nil carries the structure transported along E_E), Theorem A over Q in the
+    species form, the twisted forms (§5.6), base change, the K-rational quiver/étale K-species
+    anti-equivalence, and the examples.  17 labelled statements of the paper (remarks not used
+    elsewhere and one definition from the literature) are not formalized at all; they are listed in
+    correspondence/LABEL-DECL.tsv of this repository.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - declaration: "RQStatement.Palomar.theoremB"
+      file: "palomar/Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "palomar/comparator.json"
+    - declaration: "RQStatement.Palomar.imagUnit_nonempty"
+      file: "palomar/Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "palomar/comparator.json"
+
+automation:
+  methods:
+    - method: agent
+      models:
+        - "Claude Opus 5"
+        - "Claude Opus 5.5"
+        - "Claude Sonnet 5"
+        - "Claude Sonnet 5.5"
+        - "Claude Fable 5"
+        - "Claude Fable 5.1"
+        - "Claude Haiku 4.5"
+        - "Claude Haiku 5.5"
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        AI-assisted formalization: Claude Code agents, working under the author's direction, wrote
+        the Lean code of the formalization (lean/) and of the Comparator project (palomar/), ran the Lean/Lake builds
+        and an in-house audit instrument (sorry/axiom/hypothesis/coverage checks over the elaborated
+        environment), and prepared the final revision of the manuscript.  The models listed are those
+        named in the paper's declaration on generative AI.
+      cost:
+        wall_time: "about two months (2026-08 to 2026-10)"
+        spend_usd: "subscription-based"
+        hardware: "local workstation (builds) + API"
+      prompting_notes: >-
+        The author fixed the proof structure (the formal proof follows the paper's proof step by
+        step) and approved every statement; agents worked in a staged, gated process recorded in the
+        author's development repository (available on request).
+    - method: manual
+      models: []
+      framework: "n/a"
+      tool_setup: >-
+        The mathematics (statements and proofs) is the author's; the author reviewed the formal
+        statements against the printed ones and decided every modelling choice.
+  spend_usd: "subscription-based"
+  notes: >-
+    The paper's own account (section on the formalization and the declaration on generative AI):
+    "During the preparation of this work the author used Claude Code (Anthropic) with the models
+    Claude Opus 5 and 5.5, Claude Sonnet 5 and 5.5, Claude Fable 5 and 5.1 and Claude Haiku 4.5 and
+    5.5 (Anthropic) in order to formalize the results and proofs of this paper in Lean 4 and to
+    prepare the final revision of the paper.  The author directed the formalization and the revision,
+    checked that the formalized statements correspond to the printed ones, and reviewed every change
+    of the text."  The Palomar wrapper (Challenge, statement copy, bridge) was drafted by a Claude
+    Code agent (Claude Opus 5.5), adapted to Lean/Mathlib v4.35 and checked with lake comparator
+    by a Claude Code agent (Claude Opus 5.5), and reviewed by the author.
+
+fidelity:
+  divergences: >-
+    (a) Existence of an equivalence instead of "the functor E_E is an equivalence" (see status.scope).
+    (b) HC_lambda(g,K)_E in the descent presentation; the comparison with (g_E,K_E)-modules is proved
+    only for E = C.  (c) Finite generation and the generalized infinitesimal character are imposed on
+    M_{L_E} (equivalent for M_E, not proved).  (d) The central character condition is in its parity
+    form (M_n = 0 unless n ≡ l - 1 mod 2).  (e) L_E is any field generated over E by a root of
+    X^2 + 1 (unique up to E-isomorphism); the paper fixes it inside an algebraic closure.
+    (f) Universe 0 for E, L_E and the modules.  All of these are stated in the Challenge's docstrings
+    and in the paper's section on the formalization.  (g) The compared statement is checked against
+    the v4.35 port of the formalization cited by the paper (see related_formalizations); in the port
+    523 declarations or sections use `set_option backward.isDefEq.respectTransparency.types false`
+    (elaboration only; the kernel is unaffected), and Mathlib v4.35 changed `CategoryTheory.Aut` to
+    a structure, so the Challenge reads `a.asIso.hom` where the v4.31 text read `a.hom`.  Two
+    extensionality lemmas of the Challenge (RQStatement.RQuiver.Hom.ext,
+    RQStatement.RationalQuiver.Rep.Hom.ext) are stated by hand instead of by `@[ext]` on the
+    structure, and one proof avoids `omega`, because the generated proofs use private auxiliary
+    constants whose names contain the module name, which Comparator cannot match; the statements
+    are unaffected.
+
+review:
+  status: "author-verified"
+  reviewers:
+    - "Fabian Januszewski (author): statements of the formalization (lean/) and of palomar/Challenge.lean checked against the printed statements"
+  notes: >-
+    The formalization (lean/) went through a staged process with per-statement correspondence
+    records, an independent cross-model review and a release audit (record in the author's
+    development repository, available on request; summary in the public README and
+    correspondence/).  The author read Challenge.lean and checked that its statements correspond
+    to the printed Theorem B (2026-10-31).  The Challenge definitions are copies of the
+    formalization's definitions;
+    the bridge proves the copies equivalent to the originals inside Lean, so no fidelity is lost
+    between Challenge and formalization beyond item (a) of fidelity.divergences.
+
+alignment:
+  namespace: "RQStatement"
+  statements:
+    - source: "Theorem B (thm:introB); for l >= 1 Theorem thm:EEequivalence, for l = 0 thm:cyclicEEequivalence"
+      lean: "RQStatement.Palomar.theoremB"
+      module: "Challenge"
+      status: "proved (existence form)"
+      note: >-
+        Proved in Solution from RationalQuivers.Gelfand.gelfand_equivalence
+        (lean/RationalQuivers/Gelfand/Main.lean of this repository), which states ∃ e : HC ℓ E D ≌ (RepNilTarget D ℓ).FullSubcategory,
+        e.functor = E_E E D ℓ.
+    - source: "def:sqrtminusone (existence of L_E = E(sqrt(-1)))"
+      lean: "RQStatement.Palomar.imagUnit_nonempty"
+      module: "Challenge"
+      status: "proved"
+      note: "From RationalQuivers.HC.ImagUnit.std; shows theoremB is not vacuous in D."
+
+acknowledgements: >-
+  Mathlib; Lean FRO's Comparator; Palomar's template and documentation.

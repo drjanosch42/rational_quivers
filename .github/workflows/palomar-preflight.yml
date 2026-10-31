@@ -1,0 +1,27 @@
+# Palomar's mechanical preflight for the Comparator project in palomar/ (branch `palomar` only).
+# It calls the registry's own reusable verifier, pinned to one PalomarSubmission commit (the
+# `uses` SHA and `pipeline_commit` must be equal), in `full` mode under the `palomar-standard-v1`
+# profile for external callers.  The result is advisory; registration happens only through
+# https://submit.palomar-registry.org/.  All paths in `options` are repository-relative.
+name: Palomar preflight
+
+on:
+  push:
+    branches: [palomar]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  palomar-preflight:
+    if: github.ref == 'refs/heads/palomar'
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: preflight001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"project_path":"palomar","comparator_config_path":"palomar/comparator.json","authorization_relationship":"I am a responsible author or maintainer"}'

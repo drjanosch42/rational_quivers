@@ -1,5 +1,9 @@
-import RationalQuivers.HC.ImagUnit
-import RationalQuivers.Quiver.OfSign
+module
+
+public import RationalQuivers.HC.ImagUnit
+public import RationalQuivers.Quiver.OfSign
+
+@[expose] public section
 
 /-!
 # `χ_E` and the sign-character Gelfand quiver

@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.Target
-import RationalQuivers.HC.Sl2
-import RationalQuivers.Species.Rep.BaseChangeGeneral
-import RationalQuivers.Quiver.Inflation
+module
+
+public import RationalQuivers.Gelfand.Target
+public import RationalQuivers.HC.Sl2
+public import RationalQuivers.Species.Rep.BaseChangeGeneral
+public import RationalQuivers.Quiver.Inflation
+
+@[expose] public section
 
 /-!
 # `Γ_E = E ⊗_ℚ Γ_ℚ` for every `E` (tex §5, opening: `lem:GammaEbasechange`, stage T4)
@@ -105,7 +109,7 @@ theorem postV_surjective [IsGalois K L] [FiniteDimensional K L] (hS : S.IsSplitB
     Function.Surjective (postV S ι) := by
   rintro ⟨i, τ⟩
   obtain ⟨τ', hτ'⟩ := exists_factor_of_splits ι (hS.splits_L i) τ
-  exact ⟨⟨i, τ'⟩, by rw [postV, hτ']⟩
+  exact ⟨⟨i, τ'⟩, by simp only [postV, hτ']; rfl⟩
 
 /-- Likewise on edges: the residue fields `L_ε` are quotients of the edge algebras, which `L`
 splits.  @census none (helper) -/
@@ -119,7 +123,7 @@ theorem postE_surjective [IsGalois K L] [FiniteDimensional K L] (hS : S.IsSplitB
     exact SplitAlg.splits_of_algHom (S.residueMap c) m (Algebra.IsIntegral.isIntegral m)
       (hS.splits_M c.1.1 c.1.2 m)
   obtain ⟨τ', hτ'⟩ := exists_factor_of_splits ι hspl τ
-  exact ⟨⟨c, τ'⟩, by rw [postE, hτ']⟩
+  exact ⟨⟨c, τ'⟩, by simp only [postE, hτ']; rfl⟩
 
 end Post
 
@@ -144,6 +148,19 @@ theorem baseChange_splits_L' [Normal F L] [FiniteDimensional F L]
   obtain ⟨y, rfl⟩ := S.baseChangeProj_surjective F p x
   exact SplitAlg.splits_of_algHom (S.baseChangeProj F p) y (Algebra.IsIntegral.isIntegral y)
     (SplitAlg.tensor_splits (hL p.1) y)
+
+/-- The edge algebras of `S.baseChange F`, indexed by `S.baseChangeIndex F`: instance search no
+longer unfolds `(S.baseChange F).I` to `S.baseChangeIndex F`, so the structure-field instance is
+restated at this index type. Port v4.35. @census none (helper) -/
+noncomputable instance baseChangeEdgeCommRing (k l : S.baseChangeIndex F) :
+    CommRing ((S.baseChange F).M k l) :=
+  (S.baseChange F).commRing_M k l
+
+/-- The `F`-algebra structure on the edge algebras of `S.baseChange F`, restated at the index type
+`S.baseChangeIndex F` (see `baseChangeEdgeCommRing`). Port v4.35. @census none (helper) -/
+noncomputable instance baseChangeEdgeAlgebra (k l : S.baseChangeIndex F) :
+    Algebra F ((S.baseChange F).M k l) :=
+  (S.baseChange F).algebra_M k l
 
 /-- (Copied from T0's `baseChange_splits_M` with the hypothesis weakened from `IsSplitBy` to the two
 splitting conditions, `L/K` need not be Galois.) Each edge algebra `{}_kM'_ℓ` of the base-changed species is split by `L`. It is

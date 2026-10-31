@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Species.Equivalence
+module
+
+public import RationalQuivers.Gelfand.Species.Equivalence
+
+@[expose] public section
 
 /-!
 # The species corollaries over `ℚ` (tex §5.4: `cor:gelfandspecies`, `cor:cyclicspecies`, stage T4)

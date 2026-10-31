@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.BaseChange.NNStab
+module
+
+public import RationalQuivers.Gelfand.BaseChange.NNStab
+
+@[expose] public section
 
 /-!
 # Base change non-split → non-split, quiver side (WP-15, T1 case (2))
@@ -150,6 +154,7 @@ theorem RestrictionDatum.inv_smul_vertex (R : RestrictionDatum K L K'' L'') (σ 
 
 variable (R)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The structure maps of the base change**, `φ''_{v,σ}(b ⊗ m) = σ(b) ⊗ φ_{v,θ(σ)}(m)`.
 @census none (helper; WP-15) -/
 noncomputable def phiNNEquiv (M : Rep (gelfandOfCardTwo K L h)) (σ : Gal(L''/K''))
@@ -169,6 +174,7 @@ noncomputable def phiNNEquiv (M : Rep (gelfandOfCardTwo K L h)) (σ : Gal(L''/K'
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   map_add' x y := map_add _ x y
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem phiNNEquiv_tmul (M : Rep (gelfandOfCardTwo K L h)) (σ : Gal(L''/K''))
     (v : (gelfandOfCardTwo K L h).V) (b : L'') (m : M.M v) :
     phiNNEquiv (h'' := h'') R M σ v (b ⊗ₜ[L] m)
@@ -185,6 +191,7 @@ theorem eqCast_φ'_trans (M : Rep (gelfandOfCardTwo K L h)) (g : Gal(L/K))
   subst h2; rfl
 
 variable (h'') in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Transport in the base-changed family, indexed by the vertices of `Γ_{K''}`.
 @census none (helper; WP-15) -/
 noncomputable def castNN (M : Rep (gelfandOfCardTwo K L h))
@@ -192,11 +199,13 @@ noncomputable def castNN (M : Rep (gelfandOfCardTwo K L h))
     L'' ⊗[L] M.M v ≃ₗ[L''] L'' ⊗[L] M.M w :=
   famCast (L := L'') (fun u : (gelfandOfCardTwo K'' L'' h'').V => L'' ⊗[L] M.M u) hvw
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem castNN_tmul (M : Rep (gelfandOfCardTwo K L h)) {v w : (gelfandOfCardTwo K'' L'' h'').V}
     (hvw : v = w) (b : L'') (m : M.M v) :
     castNN h'' M hvw (b ⊗ₜ[L] m) = b ⊗ₜ[L] M.eqCast hvw m := by
   subst hvw; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The cocycle condition for `φ''`, transported.  @census none (helper; WP-15) -/
 theorem phiNN_cocycle (M : Rep (gelfandOfCardTwo K L h)) (σ τ : Gal(L''/K''))
     (v : (gelfandOfCardTwo K'' L'' h'').V) (x : L'' ⊗[L] M.M v) :
@@ -224,6 +233,7 @@ theorem eqCast_φEdge'_trans (M : Rep (gelfandOfCardTwo K L h)) (e : (gelfandOfC
     M.eqCast hb2 (M.φEdge' e ha hb x) = M.φEdge' e ha (hb.trans hb2) x := by
   subst hb2; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge equivariance for `φ''`, transported.  The edge maps are written as `φEdge'` with
 endpoints named in `Γ_{K''}`, so that every vertex term is one of `Γ_{K''}`.
 @census none (helper; WP-15) -/
@@ -250,6 +260,7 @@ theorem phiNN_edge (M : Rep (gelfandOfCardTwo K L h)) (σ : Gal(L''/K''))
     exact M.φEdge'_φ' (R.θ σ) (R.smul_edge σ e) rfl rfl rfl _ _ _ m
   | add x y hx hy => simp only [map_add, hx, hy]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `nn` base change of a representation of the Gelfand quiver.**
 @census none (helper; WP-15; the `nn` shape of `RQ-5.08-C4`, quiver side) -/
 noncomputable def Rep.bcNN (M : Rep (gelfandOfCardTwo K L h)) :
@@ -275,17 +286,21 @@ noncomputable def Rep.bcNN (M : Rep (gelfandOfCardTwo K L h)) :
       exact sigma_mk_eq_of_famCast (L := L'') (fun u => L'' ⊗[L] M.M u)
         ((gelfandOfCardTwo K'' L'' h'').target_smul σ e) _ _ (phiNN_edge R M σ e x))
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem Rep.bcNN_M (M : Rep (gelfandOfCardTwo K L h)) (v : (gelfandOfCardTwo K L h).V) :
     (Rep.bcNN (h'' := h'') R M).M v = L'' ⊗[L] M.M v := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem Rep.bcNN_φEdge (M : Rep (gelfandOfCardTwo K L h)) (e : (gelfandOfCardTwo K L h).E) :
     (Rep.bcNN (h'' := h'') R M).φEdge e = LinearMap.baseChange L'' (M.φEdge e) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem Rep.bcNN_φ_tmul (M : Rep (gelfandOfCardTwo K L h)) (σ : Gal(L''/K''))
     (v : (gelfandOfCardTwo K L h).V) (b : L'') (m : M.M v) :
     (Rep.bcNN (h'' := h'') R M).φ σ v (b ⊗ₜ[L] m)
       = σ b ⊗ₜ[L] M.φ' (R.θ σ) (R.smul_vertex (h'' := h'') σ v) m := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Path composites of the `nn` base change.  @census none (helper; WP-15) -/
 theorem Rep.pathMap_bcNN (M : Rep (gelfandOfCardTwo K L h)) {a b : (gelfandOfCardTwo K L h).V}
     (p : Quiver.Path a b) :
@@ -298,6 +313,7 @@ theorem ψ_φ' {M N : Rep (gelfandOfCardTwo K L h)} (f : Rep.Hom M N) (g : Gal(L
     f.ψ w (M.φ' g hvw m) = N.φ' g hvw (f.ψ v m) := by
   subst hvw; exact f.rational g v m
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `nn` base change of a morphism.  @census none (helper; WP-15) -/
 noncomputable def Rep.Hom.bcNN {M N : Rep (gelfandOfCardTwo K L h)} (f : Rep.Hom M N) :
     Rep.Hom (Rep.bcNN (h'' := h'') R M) (Rep.bcNN (h'' := h'') R N) where
@@ -318,6 +334,7 @@ noncomputable def Rep.Hom.bcNN {M N : Rep (gelfandOfCardTwo K L h)} (f : Rep.Hom
       exact ψ_φ' f _ _ m
     | add x y hx hy => simp only [map_add, hx, hy]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `nn` quiver-side base-change functor** `Rep^nil_rel(Γ_K) ⥤ Rep^nil_rel(Γ_{K''})`,
 constructed.  @census none (helper; WP-15; the `nn` shape of `RQ-5.08-C4`) -/
 noncomputable def qBCnnRel :

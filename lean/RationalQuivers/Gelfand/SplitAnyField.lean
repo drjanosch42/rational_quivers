@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Split.EssSurj
+module
+
+public import RationalQuivers.Gelfand.Split.EssSurj
+
+@[expose] public section
 
 /-!
 # `rmk:splitequivalenceanyfield` (§5.1, stage T5)

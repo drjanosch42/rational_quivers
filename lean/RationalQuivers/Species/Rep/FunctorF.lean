@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.Decomposition
-import RationalQuivers.Quiver.Rep.Category
+module
+
+public import RationalQuivers.Species.Rep.Decomposition
+public import RationalQuivers.Quiver.Rep.Category
+
+@[expose] public section
 
 /-!
 # The functor `F : Rep(Γ_K) → Rep(S(Γ_K))` (§2.6, census `RQ2-2.26`)
@@ -68,6 +72,7 @@ noncomputable def FObj (M : FDRep Γ) : EtaleSpecies.Rep Γ.toSpecies where
   f i j := edgeDescentOf M.toRep i j
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`F` on morphisms**: `ψ ↦ (ψ_i)`, `RQ2-2.25`'s descended components. -/
 noncomputable def FMap {M N : FDRep Γ} (φ : M ⟶ N) :
     Species.Rep.Hom (FObj Γ M) (FObj Γ N) where
@@ -108,6 +113,7 @@ names.
 -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.29`'s hypothesis `hF1` for `FFunctor`** (= `RQ2-2.26-C1` at `e = refl`): `F`'s structure
 maps are the descents `f_{ij}`, for any `IsEdgeDescent` witness.
 @census none (clause witness for `RQ2-2.26-C1`; discharges `RQ2-2.29`'s `hF1`) -/
@@ -123,6 +129,7 @@ theorem FFunctor_hF1 (M : FDRep Γ) (i j : Γ.VertexOrbit)
   rw [edgeDescentOf_eq M.toRep ch e₀ f hf]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.29`'s hypothesis `hF2` for `FFunctor`** (= `RQ2-2.26-C2` at `e = refl`): `F`'s morphism
 map is `RQ2-2.25`'s `ψ_i`.
 @census none (clause witness for `RQ2-2.26-C2`; discharges `RQ2-2.29`'s `hF2`) -/
@@ -137,6 +144,7 @@ theorem FFunctor_hF2 (M N : FDRep Γ) (φ : M ⟶ N)
     ((FFunctor Γ).map φ).ψ i w = ψ' i w :=
   Subtype.ext (hψ' i w).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Theorem `thm:quiveretalespeciesrepresentations`** (census `RQ2-2.26`).
 
 The assignments

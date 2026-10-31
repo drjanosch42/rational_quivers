@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Equivalence.Functor
+module
+
+public import RationalQuivers.Gelfand.Equivalence.Functor
+
+@[expose] public section
 
 /-!
 # faithfulness of `𝔼_E` (§5.3, Step O-16)

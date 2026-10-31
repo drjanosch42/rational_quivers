@@ -1,4 +1,8 @@
-import RationalQuivers.HC.Sl2
+module
+
+public import RationalQuivers.HC.Sl2
+
+@[expose] public section
 
 /-!
 # Homogeneous components of a `WeightData`, and its sub- and quotient objects

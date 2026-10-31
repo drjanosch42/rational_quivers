@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.Equivalence
-import RationalQuivers.Species.Rep.GelfandRelation
+module
+
+public import RationalQuivers.Species.Rep.Equivalence
+public import RationalQuivers.Species.Rep.GelfandRelation
+
+@[expose] public section
 
 /-!
 # §2 release addenda (final-release WP-16a)
@@ -31,12 +35,14 @@ variable {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
 
 section HMorphisms
 
+set_option backward.isDefEq.respectTransparency.types false
 variable (WK : ∀ (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit), Submodule K (V.W i))
   (hWK : ∀ (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit),
     IsKRationalStructure V i (WK V i))
   (ch : ∀ (k l : Γ.VertexOrbit) (ε : Γ.EdgeOrbit k l), Γ.EdgeChoice ε)
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The identification `M(v) = W_i ⊗_{L_i,σ} L` for `v = σ v_i`** (`RQ2-2.28-C5`).  Written in
 mathlib's factor order `L ⊗_{L_i} W_i`: the canonical `M(v_i) = W_{i,K} ⊗_K L = W_i ⊗_{L_i} L`
 (`hObjEquivBaseChange`, clause `RQ2-2.27-C4`) followed by `φ_{v_i,σ} : M(v_i) → M(σ v_i)`.  It is
@@ -57,6 +63,7 @@ theorem hom_eqCast {M N : Rep Γ} (f : Rep.Hom M N) {v w : Γ.V} (h : v = w) (m 
   subst h; rfl
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.28` (statement) and `RQ2-2.28-C5`, corrected text** — `H` on morphisms, and the
 identification it is read through.  For every vertex orbit `i`, every `σ ∈ G` and `v = σ v_i`:
 
@@ -145,6 +152,7 @@ theorem hFunctor_map_formula :
 end HMorphisms
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.28` (statement), last sentence** — *"different choices of the `K`-structures
 `W_{i,K}` give naturally isomorphic functors"*: for any two families of `K`-rational structures
 (and any two edge choices), the two functors `H` are naturally isomorphic.  Both are inverses of

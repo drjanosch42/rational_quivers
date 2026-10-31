@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Split.Construction
+module
+
+public import RationalQuivers.Gelfand.Split.Construction
+
+@[expose] public section
 
 /-!
 # The chains of §5.1: faithfulness and fullness of `𝔼_F` (tex §5.1, Steps O-7e…O-7g)

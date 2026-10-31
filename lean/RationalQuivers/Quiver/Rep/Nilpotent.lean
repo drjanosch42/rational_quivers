@@ -1,6 +1,10 @@
-import RationalQuivers.Quiver.Rep.Category
-import Mathlib.Combinatorics.Quiver.Path
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+module
+
+public import RationalQuivers.Quiver.Rep.Category
+public import Mathlib.Combinatorics.Quiver.Path
+public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+
+@[expose] public section
 
 /-!
 # Nilpotent representations and `Rep^nil(Γ_K)`
@@ -271,8 +275,7 @@ theorem pathCompose_loopPath (n : ℕ) :
   have harr : arrowCompose (Q := (loopRQ K L).toRQuiver) (constLOne (loopRQ K L)).M
       (constLOne (loopRQ K L)).φEdge (loopArrow K L) = LinearMap.id := by
     refine LinearMap.ext fun m => ?_
-    show LinearMap.mulLeft L (1 : L) m = m
-    rw [LinearMap.mulLeft_apply, one_mul]
+    exact one_mul (M := L) m
   induction n with
   | zero =>
       show pathCompose (Q := (loopRQ K L).toRQuiver) _ _ Quiver.Path.nil = LinearMap.id

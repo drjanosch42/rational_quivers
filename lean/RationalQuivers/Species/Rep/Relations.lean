@@ -1,4 +1,8 @@
-import RationalQuivers.Species.Rep.Basic
+module
+
+public import RationalQuivers.Species.Rep.Basic
+
+@[expose] public section
 
 /-!
 # Relations for a `K`-species (§2.5, census `RQ2-2.36`)
@@ -215,7 +219,8 @@ theorem pathHom_mk (V : Rep S) (idx : ℕ → S.I) (m : ∀ k, S.M (idx k) (idx 
       show V.f (idx (n + 1)) (idx (n + 2))
           (Balanced.map _ _ (pathHom S V idx n) _
             (Balanced.mk (Balanced.mk w (pathElt S idx m n)) (m (n + 1)))) = _
-      rw [Balanced.map_mk, ih]
+      erw [Balanced.map_mk]
+      rw [ih]
       rfl
 
 /-! ### `RQ2-2.36-C3` — relations -/
@@ -380,6 +385,7 @@ theorem ofL_satisfies (S : Species K) (R : Relation S) : Satisfies S (Rep.ofL S)
   | zero => rfl
   | succ n => rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **G5 non-degeneracy** (`WORKFLOW.md` §4/G5 item 2).  Satisfaction is a **real** condition: the
 one-node species `Species.trivial K` with `W_0 = K` and `f_{00}` the multiplication
 (`Species.Rep.trivialMul`, the tree's non-degenerate `RQ2-2.17` inhabitant) does **not** satisfy the

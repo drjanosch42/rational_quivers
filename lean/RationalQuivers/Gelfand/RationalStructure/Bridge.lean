@@ -1,7 +1,11 @@
-import RationalQuivers.HC.Category
-import RationalQuivers.Gelfand.GeneralBaseCategory
-import RationalQuivers.Gelfand.Split.Construction
-import RationalQuivers.Unipotent.Twist
+module
+
+public import RationalQuivers.HC.Category
+public import RationalQuivers.Gelfand.GeneralBaseCategory
+public import RationalQuivers.Gelfand.Split.Construction
+public import RationalQuivers.Unipotent.Twist
+
+@[expose] public section
 
 /-!
 # The `R-V2-3` bridges: `HC ℓ E D` and the relocated `G_E`-engine (helper, stage T3)
@@ -241,8 +245,8 @@ noncomputable def ofHCEHom {A' B' : HCEObj ℓ E (D.sqrtExt h)} (f : A' ⟶ B') 
   map_gal σ v := by
     rcases D.chi_cases σ with hσ | hσ
     · rw [HC.galAct_of_chi_one _ hσ, HC.galAct_of_chi_one _ hσ]
-    · rw [HCEObj.toHC_galAct_neg _ hσ, HCEObj.toHC_galAct_neg _ hσ]
-      exact f.map_conj v
+    · exact (congrArg f.toLinearMap (HCEObj.toHC_galAct_neg A' hσ v)).trans
+        ((f.map_conj v).trans (HCEObj.toHC_galAct_neg B' hσ _).symm)
 
 end HC
 

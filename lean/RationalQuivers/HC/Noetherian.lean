@@ -1,9 +1,13 @@
-import RationalQuivers.HC.Graded
-import Mathlib.FieldTheory.Minpoly.Field
-import Mathlib.RingTheory.IntegralClosure.Algebra.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.Algebra.Polynomial.Roots
-import Mathlib.Data.Int.Interval
+module
+
+public import RationalQuivers.HC.Graded
+public import Mathlib.FieldTheory.Minpoly.Field
+public import Mathlib.RingTheory.IntegralClosure.Algebra.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+public import Mathlib.Algebra.Polynomial.Roots
+public import Mathlib.Data.Int.Interval
+
+@[expose] public section
 
 /-!
 # Finite generation of the submodules of a finitely generated admissible weight module

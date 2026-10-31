@@ -1,10 +1,14 @@
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.LinearAlgebra.Matrix.ToLin
-import Mathlib.RingTheory.TensorProduct.Free
-import Mathlib.Tactic.NoncommRing
-import RationalQuivers.Unipotent.Stabilization
+module
+
+public import Mathlib.Analysis.Complex.Polynomial.Basic
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.LinearAlgebra.Matrix.ToLin
+public import Mathlib.RingTheory.TensorProduct.Free
+public import Mathlib.Tactic.NoncommRing
+public import RationalQuivers.Unipotent.Stabilization
+
+@[expose] public section
 
 /-!
 # A non-degenerate witness for the hypotheses of §4.1
@@ -114,12 +118,10 @@ theorem witnessN_ne_zero : witnessN ≠ 0 := by
 /-- The base change commutes with the canonical semi-linear action: `N` is defined over `ℝ`. -/
 theorem galoisTwist_witnessN (σ : Gal(ℂ/ℝ)) (x : WitnessSpace) :
     galoisTwist σ (witnessN x) = witnessN (galoisTwist σ x) := by
-  refine TensorProduct.induction_on x ?_ ?_ ?_
-  · simp
-  · intro a w
-    simp [witnessN, LinearMap.baseChange_tmul]
-  · intro y z hy hz
-    simp only [map_add, hy, hz]
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a w => simp [witnessN, LinearMap.baseChange_tmul]
+  | add y z hy hz => simp only [map_add, hy, hz]
 
 /-! ## The pair `(φ_+, φ_-)` -/
 

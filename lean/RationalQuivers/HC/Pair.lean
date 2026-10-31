@@ -3,34 +3,38 @@
 -- The elaboration of the downstream `Gelfand/GeneralField/Identification*` modules is sensitive to
 -- instance load order (measured at v2 T1: with a different order two declarations exceed the
 -- heartbeat budget in `Field`/`Algebra` instance defeq); keeping v1's order keeps them unchanged.
-import Mathlib.Algebra.Lie.Semisimple.Basic
-import Mathlib.Algebra.Lie.Semisimple.Defs
-import Mathlib.Algebra.MvPolynomial.CommRing
-import Mathlib.LinearAlgebra.UnitaryGroup
-import Mathlib.RingTheory.Ideal.Quotient.Defs
-import Mathlib.Algebra.Category.FGModuleCat.Abelian
-import Mathlib.Algebra.Category.FGModuleCat.Basic
-import Mathlib.Algebra.Lie.Basic
-import Mathlib.CategoryTheory.Simple
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import Mathlib.LinearAlgebra.FreeModule.Finite.Matrix
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import Mathlib.RepresentationTheory.Basic
-import Mathlib.RingTheory.TensorProduct.Finite
-import Mathlib.Algebra.Algebra.Rat
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Algebra.Lie.Classical
-import Mathlib.Algebra.Lie.Sl2
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Complex.Module
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.RingTheory.Nilpotent.Defs
-import Mathlib.CategoryTheory.Abelian.Basic
-import Mathlib.CategoryTheory.Linear.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+module
+
+public import Mathlib.Algebra.Lie.Semisimple.Basic
+public import Mathlib.Algebra.Lie.Semisimple.Defs
+public import Mathlib.Algebra.MvPolynomial.CommRing
+public import Mathlib.LinearAlgebra.UnitaryGroup
+public import Mathlib.RingTheory.Ideal.Quotient.Defs
+public import Mathlib.Algebra.Category.FGModuleCat.Abelian
+public import Mathlib.Algebra.Category.FGModuleCat.Basic
+public import Mathlib.Algebra.Lie.Basic
+public import Mathlib.CategoryTheory.Simple
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.LinearAlgebra.FreeModule.Finite.Matrix
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+public import Mathlib.RepresentationTheory.Basic
+public import Mathlib.RingTheory.TensorProduct.Finite
+public import Mathlib.Algebra.Algebra.Rat
+public import Mathlib.Algebra.DirectSum.Module
+public import Mathlib.Algebra.Lie.Classical
+public import Mathlib.Algebra.Lie.Sl2
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+public import Mathlib.LinearAlgebra.Basis.Basic
+public import Mathlib.LinearAlgebra.Complex.Module
+public import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+public import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.RingTheory.Nilpotent.Defs
+public import Mathlib.CategoryTheory.Abelian.Basic
+public import Mathlib.CategoryTheory.Linear.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+
+@[expose] public section
 
 /-!
 # `SO(2)_ℚ` and the `ℚ`-rational semisimple pair `(𝔰𝔩_{2,ℚ}, SO(2)_ℚ)`
@@ -246,7 +250,7 @@ theorem so2Points_equiv_algHom (E : Type) [CommRing E] [Algebra ℚ E] :
       rw [hξη, sub_self]
     refine ⟨Ideal.Quotient.liftₐ so2Ideal (MvPolynomial.aeval ![ξ, η]) hker, ?_⟩
     apply Subtype.ext
-    apply Prod.ext <;> simp [so2PointsOfAlgHom]
+    apply Prod.ext <;> simp only [so2PointsOfAlgHom] <;> erw [Ideal.Quotient.lift_mk] <;> simp
 
 /-! ## The specialization `(ξ,η) ↦ !![ξ, -η; η, ξ]` -/
 

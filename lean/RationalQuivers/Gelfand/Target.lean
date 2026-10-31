@@ -1,5 +1,9 @@
-import RationalQuivers.HC.ImagUnitQuiver
-import RationalQuivers.Quiver.Rep.Nilpotent
+module
+
+public import RationalQuivers.HC.ImagUnitQuiver
+public import RationalQuivers.Quiver.Rep.Nilpotent
+
+@[expose] public section
 
 /-!
 # The target quiver `Γ_E` (tex §5, opening: `def:GammaE`, `lem:GammaEbasechange`)

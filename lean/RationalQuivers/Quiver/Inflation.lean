@@ -1,6 +1,11 @@
-import RationalQuivers.Quiver.Comap
-import Mathlib.FieldTheory.IsSepClosed
-import Mathlib.FieldTheory.Galois.Profinite
+module
+
+public import RationalQuivers.Quiver.Comap
+public import Mathlib.FieldTheory.IsSepClosed
+public import Mathlib.FieldTheory.Galois.Profinite
+public import Mathlib.Topology.Algebra.OpenSubgroup
+
+@[expose] public section
 
 /-!
 # Inflation to the absolute Galois group, and the finite-quotient factorization

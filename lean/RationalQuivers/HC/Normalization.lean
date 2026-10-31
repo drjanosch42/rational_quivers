@@ -1,6 +1,10 @@
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import RationalQuivers.HC.Category
-import RationalQuivers.Unipotent.Nilpotent
+module
+
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+public import RationalQuivers.HC.Category
+public import RationalQuivers.Unipotent.Nilpotent
+
+@[expose] public section
 
 /-!
 # `§3.3` Rational normalizations over every field (`prop:XY_C_relation` … `def:xstarystar`)

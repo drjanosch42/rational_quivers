@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.Split.Chains
-import RationalQuivers.Unipotent.SquareRoots
+module
+
+public import RationalQuivers.Gelfand.Split.Chains
+public import RationalQuivers.Unipotent.SquareRoots
+
+@[expose] public section
 
 /-!
 # Essential surjectivity of `𝔼_F` per the tex (tex §5.1 ES sentence; the construction of §5.3)
@@ -71,6 +75,19 @@ variable (W : (RepNilRelSplit L).FullSubcategory)
 /-- The vertex spaces of a split representation, by index (`−`=0, `⋆`=1, `+`=2).
 @census none (helper; core) -/
 abbrev VM (v : Fin 3) : Type := W.obj.toRep.M v
+
+/-- The additive group structure of `VM W v`, at the index type `Fin 3`: instance search no longer
+unfolds `(gelfandSplit L).V` to `Fin 3`. Port v4.35. @census none (helper) -/
+instance VM.instAddCommGroup (v : Fin 3) : AddCommGroup (VM W v) := W.obj.toRep.addCommGroup v
+
+/-- The `L`-module structure of `VM W v`, at the index type `Fin 3` (see `VM.instAddCommGroup`).
+Port v4.35. @census none (helper) -/
+instance VM.instModule (v : Fin 3) : Module L (VM W v) := W.obj.toRep.module v
+
+/-- `VM W v` is finite-dimensional, at the index type `Fin 3` (see `VM.instAddCommGroup`).
+Port v4.35. @census none (helper) -/
+instance VM.instFiniteDimensional (v : Fin 3) : FiniteDimensional L (VM W v) :=
+  W.obj.finiteDimensional v
 
 /-- The edge maps, by index (`a₋`=0, `b₋`=1, `a₊`=2, `b₊`=3).  @census none (helper; core) -/
 noncomputable def Vedge (e : Fin 4) :
@@ -2831,14 +2848,14 @@ theorem isoPoly_edge0 (m : D.weight.comp (-((ℓ : ℤ) + 1))) (hm : D.weight.X 
     D.toStarLo ⟨D.weight.X m, hm⟩ = Vedge W 0 (D.toMinus m) := by
   have h : (⟨D.weight.X m, hm⟩ : D.weight.comp (-((ℓ : ℤ) - 1)))
       = D.toStarLo.symm (Vedge W 0 (D.toMinus m)) := Subtype.ext (D.X_bdry_minus m m.2)
-  rw [h, LinearEquiv.apply_symm_apply]
+  rw [h]; exact D.toStarLo.apply_symm_apply _
 
 /-- Edge `b₋`.  @census none (helper; O-7h) -/
 theorem isoPoly_edge1 (m : D.weight.comp (-((ℓ : ℤ) - 1))) (hm : D.weight.Y m ∈ D.weight.comp (-((ℓ : ℤ) + 1))) :
     D.toMinus ⟨D.weight.Y m, hm⟩ = Vedge W 1 (D.toStarLo m) := by
   have h : (⟨D.weight.Y m, hm⟩ : D.weight.comp (-((ℓ : ℤ) + 1)))
       = D.toMinus.symm (Vedge W 1 (D.toStarLo m)) := Subtype.ext (D.Y_bdry_minus m m.2)
-  rw [h, LinearEquiv.apply_symm_apply]
+  rw [h]; exact D.toMinus.apply_symm_apply _
 
 include hp h0 in
 /-- Edge `b₊`: `p(n_+)^{-1} φ_{b₊}^{𝔼} = φ_{b₊}`, by the intertwiner `φ_{b₊}p(n_⋆) = p(n_+)φ_{b₊}`.
@@ -2856,8 +2873,9 @@ theorem isoPoly_edge3 (m : D.weight.comp (-((ℓ : ℤ) - 1)))
   have h3 : Vedge W 3 (Polynomial.aeval (nOp W 1) p (D.toStarLo m))
       = Polynomial.aeval (nOp W 2) p (Vedge W 3 (D.toStarLo m)) :=
     LinearMap.congr_fun (intertwine_bPlus W p) (D.toStarLo m)
-  rw [h1, LinearEquiv.apply_symm_apply, h2, h3, nPlusInv, ← Module.End.mul_apply,
-    Ring.inverse_mul_cancel _ (isUnit_aeval_nPlus W h0), Module.End.one_apply]
+  rw [h1]; erw [D.toPlus.apply_symm_apply]; rw [h2, h3, nPlusInv]
+  exact LinearMap.congr_fun (Ring.inverse_mul_cancel _ (isUnit_aeval_nPlus W h0))
+    (Vedge W 3 (D.toStarLo m))
 
 include hp h0 in
 /-- Edge `a₊`: `X_⋆^{-1}φ_{a₊} = φ_{a₊}p(n_+)^{-1}`, by the intertwiner
@@ -2881,7 +2899,7 @@ theorem isoPoly_edge2 (m : D.weight.comp ((ℓ : ℤ) + 1))
     rw [hx]
     have h : (⟨D.weight.Y m, hY⟩ : D.weight.comp ((ℓ : ℤ) - 1))
         = D.toStarHi.symm (Vedge W 2 (D.toPlus m)) := Subtype.ext (D.Y_bdry_plus m m.2)
-    rw [h, LinearEquiv.apply_symm_apply]
+    rw [h]; exact D.toStarHi.apply_symm_apply _
   have hR : Polynomial.aeval (nOp W 1) p (Vedge W 2 (nPlusInv p (D.toPlus m)))
       = Vedge W 2 (D.toPlus m) := by
     have h : essEdgeAp W (Polynomial.aeval (nOp W 2) p (nPlusInv p (D.toPlus m)))
@@ -2929,7 +2947,8 @@ theorem isoPoly_left : ∀ (v : Fin 3) x, isoPolyψInv D p v (isoPolyψ D p v x)
   | 2, x => by
       show D.toPlus.symm (Polynomial.aeval (nOp W 2) p (nPlusInv p (D.toPlus x))) = x
       rw [nPlusInv, ← Module.End.mul_apply, Ring.mul_inverse_cancel _ (isUnit_aeval_nPlus W h0),
-        Module.End.one_apply, LinearEquiv.symm_apply_apply]
+        Module.End.one_apply]
+      exact D.toPlus.symm_apply_apply x
 
 include h0 in
 theorem isoPoly_right : ∀ (v : Fin 3) y, isoPolyψ D p v (isoPolyψInv D p v y) = y

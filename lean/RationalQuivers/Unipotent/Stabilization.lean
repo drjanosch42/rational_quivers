@@ -1,5 +1,9 @@
-import Mathlib.Algebra.Order.Floor.Div
-import RationalQuivers.Unipotent.Twist
+module
+
+public import Mathlib.Algebra.Order.Floor.Div
+public import RationalQuivers.Unipotent.Twist
+
+@[expose] public section
 
 /-!
 # Unipotent stabilization

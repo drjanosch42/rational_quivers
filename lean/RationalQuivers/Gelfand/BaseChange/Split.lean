@@ -1,6 +1,10 @@
-import RationalQuivers.Gelfand.Main
-import RationalQuivers.Gelfand.BaseChange.QuiverRel
-import RationalQuivers.Gelfand.Split.Cyclic
+module
+
+public import RationalQuivers.Gelfand.Main
+public import RationalQuivers.Gelfand.BaseChange.QuiverRel
+public import RationalQuivers.Gelfand.Split.Cyclic
+
+@[expose] public section
 
 /-!
 # `𝔼` is compatible with base change: the core and the split case (WP-15, T1)

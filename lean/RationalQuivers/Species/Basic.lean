@@ -1,8 +1,12 @@
-import Mathlib.Algebra.Algebra.Subalgebra.Basic
-import Mathlib.Algebra.Module.Opposite
-import Mathlib.RingTheory.Finiteness.Basic
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+module
+
+public import Mathlib.Algebra.Algebra.Subalgebra.Basic
+public import Mathlib.Algebra.Module.Opposite
+public import Mathlib.RingTheory.Finiteness.Basic
+public import Mathlib.RingTheory.SimpleModule.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+
+@[expose] public section
 
 /-!
 # `K`-species in the sense of Gabriel–Dlab–Ringel

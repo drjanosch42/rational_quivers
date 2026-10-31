@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Main
+module
+
+public import RationalQuivers.Gelfand.Main
+
+@[expose] public section
 
 /-!
 # The compatibility layer (stage T4, WP-11a): identifications of presentations
@@ -43,6 +47,7 @@ variable {Γ : RationalQuiver K L} {ρ' : Gal(L/K) →* RQuiver.Aut Γ.toRQuiver
 variable (hV : ∀ (σ : Gal(L/K)) (v : Γ.V), σ • v = (σ • EssSurj.wV ρ' v : (Γ.withρ ρ').V))
   (hE : ∀ (σ : Gal(L/K)) (e : Γ.E), σ • e = (σ • EssSurj.wE ρ' e : (Γ.withρ ρ').E))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A morphism of representations, re-indexed: the same components.  @census none (helper) -/
 def reρHom {M N : RationalQuiver.Rep Γ} (f : RationalQuiver.Rep.Hom M N) :
     RationalQuiver.Rep.Hom (M.reρ hV hE) (N.reρ hV hE) where
@@ -57,6 +62,7 @@ noncomputable def reρFD (M : RationalQuiver.FDRep Γ) : RationalQuiver.FDRep (�
   toRep := M.toRep.reρ hV hE
   finiteDimensional := M.finiteDimensional
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Re-indexing as a functor.  @census none (helper) -/
 noncomputable def reρFunctor : RationalQuiver.FDRep Γ ⥤ RationalQuiver.FDRep (Γ.withρ ρ') where
   obj := reρFD hV hE
@@ -80,6 +86,7 @@ include hE in
 theorem hE_symm : ∀ (σ : Gal(L/K)) (e : (Γ.withρ ρ').E),
     σ • e = (σ • EssSurj.wE Γ.ρ e : ((Γ.withρ ρ').withρ Γ.ρ).E) := fun σ e => (hE σ e).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Re-indexing is an equivalence** `Rep(Γ) ≌ Rep(Γ.withρ ρ')`, the identity on spaces and edges.
 @census none (helper) -/
 noncomputable def reρEquiv : RationalQuiver.FDRep Γ ≌ RationalQuiver.FDRep (Γ.withρ ρ') where
@@ -99,6 +106,7 @@ noncomputable def reρEquiv : RationalQuiver.FDRep Γ ≌ RationalQuiver.FDRep (
     (fun _ => RationalQuiver.Rep.Hom.ext rfl)
   functor_unitIso_comp _ := RationalQuiver.Rep.Hom.ext rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Re-indexing restricted to full subcategories that it preserves in both directions (explicit:
 functor and inverse are the re-indexings, unit and counit have identity components).
 @census none (helper) -/
@@ -297,6 +305,7 @@ section CardTwo
 
 variable (K L : Type) [Field K] [Field L] [Algebra K L] [IsGalois K L] [FiniteDimensional K L]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- For a quadratic `L/K` and an **injective** sign character `χ`, `cyclicOfSign χ` is, as a
 structure, the quiver `cyclicOfCardTwo K L h` of `ex:cyclic` (the `ℓ = 0` companion of T0's
 `gelfandOfSign_eq_gelfandOfCardTwo`, plan risk R-3).  @census none (helper) -/
@@ -312,7 +321,7 @@ theorem cyclicOfSign_eq_cyclicOfCardTwo (h : Nat.card Gal(L/K) = 2) {χ : Gal(L/
         from rfl, if_neg hχσ]
       letI := Classical.decEq Gal(L/K)
       have hsw : RQuiver.cyclicSignSwap = RQuiver.cyclicSwap := by
-        refine CategoryTheory.Aut.ext ?_
+        refine CategoryTheory.Aut.ext (CategoryTheory.Iso.ext ?_)
         refine RQuiver.Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
       rw [hsw]
       exact ((show (RationalQuiver.cyclicOfCardTwo K L h).ρ σ
@@ -333,6 +342,7 @@ section EngineNative
 variable {E : Type} [Field E] [CharZero E] {D : ImagUnit E} {ℓ : ℕ}
 variable (hc : ∃ σ : D.L ≃ₐ[E] D.L, D.chi σ = -1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The engine's `𝔼(B)` is T3's native `𝔼_E(B.toHC)`, re-indexed to `gelfandOfCardTwo`: identity
 components; the rational structures agree by T3's `E_E_φ_eq_phiC`, `phiC_toHC`.  @census none (helper) -/
 noncomputable def engineNativeApp (hℓ : 1 ≤ ℓ) (B : HCEObj ℓ E (D.sqrtExt hc))
@@ -355,6 +365,7 @@ noncomputable def engineNativeApp (hℓ : 1 ≤ ℓ) (B : HCEObj ℓ E (D.sqrtEx
           Equivalence.galAct_of_ne hℓ B (D.chi_eq_neg_one_iff_ne_one.mp hσ)]⟩
     (fun _ => LinearMap.id) (fun _ _ => rfl) (fun _ _ => rfl))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Engine ↔ native**, `ℓ ≥ 1`, `√-1 ∉ E`: the relocated engine's functor is T3's native `𝔼_E`
 through the bridges and the re-indexing.  @census none (helper) -/
 noncomputable def engineNative (hℓ : 1 ≤ ℓ)
@@ -364,6 +375,7 @@ noncomputable def engineNative (hℓ : 1 ≤ ℓ)
   NatIso.ofComponents (fun B => engineNativeApp hc hℓ B (h'.1 B))
     (fun _ => ObjectProperty.hom_ext _ (RationalQuiver.Rep.Hom.ext (funext fun _ => rfl)))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `ℓ = 0`: the engine's object is T3's native one (`φ_c = c`, `phiCyc_eq_conj`), re-indexed.
 @census none (helper) -/
 noncomputable def engineNativeAppZ (B : HCEObj 0 E (D.sqrtExt hc))
@@ -386,6 +398,7 @@ noncomputable def engineNativeAppZ (B : HCEObj 0 E (D.sqrtExt hc))
         exact Cyclic.phiCyc_eq_conj B v m.1 m.2⟩
     (fun _ => LinearMap.id) (fun _ _ => rfl) (fun _ _ => rfl))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Engine ↔ native**, `ℓ = 0`, `√-1 ∉ E`.  @census none (helper) -/
 noncomputable def engineNativeZ (h' : Cyclic.E_CycSpec (D.sqrtExt hc).card_gal) :
     Cyclic.E_CycFunctor (D.sqrtExt hc).card_gal h' ≅
@@ -412,6 +425,7 @@ noncomputable def splitNativeApp (hℓ : 1 ≤ ℓ) (A : HC ℓ E (ImagUnit.ofSp
           ((HC.lambdaEquiv ⟨a, ha⟩).functor.obj A))).obj.toRep) (fun _ => LinearMap.id) v m⟩
     (fun _ => LinearMap.id) (fun _ _ => rfl) (fun _ _ => rfl))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Split ↔ native**, `ℓ ≥ 1`, `√-1 ∈ E`.  @census none (helper) -/
 noncomputable def splitNative (hℓ : 1 ≤ ℓ) :
     Equivalence.E_EGel (D := ImagUnit.ofSplit a ha) hℓ ⋙ (targetEquivSplit a ha).functor ≅
@@ -433,6 +447,7 @@ noncomputable def splitNativeAppZ (A : HC 0 E (ImagUnit.ofSplit a ha)) :
           ((HC.lambdaEquiv ⟨a, ha⟩).functor.obj A))).obj.toRep) (fun _ => LinearMap.id) v m⟩
     (fun _ => LinearMap.id) (fun _ _ => rfl) (fun _ _ => rfl))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Split ↔ native**, `ℓ = 0`, `√-1 ∈ E`.  @census none (helper) -/
 noncomputable def splitNativeZ :
     Cyclic.E_ECyc (D := ImagUnit.ofSplit a ha) ⋙ (targetEquivSplitZ a ha).functor ≅

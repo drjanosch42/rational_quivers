@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.Species.Equivalence
-import RationalQuivers.Species.Rep.PathFunctoriality
+module
+
+public import RationalQuivers.Gelfand.Species.Equivalence
+public import RationalQuivers.Species.Rep.PathFunctoriality
+
+@[expose] public section
 
 /-!
 # `R_E = R_Gelfand ⊗_ℚ E` under the species isomorphism (`prop:speciesErelations`, `RQ2-5.27`; stage T6, T4-B)
@@ -139,6 +143,7 @@ theorem no_sqrt_of_rational (h : ¬ ∃ a : E, a * a = -1) {F R : Type} [Field F
   refine h ⟨a, (algebraMap E F).injective ?_⟩
   rw [map_mul, ha, ← map_mul, hj, map_neg, map_one, map_neg, map_one]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A vertex of `S(Γ_ℚ) ⊗_ℚ E` over `⋆` has vertex field `E`.  @census none (helper) -/
 theorem bc_star_rational (t : (SQ.baseChange E).I) (ht : SQ.fibreMap E t = nStar ℚ ImagUnit.qi.L cardQ)
     (x : (SQ.baseChange E).L t) : ∃ a : E, algebraMap E _ a = x := by
@@ -217,6 +222,7 @@ section Main
 
 variable (h : ¬ ∃ a : E, a * a = -1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- B2 at the path `e⁻¹ p` of `S(Γ_ℚ) ⊗_ℚ E`: `E ⊗_ℚ {}M_{π e⁻¹ p}(S(Γ_ℚ)) → {}M_{e⁻¹ p}(S(Γ_ℚ) ⊗_ℚ E)`.
 @census none (helper; T4-B) -/
 noncomputable def phiBC (e : SE D h ≅ SQ.baseChange E) (p : ℕ → (SE D h).I) :
@@ -224,12 +230,14 @@ noncomputable def phiBC (e : SE D h ≅ SQ.baseChange E) (p : ℕ → (SE D h).I
       →ₗ[E] P2 (SQ.baseChange E) (e.inv.onI (p 0)) (e.inv.onI (p 1)) (e.inv.onI (p 2)) :=
   PathDatum.pathBaseChange E SQ (e.inv.onI (p 0)) (e.inv.onI (p 1)) (e.inv.onI (p 2))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- B1 for `e⁻¹ : S(Γ_ℚ) ⊗_ℚ E ⟶ S(Γ_E)` at the path `p`.  @census none (helper; T4-B) -/
 noncomputable def phiIso (e : SE D h ≅ SQ.baseChange E) (p : ℕ → (SE D h).I) :
     P2 (SQ.baseChange E) (e.inv.onI (p 0)) (e.inv.onI (p 1)) (e.inv.onI (p 2))
       →ₗ[E] (RationalQuivers.Species.pathBimod (SE D h).toSpecies p 1).carrier :=
   pathMapHom e.inv (p 0) (p 1) (p 2)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The identification induced by a species isomorphism** `e : S(Γ_E) ≅ S(Γ_ℚ) ⊗_ℚ E` on the length-two path bimodule
 at `p`: the base-change map of path bimodules (`phiBC`, B2), then the map induced by `e⁻¹` (`phiIso`, B1).
 @census none (helper; T4-B) -/
@@ -258,6 +266,7 @@ theorem inducedPhi_relGen (e : SE D h ≅ SQ.baseChange E) (p : ℕ → (SE D h)
     (e.inv.onM (p 0) (p 1) (PathDatum.bcOnM E SQ (e.inv.onI (p 0)) (e.inv.onI (p 1))
       (cst ℚ ImagUnit.qi.L cardQ ImagUnit.qi.i))) z) h1
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`R_E = R_Gelfand ⊗_ℚ E`, under every species isomorphism** (`RQ2-5.27`, route B3′). Let
 `e : S(Γ_E) ≅ S(Γ_ℚ) ⊗_ℚ E` be any isomorphism of étale `E`-species, and `p` any length-two path of `S(Γ_E)`. Then the map
 induced by `e` on path bimodules (`inducedPhi`) carries `R_Gelfand ⊗_ℚ E` (the `E`-span of `1 ⊗ (R_Gelfand)_{π e⁻¹ p}`)
@@ -327,6 +336,7 @@ noncomputable def speciesBaseChangeIsoGel (k : ℕ) : SE D h ≅ SQ.baseChange E
     speciesBaseChangeIso D (k + 1) ≪≫
       eqToIso (congrArg (fun Γ => (RationalQuiver.toSpecies Γ).baseChange E) (GammaE_gel_eq ImagUnit.qi qi_not_sqrt' k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`prop:speciesErelations`, `C2`** (`RQ2-5.27-C2`): in case (b), `R_E = R_Gelfand ⊗_ℚ E` **under the isomorphism of `C3`**. The map
 induced on length-two path bimodules by `S(Γ_E) ≅ S(Γ_ℚ) ⊗_ℚ E` (`speciesBaseChangeIso`), composed with the base change of
 path bimodules, carries the `E`-span of `1 ⊗ R_Gelfand` onto `R_E`, at every path.  It witnesses `RQ2-5.16-C4` in the

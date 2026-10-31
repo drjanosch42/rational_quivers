@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.Basic
-import RationalQuivers.Species.BaseChange
+module
+
+public import RationalQuivers.Species.Rep.Basic
+public import RationalQuivers.Species.BaseChange
+
+@[expose] public section
 
 /-!
 # Base change of a representation (§2.5, census `RQ2-2.18`)
@@ -120,6 +124,7 @@ noncomputable def vertexToBaseChangeField (k : S.baseChangeIndex N) :
   letI := S.algKBC N k
   (S.vertexToBaseChangeField N k).toRingHom.toAlgebra
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.18-C1`(i)**: `W'_k := W_i ⊗_{L_i} L'_k` for `i = π(k)`, the balanced tensor
 product of the right `L_i`-space `W_i` with the `(L_i, L'_k)`-bimodule `L'_k`.  It is a right
 `L'_k`-vector space.
@@ -134,6 +139,7 @@ product of the right `L_i`-space `W_i` with the `(L_i, L'_k)`-bimodule `L'_k`.  
   Balanced K (S.L (S.fibreMap N k)) (S.baseChangeField N k) (S.baseChangeField N k)
     (V.W (S.fibreMap N k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The right-hand side of clause `RQ2-2.18-C3`**, corrected per findings S5-F2 and **S5-F10**:
 `(W_i ⊗_{L_i} {}_iM_j) ⊗_{L_j} L'_ℓ` for `j = π(ℓ)`, indexed by a vertex `i ∈ I` **of the base
 species** rather than by a vertex `k` of the base-changed one.
@@ -166,6 +172,7 @@ this declaration had before the S5-F10 repair.
     Type u :=
   S.repTensorBaseChangeAt N V (S.fibreMap N k) l
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.18-C2`**: `f'_{kℓ} = f_{ij} ⊗ 1_{L'_ℓ}`, the base change to `L'_ℓ` of the
 structure map `f_{ij}` of `V`, read through the identification `RQ2-2.18-C3`.
 
@@ -196,6 +203,7 @@ and named, rather than inside the chain where it could not be audited.  The `hX`
 case (`smul_of_opposite`), because the left action is `moduleOfOpposite`'s.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_k = W_i ⊗_{L_i} L'_k` as a mathlib tensor product.  @census none (helper for `RQ2-2.18-C3`) -/
 noncomputable def repBaseChangeSpaceEquiv (V : EtaleSpecies.Rep S) (k : S.baseChangeIndex N) :
     letI := S.algKBC N k
@@ -209,6 +217,7 @@ noncomputable def repBaseChangeSpaceEquiv (V : EtaleSpecies.Rep S) (k : S.baseCh
   exact Balanced.equivTensor (smul_of_opposite _ _)
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Value guard from birth** (`CONVENTIONS.md` §3): the conversion on a generator, `rfl`.
 @census none (guard) -/
 @[simp] theorem repBaseChangeSpaceEquiv_mk (V : EtaleSpecies.Rep S) (k : S.baseChangeIndex N)
@@ -257,6 +266,7 @@ carrier, like `algKBC` and `algVertexBC` above.
   rw [← smul_assoc c (MulOpposite.op a) x]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Conversion 2 of 3**: `(W_i ⊗_{L_i} {}_iM_j) ⊗_{L_j} L'_ℓ` as a mathlib tensor product.
 This is the crossing §66.3 recorded as blocked; see the section header for why it is not.
 
@@ -277,6 +287,7 @@ noncomputable def repTensorBaseChangeEquiv (V : EtaleSpecies.Rep S) (k l : S.bas
   letI := S.towerRepTensor (S.fibreMap N k) (S.fibreMap N l) (V.W (S.fibreMap N k))
   exact Balanced.equivTensor (smul_of_opposite _ _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Value guard from birth** (`CONVENTIONS.md` §3) for conversion 2, `rfl`.
 @census none (guard) -/
 @[simp] theorem repTensorBaseChangeEquiv_mk (V : EtaleSpecies.Rep S) (k l : S.baseChangeIndex N)
@@ -288,6 +299,7 @@ noncomputable def repTensorBaseChangeEquiv (V : EtaleSpecies.Rep S) (k l : S.bas
       (EtaleSpecies.Rep.tensor S (S.fibreMap N k) (S.fibreMap N l) (V.W (S.fibreMap N k)))
     S.repTensorBaseChangeEquiv N V k l (Balanced.mk t y) = y ⊗ₜ t := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Conversion 3 of 3**: `W'_k ⊗_{L'_k} {}_kM'_ℓ`, the left-hand side of `RQ2-2.18-C3`, as a
 mathlib tensor product.  Unlike conversions 1 and 2 this one is on the **base-changed** side, so
 every index is `(S.baseChange N)`-headed.
@@ -302,6 +314,7 @@ noncomputable def baseChangeRepTensorEquiv (V' : EtaleSpecies.Rep (S.baseChange 
   letI := moduleOfOpposite ((S.baseChange N).L k) (V'.W k)
   exact Balanced.equivTensor (smul_of_opposite _ _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Value guard from birth** (`CONVENTIONS.md` §3) for conversion 3, `rfl`.
 @census none (guard) -/
 @[simp] theorem baseChangeRepTensorEquiv_mk (V' : EtaleSpecies.Rep (S.baseChange N))
@@ -319,11 +332,13 @@ built `baseChangeField`-headed.  Two bridges, each again *literally* the project
 the `rfl`-identity guarantee of `DESIGN-NOTES` §11.3 extends to them.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_k` as a right `L'_k`-space, at the `baseChangeField` head.  @census none (helper) -/
 noncomputable instance module_baseChangeField_W (V' : EtaleSpecies.Rep (S.baseChange N))
     (k : S.baseChangeIndex N) : Module (S.baseChangeField N k)ᵐᵒᵖ (V'.W k) :=
   V'.module_W k
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_k ⊗_{L'_k} {}_kM'_ℓ` as a right `L'_ℓ`-space, at the `baseChangeField` head.
 @census none (helper) -/
 noncomputable instance module_baseChangeField_tensor (V' : EtaleSpecies.Rep (S.baseChange N))
@@ -461,25 +476,30 @@ declaration it re-heads, so the diamond is definitional by construction (the `S5
 
 /-! ### The `K`-structures of the base-changed species, at its own head -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_kM'_ℓ` as a right `L'_ℓ`-space, at the `baseChangeField` head. -/
 noncomputable instance module_baseChangeField_M (k l : S.baseChangeIndex N) :
     Module (S.baseChangeField N l)ᵐᵒᵖ ((S.baseChange N).M k l) :=
   inferInstanceAs (Module ((S.baseChange N).L l)ᵐᵒᵖ ((S.baseChange N).M k l))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L'_k` as a `K`-algebra, at the `(S.baseChange N).L` head. -/
 @[reducible] noncomputable def algKBCL (k : S.baseChangeIndex N) :
     Algebra K ((S.baseChange N).L k) := S.algKBC N k
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[reducible] noncomputable def towerKBCL (k : S.baseChangeIndex N) :
     letI := S.algKBCL N k; IsScalarTower K N ((S.baseChange N).L k) :=
   letI := S.algKBCL N k
   IsScalarTower.of_algebraMap_eq' rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_kM'_ℓ` as a `K`-algebra, through `N`. -/
 @[reducible] noncomputable def algKBCEdge (k l : S.baseChangeIndex N) :
     Algebra K ((S.baseChange N).M k l) :=
   ((algebraMap N ((S.baseChange N).M k l)).comp (algebraMap K N)).toAlgebra
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[reducible] noncomputable def towerKBCEdge (k l : S.baseChangeIndex N) :
     letI := S.algKBCEdge N k l; IsScalarTower K N ((S.baseChange N).M k l) :=
   letI := S.algKBCEdge N k l
@@ -520,6 +540,7 @@ noncomputable instance module_baseChangeField_M (k l : S.baseChangeIndex N) :
     letI := S.algKBCAt N i a
     IsScalarTower K N ((S.vertexSplitting N i).F a) := S.towerKNBC N ⟨i, a⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_{⟨i,a⟩}M'_ℓ` as an `L_i`-algebra, through `L_i → L'_{⟨i,a⟩} → {}_{⟨i,a⟩}M'_ℓ`. -/
 @[reducible] noncomputable def algLeftBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
@@ -532,6 +553,7 @@ noncomputable instance module_baseChangeField_M (k l : S.baseChangeIndex N) :
     (algebraMap (S.L i) ((S.vertexSplitting N i).F a))).toAlgebra
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[reducible] noncomputable def towerLeftBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
     letI := S.algKBCAt N i a
@@ -554,6 +576,7 @@ noncomputable instance module_baseChangeField_M (k l : S.baseChangeIndex N) :
     IsScalarTower.algebraMap_apply K N ((S.vertexSplitting N i).F a)]
   exact (((S.baseChange N).left ⟨i, a⟩ l).commutes ((algebraMap K N) c)).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[reducible] noncomputable def smulCommLeftBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
     letI := S.algKBCAt N i a
@@ -687,12 +710,14 @@ end
 section Fibre
 variable (i : S.I) (l : S.baseChangeIndex N)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `a`-th base-changed edge module as an `L'_ℓ`-algebra, through the species' right
 structure map. -/
 @[reducible] noncomputable def algRightBCEdge (a : (S.vertexSplitting N i).J) :
     Algebra (S.baseChangeField N l) ((S.baseChange N).M ⟨i, a⟩ l) :=
   ((S.baseChange N).right ⟨i, a⟩ l).toRingHom.toAlgebra
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The fibre product as an `L'_ℓ`-algebra. -/
 @[reducible] noncomputable def algPiBCEdge :
     letI := fun a => S.algRightBCEdge N i l a
@@ -701,6 +726,7 @@ structure map. -/
   letI := fun a => S.algRightBCEdge N i l a
   Pi.algebra _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The right `L'_ℓ`-action on the fibre product is multiplication by the structure map. -/
 theorem op_smul_piBCEdge :
     letI := fun a => S.algRightBCEdge N i l a
@@ -736,6 +762,7 @@ theorem edgeFibreEquiv_apply (z : S.edgeInner N i l) (a : (S.vertexSplitting N i
   rw [map_one]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The composite ring equivalence `∏_a {}_{⟨i,a⟩}M'_ℓ ≃ L'_ℓ ⊗_{L_j} {}_iM_j`. -/
 noncomputable def fibreEdgeRingEquiv :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -812,6 +839,7 @@ theorem op_smul_tensorBC :
       rw [Algebra.algebraMap_self, RingHom.id_apply, MulOpposite.smul_eq_mul_unop,
         MulOpposite.unop_op, mul_comm]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `fibreEdgeRingEquiv` respects the two `L'_ℓ`-structure maps. -/
 theorem fibreEdgeRingEquiv_commutes :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -866,6 +894,7 @@ theorem fibreEdgeRingEquiv_commutes :
       = (1 : S.vertexAlg N (S.fibreMap N l)) from rfl,
     one_smul, Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **E** — the fibre-summed edge identification, as a map of `(L_i, L'_ℓ)`-bimodules:
 `∏_{a ∈ J(i)} {}_{⟨i,a⟩}M'_ℓ ≃ {}_iM_j ⊗_{L_j} L'_ℓ`. -/
 noncomputable def repEdgeFibreIdent :
@@ -908,12 +937,14 @@ noncomputable def repEdgeFibreIdent :
 end Fibre
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_{⟨i,a⟩}M'_ℓ` as an `L'_{⟨i,a⟩}`-module, at the splitting-factor head. -/
 @[reducible] noncomputable def moduleFBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
     Module ((S.vertexSplitting N i).F a) ((S.baseChange N).M ⟨i, a⟩ l) :=
   inferInstanceAs (Module ((S.baseChange N).L ⟨i, a⟩) ((S.baseChange N).M ⟨i, a⟩ l))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `IsScalarTower N L'_{⟨i,a⟩} {}_{⟨i,a⟩}M'_ℓ`, at the splitting-factor head. -/
 @[reducible] noncomputable def towerNFBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
@@ -922,6 +953,7 @@ end Fibre
   letI := S.moduleFBCEdgeAt N i a l
   inferInstanceAs (IsScalarTower N ((S.baseChange N).L ⟨i, a⟩) ((S.baseChange N).M ⟨i, a⟩ l))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The bimodule axiom for `{}_{⟨i,a⟩}M'_ℓ`, at the splitting-factor head. -/
 @[reducible] noncomputable def smulCommFBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
@@ -932,6 +964,7 @@ end Fibre
   inferInstanceAs (SMulCommClass ((S.baseChange N).L ⟨i, a⟩) ((S.baseChange N).L l)ᵐᵒᵖ
     ((S.baseChange N).M ⟨i, a⟩ l))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L_i → L'_{⟨i,a⟩} → {}_{⟨i,a⟩}M'_ℓ` is the `L_i`-structure map. -/
 @[reducible] noncomputable def towerLiFBCEdgeAt (i : S.I) (a : (S.vertexSplitting N i).J)
     (l : S.baseChangeIndex N) :
@@ -954,6 +987,7 @@ end Fibre
     (congrArg ((S.baseChange N).left ⟨i, a⟩ l) (Algebra.smul_def α u)).trans (map_mul _ _ _)
   exact (congrArg (fun z => z * m) hm).trans (mul_assoc _ _ _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_{⟨i,a⟩}`, indexed by the vertex `i` directly. -/
 @[reducible] noncomputable def repBaseChangeSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) : Type u :=
@@ -965,11 +999,13 @@ theorem repBaseChangeSpaceAt_eq (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
     S.repBaseChangeSpaceAt N V i a = S.repBaseChangeSpace N V ⟨i, a⟩ := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The bimodule axiom for `{}_kM'_ℓ` over `N`, at the `baseChangeField` head. -/
 @[reducible] noncomputable def smulCommNBCEdge (k l : S.baseChangeIndex N) :
     SMulCommClass N (S.baseChangeField N l)ᵐᵒᵖ ((S.baseChange N).M k l) :=
   inferInstanceAs (SMulCommClass N ((S.baseChange N).L l)ᵐᵒᵖ ((S.baseChange N).M k l))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The right-hand `N`-tower for `{}_kM'_ℓ`, at the `baseChangeField` head. -/
 @[reducible] noncomputable def towerNBCEdge (k l : S.baseChangeIndex N) :
     IsScalarTower N (S.baseChangeField N l)ᵐᵒᵖ ((S.baseChange N).M k l) :=
@@ -995,6 +1031,7 @@ variable (i : S.I) (l : S.baseChangeIndex N)
         (S.baseChangeField N l) ⊗[S.L (S.fibreMap N l)] (S.M i (S.fibreMap N l))).toRingHom.comp
     (S.left i (S.fibreMap N l)).toRingHom).toAlgebra
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The fibre product as an `L_i`-algebra. -/
 @[reducible] noncomputable def algLeftPiBCEdge :
     letI := fun a => S.algKBCAt N i a
@@ -1006,6 +1043,7 @@ variable (i : S.I) (l : S.baseChangeIndex N)
   letI := fun a => S.algLeftBCEdgeAt N i a l
   Pi.algebra _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `fibreEdgeRingEquiv` respects the two `L_i`-structure maps. -/
 theorem fibreEdgeRingEquiv_commutesL :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -1129,6 +1167,7 @@ theorem equivTensorL_smul :
   rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`E` is `L_i`-equivariant** — `congrY`'s first obligation. -/
 theorem repEdgeFibreIdent_smulL :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -1185,6 +1224,7 @@ theorem repEdgeFibreIdent_smulL :
   rw [LinearEquiv.apply_symm_apply] at h
   exact ((Balanced.equivTensor (S.smul_algRightM i (S.fibreMap N l))).symm_apply_eq).mpr h.symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `E.symm` is `L_i`-equivariant — `congrY`'s third obligation. -/
 theorem repEdgeFibreIdent_symm_smulL :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -1237,6 +1277,7 @@ theorem repEdgeFibreIdent_symm_smulL :
   rw [LinearEquiv.apply_symm_apply] at h
   exact ((S.repEdgeFibreIdent N i l).symm_apply_eq).mpr h.symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `E` is `K`-linear — `congrY`'s second obligation. -/
 theorem repEdgeFibreIdent_smulK :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -1304,6 +1345,7 @@ theorem repEdgeFibreIdent_smulK :
   intro c y
   rw [smul_K_of_tower (C' := S.baseChangeField N l) c y, map_smul, ← Balanced.smul_K]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `E.symm` is `K`-linear — `congrY`'s fourth obligation. -/
 theorem repEdgeFibreIdent_symm_smulK :
     letI := S.algRightEdge N i (S.fibreMap N l)
@@ -1376,12 +1418,14 @@ theorem repEdgeFibreIdent_symm_smulK :
 
 end EFib
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_{⟨i,a⟩}` as a right `L'_{⟨i,a⟩}`-space, at the `(S.baseChange N).L` head. -/
 @[reducible] noncomputable def moduleOpRepSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
     Module ((S.baseChange N).L ⟨i, a⟩)ᵐᵒᵖ (S.repBaseChangeSpaceAt N V i a) :=
   inferInstanceAs (Module ((S.vertexSplitting N i).F a)ᵐᵒᵖ (S.repBaseChangeSpaceAt N V i a))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The ambient `K`-tower of `W'_{⟨i,a⟩}`, at the splitting-factor head. -/
 @[reducible] noncomputable def towerKFRepSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
@@ -1393,6 +1437,7 @@ end EFib
   exact quotient_isScalarTower (S := K)
     (balancedRel K (S.L i) ((S.vertexSplitting N i).F a) ((S.vertexSplitting N i).F a) (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The ambient `N`-tower of `W'_{⟨i,a⟩}`, at the splitting-factor head. -/
 @[reducible] noncomputable def towerNFRepSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
@@ -1404,6 +1449,7 @@ end EFib
   exact quotient_isScalarTower (S := N)
     (balancedRel K (S.L i) ((S.vertexSplitting N i).F a) ((S.vertexSplitting N i).F a) (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The ambient `K`-tower of `W'_{⟨i,a⟩}`, at the `(S.baseChange N).L` head. -/
 @[reducible] noncomputable def towerKOpRepSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
@@ -1419,6 +1465,7 @@ end EFib
   exact quotient_isScalarTower (S := K)
     (balancedRel K (S.L i) ((S.vertexSplitting N i).F a) ((S.vertexSplitting N i).F a) (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The ambient `N`-tower of `W'_{⟨i,a⟩}`, at the `(S.baseChange N).L` head. -/
 @[reducible] noncomputable def towerNOpRepSpaceAt (V : EtaleSpecies.Rep S) (i : S.I)
     (a : (S.vertexSplitting N i).J) :
@@ -1432,6 +1479,7 @@ end EFib
   exact quotient_isScalarTower (S := N)
     (balancedRel K (S.L i) ((S.vertexSplitting N i).F a) ((S.vertexSplitting N i).F a) (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `X ⊗_{L'_k} {}_kM'_ℓ` as a right `L'_ℓ`-space, at the `baseChangeField` head.
 
 **The carrier is an opaque variable on purpose, and that is a measurement.**  Stated at
@@ -1454,6 +1502,7 @@ section Summand
 variable (V : EtaleSpecies.Rep S) (i : S.I) (a : (S.vertexSplitting N i).J)
   (l : S.baseChangeIndex N)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **B6 at the summand**: the `a`-th summand of the fibre sum, re-based from `N` to `K`. -/
 noncomputable def summandOverK :
     letI := S.algKBCAt N i a
@@ -1527,6 +1576,7 @@ noncomputable def summandOverK :
   exact (Balanced.baseFieldEquiv K N ((S.vertexSplitting N i).F a) (S.baseChangeField N l)
     ((S.baseChange N).M ⟨i, a⟩ l) (S.repBaseChangeSpaceAt N V i a)).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **B4 + B5 + B2 at the summand**: `(W_i ⊗_{L_i} L'_a) ⊗_{L'_a} {}_{⟨i,a⟩}M'_ℓ
 ≃ W_i ⊗_{L_i} {}_{⟨i,a⟩}M'_ℓ`. -/
 noncomputable def summandIdent :
@@ -1650,6 +1700,7 @@ section Assembly
 variable (V : EtaleSpecies.Rep S) (i : S.I) (l : S.baseChangeIndex N)
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The fibre-summed identification `c`** (clause `RQ2-2.18-C3`, repaired per finding
 `S5-F10`). -/
 noncomputable def repBaseChangeIdent :
@@ -1782,6 +1833,7 @@ end Assembly
 theorem smul_moduleL_W (V : EtaleSpecies.Rep S) (i : S.I) (α : S.L i) (w : V.W i) :
     α • w = MulOpposite.op α • w := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Clause `RQ2-2.17-C1` for the base-changed spaces: `W'_k = W_i ⊗_{L_i} L'_k` is a
 finite-dimensional right `L'_k`-vector space. -/
 theorem finite_repBaseChangeSpace (V : EtaleSpecies.Rep S) (k : S.baseChangeIndex N) :
@@ -1814,11 +1866,13 @@ theorem finite_repBaseChangeSpace (V : EtaleSpecies.Rep S) (k : S.baseChangeInde
 section Space
 variable (V : EtaleSpecies.Rep S) (k : S.baseChangeIndex N)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_k` as a right `L'_k`-space, at the base-changed head. -/
 @[reducible] noncomputable def moduleOpRepSpace :
     Module ((S.baseChange N).L k)ᵐᵒᵖ (S.repBaseChangeSpace N V k) :=
   inferInstanceAs (Module (S.baseChangeField N k)ᵐᵒᵖ (S.repBaseChangeSpace N V k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W'_k`'s `N`-structure towers over the right `L'_k`-action. -/
 @[reducible] noncomputable def towerNOpRepSpace :
     letI := S.moduleOpRepSpace N V k
@@ -1836,6 +1890,7 @@ section Bundle
 variable (V : EtaleSpecies.Rep S) (k l : S.baseChangeIndex N)
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.18-C2`**: `f'_{kℓ}` is `f_{ij} ⊗ 1` read off the `k`-th summand of the
 fibre-summed identification. -/
 noncomputable def repBaseChangeStructMap :
@@ -1857,6 +1912,7 @@ noncomputable def repBaseChangeStructMap :
         (fun a => EtaleSpecies.Rep.tensor (S.baseChange N) ⟨S.fibreMap N k, a⟩ l
           (S.repBaseChangeSpaceAt N V (S.fibreMap N k) a)) k.2))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `finite_repBaseChangeSpace` at the base-changed head. -/
 theorem finite_repBaseChangeSpaceOp (V : EtaleSpecies.Rep S) (k : S.baseChangeIndex N) :
     letI := S.moduleOpRepSpace N V k
@@ -1929,6 +1985,7 @@ theorem repTensorBaseChange_indep_of_fibre (V : EtaleSpecies.Rep S) (i : S.I)
     (a b : (S.vertexSplitting N i).J) (l : S.baseChangeIndex N) :
     S.repTensorBaseChange N V ⟨i, a⟩ l = S.repTensorBaseChange N V ⟨i, b⟩ l := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Finding `S5-F10`, half 2 — the frozen clause entails an equivalence it cannot have.**
 Given the identification `c` in the shape `RQ2-2.18-C3` was frozen in (one `≃ₗ` for every pair
 `k, ℓ`, against `repTensorBaseChange`), the tensor spaces of **any two vertices of one fibre**
@@ -1951,6 +2008,7 @@ theorem frozenC3_forces_fibre_independence (V : EtaleSpecies.Rep S)
   ⟨(c ⟨i, a⟩ l).trans (c ⟨i, b⟩ l).symm⟩
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Definition** (Base change for representations of étale `K`-species; unlabelled in §2.5,
 census `RQ2-2.18`).
 

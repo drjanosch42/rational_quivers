@@ -1,7 +1,11 @@
-import RationalQuivers.HC.Pair
-import Mathlib.Algebra.Lie.BaseChange
-import Mathlib.RingTheory.TensorProduct.MvPolynomial
-import Mathlib.RingTheory.TensorProduct.Quotient
+module
+
+public import RationalQuivers.HC.Pair
+public import Mathlib.Algebra.Lie.BaseChange
+public import Mathlib.RingTheory.TensorProduct.MvPolynomial
+public import Mathlib.RingTheory.TensorProduct.Quotient
+
+@[expose] public section
 
 /-!
 # `(𝔤_E, K_E)` over every field `E` of characteristic `0` (`def:pairE`)
@@ -81,7 +85,10 @@ noncomputable def so2CoordRingBaseChange :
 theorem so2CoordRingBaseChange_tmul (e : E) (p : MvPolynomial (Fin 2) ℚ) :
     so2CoordRingBaseChange E (e ⊗ₜ Ideal.Quotient.mk so2Ideal p) =
       Ideal.Quotient.mk (so2IdealE E) (e • MvPolynomial.map (algebraMap ℚ E) p) := by
-  simp [so2CoordRingBaseChange]
+  simp only [so2CoordRingBaseChange, AlgEquiv.trans_apply]
+  simp
+  erw [Ideal.quotientEquivAlg_mk]
+  simp
 
 /-- `𝔰𝔩_{2,ℚ} → 𝔰𝔩_{2,E}`, entrywise `algebraMap`, as a `ℚ`-linear map.
 
@@ -255,7 +262,7 @@ theorem so2PointsE_bijective (A : Type) [CommRing A] [Algebra E A] :
       rw [hξη, sub_self]
     refine ⟨Ideal.Quotient.liftₐ (so2IdealE E) (MvPolynomial.aeval ![ξ, η]) hker, ?_⟩
     apply Subtype.ext
-    apply Prod.ext <;> simp [so2PointsOfAlgHomE]
+    apply Prod.ext <;> simp only [so2PointsOfAlgHomE] <;> erw [Ideal.Quotient.lift_mk] <;> simp
 
 /-- **Definition** (`def:pairE`).  For a field `E` of characteristic `0`,
 `(𝔤_E, K_E) := (E ⊗_ℚ 𝔤_ℚ, K_ℚ ×_ℚ E)`; thus `𝔤_E = 𝔰𝔩_{2,E}` and

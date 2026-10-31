@@ -1,7 +1,11 @@
-import RationalQuivers.Quiver.Rep.Basic
-import RationalQuivers.Quiver.Models
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.CategoryTheory.Category.Basic
+module
+
+public import RationalQuivers.Quiver.Rep.Basic
+public import RationalQuivers.Quiver.Models
+public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+public import Mathlib.CategoryTheory.Category.Basic
+
+@[expose] public section
 
 /-!
 # The category `Rep(Γ_K)` of finite-dimensional rational representations

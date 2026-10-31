@@ -1,11 +1,15 @@
-import RationalQuivers.Descent.Galois
-import RationalQuivers.Species.OfQuiver
-import RationalQuivers.Species.Rep.Twist
-import RationalQuivers.Species.ToQuiver
-import RationalQuivers.Species.Rep.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Pi
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.FieldTheory.Galois.Profinite
+module
+
+public import RationalQuivers.Descent.Galois
+public import RationalQuivers.Species.OfQuiver
+public import RationalQuivers.Species.Rep.Twist
+public import RationalQuivers.Species.ToQuiver
+public import RationalQuivers.Species.Rep.Basic
+public import Mathlib.LinearAlgebra.TensorProduct.Pi
+public import Mathlib.Algebra.DirectSum.Module
+public import Mathlib.FieldTheory.Galois.Profinite
+
+@[expose] public section
 
 /-!
 # §2.6, the decomposition lemmas: the §2.6 preamble as data, and `eq:Leepsilondecomposition`
@@ -164,6 +168,7 @@ determines it.
 
 variable {Γ}
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`W_v := M(v)^{G_v}`**, the invariants of the continuous semi-linear `G_v`-action on `M(v)`,
 as a vector space over the fixed field `L(v) = L^{G_v}` (the source's `eq:abusivedefinitionofLv`).
 
@@ -440,6 +445,7 @@ on the vertex and the fibre and so already contains the fibrewise statement.
 @census none (helpers for `RQ2-2.21`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `G_v`-action on `M(v)`: `σ • m := φ'_{v,σ}(m)`, well defined because `σ • v = v`.
 @census none (helper) -/
 instance Rep.vertexMulAction (M : Rep Γ) (v : Γ.V) :
@@ -594,6 +600,7 @@ noncomputable def tauEdgeField {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j}
     (ch : Γ.EdgeChoice ε) : IntermediateField ↥(Γ.vertexOrbitField j) L :=
   IntermediateField.extendScalars (Γ.vertexOrbitField_le_tau_inv ch)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The Galois correspondence at `τ_ε⁻¹ e_ε`, in membership form.**  An `L(v_j)`-automorphism of
 `L` fixes `L(τ_ε⁻¹ e_ε)` pointwise **iff** its image in `Gal(L/K)` stabilises the edge
 `τ_ε⁻¹ e_ε`.
@@ -663,7 +670,7 @@ theorem card_cosetIndex_eq_finrank {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j
   ((congrArg Subgroup.index (fixingSubgroup_tauEdgeField ch)).trans
       (Subgroup.index_comap_of_surjective _
         (Γ.galStabFieldEquiv (Γ.vertexRep j)).surjective)).symm.trans
-    (IntermediateField.finrank_eq_fixingSubgroup_index (tauEdgeField ch)).symm
+    (IntermediateField.finrank_eq_fixingSubgroup_index (L := tauEdgeField ch)).symm
 /-! ### `RQ2-2.19` sub-obligation (3): the étale splitting, instantiated
 
 This is `eq:Leepsilondecompositionpre` — the source's own intermediate step, the `V = L(e_ε)` case
@@ -1474,6 +1481,7 @@ Three bridges, each literally the instance it re-heads.
 @census none (helpers, S5-F3 pattern)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i` as a right `L_i`-space, at the species head.  @census none (helper) -/
 noncomputable instance Rep.moduleOp_W (M : Rep Γ) (i : Γ.VertexOrbit) :
     Module (Γ.toSpecies.L i)ᵐᵒᵖ ↥(M.vertexFixed (Γ.vertexRep i)) :=
@@ -1484,6 +1492,7 @@ noncomputable instance Rep.moduleK_W (M : Rep Γ) (i : Γ.VertexOrbit) :
     Module K ↥(M.vertexFixed (Γ.vertexRep i)) :=
   M.moduleK_vertexFixed (Γ.vertexRep i)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `K`-structure of `W_i` is the induced one, at the species head.  @census none (helper) -/
 instance Rep.tower_W (M : Rep Γ) (i : Γ.VertexOrbit) :
     IsScalarTower K (Γ.toSpecies.L i)ᵐᵒᵖ ↥(M.vertexFixed (Γ.vertexRep i)) :=
@@ -1850,18 +1859,22 @@ mathematics: the outer base change `(W_i ⊗_{L_i} {}_iM_j) ⊗_{L_j} L` is `Bal
 instance it re-heads.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L` as an `L_i`-vector space, at the species head.  @census none (helper) -/
 noncomputable instance moduleSpeciesL (i : Γ.VertexOrbit) : Module (Γ.toSpecies.L i) L :=
   inferInstanceAs (Module ↥(stabField K L (Γ.vertexRep i)) L)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- @census none (helper) -/
 instance towerSpeciesL (i : Γ.VertexOrbit) : IsScalarTower K (Γ.toSpecies.L i) L :=
   inferInstanceAs (IsScalarTower K ↥(stabField K L (Γ.vertexRep i)) L)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- @census none (helper) -/
 instance towerSpeciesLL (i : Γ.VertexOrbit) : IsScalarTower (Γ.toSpecies.L i) L L :=
   inferInstanceAs (IsScalarTower ↥(stabField K L (Γ.vertexRep i)) L L)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L_i` and the right `L`-action on `L` commute — associativity in `L`.
 @census none (helper) -/
 instance smulCommSpeciesL (i : Γ.VertexOrbit) : SMulCommClass (Γ.toSpecies.L i) Lᵐᵒᵖ L where
@@ -1926,6 +1939,7 @@ theorem balanced_smul_op_mk (c a : L) (t : X) :
   show a * c = c * a
   exact mul_comm a c
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The bridge (finding `S5-F7`).**  The `L`- and `Lᵐᵒᵖ`-actions on `X ⊗_A L` agree.
 
 They are **not** definitionally equal — see `S5-F7` in `DESIGN-NOTES` — so this is proved by
@@ -1938,7 +1952,6 @@ theorem balanced_smul_L_eq_op (c : L) (z : Balanced K A L L X) :
     c • z = MulOpposite.op c • z := by
   obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A L L X) z
   induction y with
-  | zero => simp
   | tmul a t => exact (balanced_smul_L_mk A X c a t).trans (balanced_smul_op_mk A X c a t).symm
   | add p q hp hq =>
       have hmk : Submodule.Quotient.mk (p := balancedRel K A L L X) (p + q)
@@ -2013,6 +2026,7 @@ factor.  That lemma is the hinge of the splitting step.
 @census none (G4 engine for `RQ2-2.20`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The **left** `L_i`-structure on `W_i`, at the species head.  `Rep.moduleL_W` is the same
 construction for a species representation's `W i`; this is it for a `RationalQuiver` one, where
 the carrier is `M.vertexFixed (Γ.vertexRep i)`.  @census none (helper, `S5-F3`) -/
@@ -2020,6 +2034,7 @@ noncomputable instance moduleSpeciesLi_vertexFixed (M : Rep Γ) (i : Γ.VertexOr
     Module (Γ.toSpecies.L i) ↥(M.vertexFixed (Γ.vertexRep i)) :=
   moduleOfOpposite _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …and its ambient `K`-structure is the induced one.  @census none (helper, `S5-F3`) -/
 instance towerK_speciesLi_vertexFixed (M : Rep Γ) (i : Γ.VertexOrbit) :
     IsScalarTower K (Γ.toSpecies.L i) ↥(M.vertexFixed (Γ.vertexRep i)) where
@@ -2028,6 +2043,7 @@ instance towerK_speciesLi_vertexFixed (M : Rep Γ) (i : Γ.VertexOrbit) :
     rw [← smul_assoc c (MulOpposite.op a) x]
     congr 1
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `edgeLeftAlgebra` at the species head.  Still **not an instance** — §51's constraint is about
 the mathematics, not the spelling, and re-heading does not change it.
 @census none (helper, `S5-F3`) -/
@@ -2035,6 +2051,7 @@ the mathematics, not the spelling, and re-heading does not change it.
     (ε : Γ.EdgeOrbit i j) : Algebra (Γ.toSpecies.L i) ↥(Γ.edgeOrbitField ε) :=
   edgeLeftAlgebra ε
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The hinge of the splitting step**: the species' action of `L_i` on `{}_iM_j = ∀ ε, L(e_ε)`
 is `edgeLeftAlgebra` **factor by factor**, on the nose.
 
@@ -2047,6 +2064,7 @@ theorem edgeLeftAlgebraSpecies_smul_apply {i j : Γ.VertexOrbit} (ε : Γ.EdgeOr
     (b : Γ.toSpecies.L i) (m : Γ.toSpecies.M i j) :
     (b • m) ε = (letI := edgeLeftAlgebraSpecies ε; b • m ε) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 2, first half.**  `W_i ⊗_{L_i} {}_iM_j = {}_iM_j ⊗[L_i] W_i`, mathlib's
 spelling on the right.  `hX` is `rfl`, as in `outerEquiv`.
 @census none (helper for `RQ2-2.20-C1`) -/
@@ -2056,6 +2074,7 @@ noncomputable def innerEquiv (M : Rep Γ) (i j : Γ.VertexOrbit) :
       (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] ↥(M.vertexFixed (Γ.vertexRep i))) :=
   Balanced.equivTensor (B := Γ.toSpecies.L j) (fun _ _ => rfl)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `innerEquiv` on a pure tensor, by `rfl`.  @census none (helper) -/
 @[simp] theorem innerEquiv_mk (M : Rep Γ) (i j : Γ.VertexOrbit)
     (w : ↥(M.vertexFixed (Γ.vertexRep i))) (m : Γ.toSpecies.M i j) :
@@ -2330,9 +2349,13 @@ instance below, keyed to the generic carrier, and the specialised names reduce t
 
 section GenericSummand
 
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
+
 variable {i j : Γ.VertexOrbit} (X : Type u) [AddCommGroup X] [Module K X]
   [Module (Γ.toSpecies.L i) X]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The per-edge-orbit summand** `L(e_ε) ⊗_{L_i,σ_ε} X`.
 
 `edgeLeftAlgebra` is supplied **explicitly** by a `letI` in the body, never resolved: §51 forbids
@@ -2371,6 +2394,7 @@ noncomputable instance moduleVOFj_edgeSummandG (ε : Γ.EdgeOrbit i j) :
 theorem hV_edgeSummandG (ε : Γ.EdgeOrbit i j) (a : ↥(Γ.vertexOrbitField j))
     (v : edgeSummandG X ε) : a • v = (Γ.edgeComponentRight ε a) • v := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A pure tensor of the summand.  @census none (helper) -/
 noncomputable def edgeSummandMkG (ε : Γ.EdgeOrbit i j)
     (x : ↥(Γ.edgeOrbitField ε)) (w : X) : edgeSummandG X ε :=
@@ -2414,6 +2438,7 @@ noncomputable abbrev edgeSummand (M : Rep Γ) {i j : Γ.VertexOrbit} (ε : Γ.Ed
     Type u :=
   edgeSummandG ↥(M.vertexFixed (Γ.vertexRep i)) ε
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 2, second half — the splitting.**
 `{}_iM_j ⊗_{L_i} W_i  ≅  ∏_ε (L(e_ε) ⊗_{L_i,σ_ε} W_i)`.
 
@@ -2435,6 +2460,7 @@ noncomputable def piSplit (M : Rep Γ) (i j : Γ.VertexOrbit) :
     fun ε => (edgeLeftAlgebraSpecies ε).toModule
   exact TensorProduct.piLeft _ _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The splitting on a pure tensor: `m ⊗ w ↦ (m_ε ⊗ w)_ε`.
 @census none (helper for `RQ2-2.20-C2`) -/
 @[simp] theorem piSplit_tmul (M : Rep Γ) (i j : Γ.VertexOrbit)
@@ -2476,6 +2502,7 @@ twists already composed.  Bijection first, `L`-linearity from the pin, as in `RQ
 @census none (G4 engine for `RQ2-2.20-C1`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.19`'s `hVT`, discharged for the summand** — by `rfl`, because
 `moduleTwistBase_edgeSummandG` is `compHom toE` by construction.  This is finding **S5-F6**'s
 hypothesis being paid at the only place that owes it, and paying nothing.
@@ -2491,18 +2518,21 @@ theorem twistBase_smul_edgeSummand (M : Rep Γ) {i j : Γ.VertexOrbit} (ε : Γ.
     (ρ : Gal(L/K)) (b : Twist.TwistBase (Γ.edgeOrbitField ε) ρ) (s : edgeSummand M ε) :
     b • s = (b.val : ↥(Γ.edgeOrbitField ε)) • s := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A pure tensor of the summand, named so that `letI`-scoped instances need not be re-entered at
 every use.  @census none (helper) -/
 noncomputable def edgeSummandMk (M : Rep Γ) {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
     (x : ↥(Γ.edgeOrbitField ε)) (w : ↥(M.vertexFixed (Γ.vertexRep i))) : edgeSummand M ε :=
   edgeSummandMkG ↥(M.vertexFixed (Γ.vertexRep i)) ε x w
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L(e_ε)` acts on the summand through its left factor, on the nose.  @census none (helper) -/
 theorem edgeField_smul_edgeSummandMk (M : Rep Γ) {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
     (y x : ↥(Γ.edgeOrbitField ε)) (w : ↥(M.vertexFixed (Γ.vertexRep i))) :
     y • edgeSummandMk M ε x w = edgeSummandMk M ε (y * x) w := rfl
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L` as an `L_i`-**algebra** at the species head — the seventh head bridge, and the one that
 makes `algebraMap (Γ.toSpecies.L i) L` available as the coercion.  `Species.L` is an abstract
 `Type` field, so `IntermediateField`'s own coercion is invisible through the projection; this is
@@ -2510,6 +2540,7 @@ that `S5-F3` boundary in its smallest form.  @census none (helper, `S5-F3`) -/
 noncomputable instance algebraSpeciesL (i : Γ.VertexOrbit) : Algebra (Γ.toSpecies.L i) L :=
   inferInstanceAs (Algebra ↥(stabField K L (Γ.vertexRep i)) L)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `edgeComponentLeft_coe_sigma` at the species head.  @census none (helper, `S5-F3`) -/
 theorem edgeComponentLeft_coe_sigma_species {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j}
     (ch : Γ.EdgeChoice ε) (b : Γ.toSpecies.L i) :
@@ -2517,6 +2548,7 @@ theorem edgeComponentLeft_coe_sigma_species {i j : Γ.VertexOrbit} {ε : Γ.Edge
       = ch.σ (algebraMap (Γ.toSpecies.L i) L b) :=
   edgeComponentLeft_coe_sigma ch b
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The forward map's inner half**, for a fixed `t`: `x ⊗ w ↦ ofL (t.val · ρ(x)) ⊗ w`.
 
 The `L_i`-balance is the whole content, and it is where `σ_ε` enters: `c • x` is
@@ -2578,12 +2610,14 @@ abbrev cancelTarget : Type u :=
   Twist (Γ.vertexOrbitField i) (ρ * ch.σ)
     ⊗[Twist.TwistBase (Γ.vertexOrbitField i) (ρ * ch.σ)] ↥(M.vertexFixed (Γ.vertexRep i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `edgeCancelInner` on a generator, by `rfl`.  @census none (helper) -/
 theorem edgeCancelInner_mk (t : Twist (Γ.edgeOrbitField ε) ρ)
     (x : ↥(Γ.edgeOrbitField ε)) (w : ↥(M.vertexFixed (Γ.vertexRep i))) :
     edgeCancelInner M ε ch ρ t (edgeSummandMk M ε x w)
       = (Twist.ofL (t.val * ρ (x : L))) ⊗ₜ w := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 5, the forward map.**
 `t ⊗ (x ⊗ w) ↦ ofL (t.val · ρ(x)) ⊗ w` — `cancelBaseChange`'s formula with the two twists already
 composed, since (see the section header) they cannot be composed after the fact.
@@ -2641,6 +2675,7 @@ noncomputable def edgeCancelFwd :
   | add p q hp hq => simp only [smul_add, map_add, hp, hq]
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The forward map on a generator, by `rfl` — the pin the round trips and the row's `C1` consume.
 @census none (helper for `RQ2-2.20-C1`) -/
 theorem edgeCancelFwd_mk (t : Twist (Γ.edgeOrbitField ε) ρ)
@@ -2648,12 +2683,14 @@ theorem edgeCancelFwd_mk (t : Twist (Γ.edgeOrbitField ε) ρ)
     edgeCancelFwd M ch ρ (t ⊗ₜ[Twist.TwistBase (Γ.edgeOrbitField ε) ρ] edgeSummandMk M ε x w)
       = (Twist.ofL (t.val * ρ (x : L))) ⊗ₜ w := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A generator of the summand as `L(e_ε)` acting on `1 ⊗ w`.  @census none (helper) -/
 theorem edgeSummandMk_eq_smul_one (y : ↥(Γ.edgeOrbitField ε))
     (w : ↥(M.vertexFixed (Γ.vertexRep i))) :
     edgeSummandMk M ε y w = y • edgeSummandMk M ε 1 w := by
   rw [edgeField_smul_edgeSummandMk, mul_one]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A generator of the summand as the respelled base acting on `1 ⊗ w`.  The scalar is moved into
 `TwistBase E ρ` — the tensor's **own** base ring — rather than left in `↥E`: `TensorProduct.smul_tmul`
 across a *different* ring would want `CompatibleSMul`, which does not hold here.
@@ -2666,6 +2703,7 @@ theorem edgeSummandMk_eq_twistBase_smul_one (y : ↥(Γ.edgeOrbitField ε))
   rw [twistBase_smul_edgeSummand]
   exact edgeSummandMk_eq_smul_one M y w
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `1 ⊗ (c • w) = σ_ε(c) ⊗ w`: moving an `L_i`-scalar to the left factor turns it into
 `edgeComponentLeft c`.  Stated wholly at the **species** head, which is where `edgeSummand`'s
 tensor lives.  @census none (helper) -/
@@ -2681,6 +2719,7 @@ theorem edgeSummandMk_one_smul (c : Γ.toSpecies.L i)
   rw [mul_one]
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The inverse**, `s ⊗ w ↦ ofL s.val ⊗ (1 ⊗ w)`.
 
 Its balance mirrors the forward one: `1 ⊗ (b.val • w)` becomes `σ_ε(b.val) ⊗ w`
@@ -2747,6 +2786,7 @@ noncomputable def edgeCancelBwd :
   rw [Twist.val_smulL_base, edgeComponentLeft_coe_sigma_species ch, AlgEquiv.mul_apply]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The inverse on a generator.  @census none (helper) -/
 theorem edgeCancelBwd_mk (s : Twist (Γ.vertexOrbitField i) (ρ * ch.σ))
     (w : ↥(M.vertexFixed (Γ.vertexRep i))) :
@@ -2757,6 +2797,7 @@ theorem edgeCancelBwd_mk (s : Twist (Γ.vertexOrbitField i) (ρ * ch.σ))
   rfl
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 5, complete**: `L(e_ε)` cancelled and the two twists composed.
 
 `Twist(L(e_ε), ρ) ⊗_{TwistBase} (L(e_ε) ⊗_{L_i,σ_ε} W_i)  ≃+  Twist(L(v_i), ρσ_ε) ⊗_{TwistBase} W_i`
@@ -2813,6 +2854,7 @@ noncomputable def edgeCancel :
         rw [show (((1 : ↥(Γ.edgeOrbitField ε))) : L) = 1 from rfl, map_one, mul_one]
     | add p q hp hq => rw [map_add, map_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The pin: `t ⊗ (x ⊗ w) ↦ ofL (t.val · ρ(x)) ⊗ w`, by `rfl`.
 @census none (helper for `RQ2-2.20-C1`) -/
 @[simp] theorem edgeCancel_apply (t : Twist (Γ.edgeOrbitField ε) ρ)
@@ -2820,6 +2862,7 @@ noncomputable def edgeCancel :
     edgeCancel M ch ρ (t ⊗ₜ[Twist.TwistBase (Γ.edgeOrbitField ε) ρ] edgeSummandMk M ε x w)
       = (Twist.ofL (t.val * ρ (x : L))) ⊗ₜ w := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.19`'s `hV`, discharged for the summand** — by `rfl`, because the `L_j`-action
 (`moduleVOFj_edgeSummandG`, keyed to the generic carrier) is *defined* through
 `edgeComponentRight`.  That is `eq:edgediagram`'s **right** half, the mirror of the `σ_ε` the
@@ -2828,6 +2871,7 @@ theorem hV_edgeSummand (a : ↥(Γ.vertexOrbitField j)) (v : edgeSummand M ε) :
     a • v = (Γ.edgeComponentRight ε a) • v := rfl
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.19` consumed.**  The row proved at `4e38c84`, applied per edge orbit at
 `V := L(e_ε) ⊗_{L_i,σ_ε} W_i`.
 
@@ -2851,6 +2895,7 @@ theorem leEpsilon_at_edgeSummand (ch : Γ.EdgeChoice ε) :
   Γ.leEpsilon_decomposition ch (edgeSummand M ε) (hV_edgeSummand M)
     (fun τ => twistBase_smul_edgeSummand M ε τ)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`edgeCancel`, upgraded to `L`-linear** — recovered from its pin, not from its links.
 
 `L` acts on both sides through the `Twist` carrier, and on a generator the pin gives
@@ -2907,6 +2952,7 @@ carrier, exactly as the six head bridges above and the `moduleTwistBase_*` pair 
 @census none (G4 engine for `RQ2-2.20`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The **left** `L_j`-structure on `W_i ⊗_{L_i} {}_iM_j`, from its right one (`L_j` is
 commutative).  @census none (helper) -/
 noncomputable instance moduleSpeciesLj_repTensor (i j : Γ.VertexOrbit) (X : Type u)
@@ -2915,6 +2961,7 @@ noncomputable instance moduleSpeciesLj_repTensor (i j : Γ.VertexOrbit) (X : Typ
     Module (Γ.toSpecies.L j) (EtaleSpecies.Rep.tensor Γ.toSpecies i j X) :=
   moduleOfOpposite _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …and its ambient `K`-structure is the induced one.  @census none (helper) -/
 instance towerK_speciesLj_repTensor (i j : Γ.VertexOrbit) (X : Type u)
     [AddCommGroup X] [Module K X] [Module (Γ.toSpecies.L i)ᵐᵒᵖ X]
@@ -2925,6 +2972,7 @@ instance towerK_speciesLj_repTensor (i j : Γ.VertexOrbit) (X : Type u)
     rw [← smul_assoc c (MulOpposite.op a) x]
     congr 1
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 3.**  `(W_i ⊗_{L_i} {}_iM_j) ⊗_{L_j} L  =  L ⊗_{L_j} (W_i ⊗_{L_i} {}_iM_j)`,
 mathlib's spelling on the right — which is the shape `RQ2-2.19` consumes.
 
@@ -2939,6 +2987,7 @@ noncomputable def outerEquiv (i j : Γ.VertexOrbit) (X : Type u)
       ≃ₗ[Lᵐᵒᵖ] (L ⊗[Γ.toSpecies.L j] (EtaleSpecies.Rep.tensor Γ.toSpecies i j X)) :=
   Balanced.equivTensor (B := L) (fun _ _ => rfl)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `outerEquiv` on a pure tensor, by `rfl`.  @census none (helper) -/
 @[simp] theorem outerEquiv_mk (i j : Γ.VertexOrbit) (X : Type u)
     [AddCommGroup X] [Module K X] [Module (Γ.toSpecies.L i)ᵐᵒᵖ X]
@@ -2966,6 +3015,7 @@ section Item6
 
 variable (M : Rep Γ) (i j : Γ.VertexOrbit)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i ⊗_{L_i} {}_iM_j` over `L_j` at the **frozen row's** head.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleVOFj_repTensor (X : Type u)
     [AddCommGroup X] [Module K X] [Module (Γ.toSpecies.L i)ᵐᵒᵖ X]
@@ -2973,23 +3023,27 @@ noncomputable instance moduleVOFj_repTensor (X : Type u)
     Module ↥(Γ.vertexOrbitField j) (EtaleSpecies.Rep.tensor Γ.toSpecies i j X) :=
   inferInstanceAs (Module (Γ.toSpecies.L j) _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_iM_j ⊗[L_i] W_i` over `L_j`, from its right action.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleSpeciesLj_innerTensor :
     Module (Γ.toSpecies.L j)
       (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] ↥(M.vertexFixed (Γ.vertexRep i))) :=
   moduleOfOpposite _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …re-headed.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleVOFj_innerTensor :
     Module ↥(Γ.vertexOrbitField j)
       (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] ↥(M.vertexFixed (Γ.vertexRep i))) :=
   inferInstanceAs (Module (Γ.toSpecies.L j) _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_iM_j`'s right `L_j`-action at the frozen row's head.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleVOFjOp_speciesM :
     Module (↥(Γ.vertexOrbitField j))ᵐᵒᵖ (Γ.toSpecies.M i j) :=
   inferInstanceAs (Module (Γ.toSpecies.L j)ᵐᵒᵖ _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `innerEquiv`, upgraded from `(L_j)ᵐᵒᵖ`-linear to `L_j`-linear.  `L_j` is commutative and
 `moduleOfOpposite` makes `c • x` and `op c • x` the same term, so the upgrade is the original
 `map_smul` read at `op c`.  @census none (helper for `RQ2-2.20-C1`) -/
@@ -3000,6 +3054,7 @@ noncomputable def innerEquivVOF :
   AddEquiv.toLinearEquiv (innerEquiv M i j).toAddEquiv
     (fun c x => by exact (innerEquiv M i j).map_smul (MulOpposite.op c) x)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `piSplit`, upgraded from `L_i`-linear to `L_j`-linear.
 
 This one is a genuine (if short) proof rather than a transport: `L_j` acts on the source through
@@ -3024,9 +3079,12 @@ noncomputable def piSplitVOF :
 
 section OuterL
 
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (X : Type u) [AddCommGroup X] [Module K X] [Module (Γ.toSpecies.L i)ᵐᵒᵖ X]
   [IsScalarTower K (Γ.toSpecies.L i)ᵐᵒᵖ X]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `outerEquiv` with the scalar tower supplied **positionally**.
 
 `Balanced.equivTensor` needs `IsScalarTower K (L_j) (W_i ⊗_{L_i} {}_iM_j)`.  That instance exists
@@ -3049,6 +3107,7 @@ noncomputable def outerEquivMop : Balanced K (Γ.toSpecies.L j) L L
     (EtaleSpecies.Rep.tensor Γ.toSpecies i j X) _ _ _ _ _
     (towerK_speciesLj_repTensor i j X) (fun _ _ => rfl)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The mirror bridge on the mathlib-tensor side, by one `mul_comm`.
 @census none (helper, `S5-F7`) -/
 theorem tensor_smul_L_eq_op_at (c : L)
@@ -3063,6 +3122,7 @@ theorem tensor_smul_L_eq_op_at (c : L)
       exact mul_comm c a
   | add p q hp hq => rw [smul_add, smul_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`outerEquiv`, `L`-linear.**  `RQ2-2.20` item 6's first link, and the last piece the row's
 chain was missing.
 
@@ -3124,6 +3184,7 @@ section Item7
 variable (M : Rep Γ) (i j : Γ.VertexOrbit)
   [Fintype (Γ.EdgeOrbit i j)] [DecidableEq (Γ.EdgeOrbit i j)]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 6: `eq:WiiMjLpre`'s isomorphism, as the composite of the seven links.**
 
 `e` is the family of `RQ2-2.19` identifications, one per edge orbit — supplied as an argument
@@ -3159,6 +3220,7 @@ noncomputable def wiiMjPreChain
               edgeCancelL M (ch ε) (EdgeChoice.rep Γ (ch ε) η * (ch ε).τ⁻¹)))).trans
             (DirectSum.linearEquivFunOnFintype L _ _).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20` item 7 (`V-S5b-6`): the composite, computed on the row's generators.**
 
 `W_i ⊗_{L_i} {}_iM_j ⊗_{L_j} L` is generated by `(w ⊗ m) ⊗ a`, and the chain sends it to the
@@ -3219,6 +3281,7 @@ theorem wiiMjPreChain_apply
 
 end Item7
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition `prop:WiiMjLpre`** (census `RQ2-2.20`).
 
 With `M_K` a `K`-rational representation of `Γ_K` and `W_i = M(v_i)^{G_{v_i}}` (clause
@@ -3307,6 +3370,7 @@ rather than as four lines of tensor notation.  They are `abbrev`s, hence reducib
 elaborated types are exactly the ones `RQ2-2.20` above is stated with.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i ⊗_{L_i} {}_iM_j ⊗_{L_j} L`, the common left-hand side of `eq:WiiMjLpre` and `eq:WiiMjL`.
 
 @census none (helper)
@@ -3353,6 +3417,7 @@ noncomputable abbrev wiiMjLRhs (M : Rep Γ) {i j : Γ.VertexOrbit}
     (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε) : Type u :=
   ⨁ ε : Γ.EdgeOrbit i j, (∀ η : EdgeChoice.CosetIndex Γ (ch ε), M.M (EdgeChoice.cosetVertex Γ (ch ε) η))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Corollary `cor:WiiMjL`** (census `RQ2-2.22`).
 
 From `RQ2-2.20` and `RQ2-2.21` (clause `RQ2-2.22-H1`): there are canonical `L`-linear isomorphisms
@@ -3898,6 +3963,7 @@ theorem Rep.theta_core (M : Rep Γ) {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i 
     rfl
   rw [hscal, hvec]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Induction over `wiiMjL`'s double generators.**  `W_i ⊗_{L_i} {}_iM_j ⊗_{L_j} L` is a quotient
 of a tensor square, so a property additive in `x` and true of `(w ⊗ m) ⊗ a` is true everywhere.
 
@@ -3917,21 +3983,12 @@ theorem wiiMjL_induction (M : Rep Γ) {i j : Γ.VertexOrbit}
     (balancedRel K (Γ.toSpecies.L j) L L
       (EtaleSpecies.Rep.tensor Γ.toSpecies i j ↥(M.vertexFixed (Γ.vertexRep i)))) x
   induction s with
-  | zero => simpa using h0
   | tmul a t =>
       show P (Balanced.mk t a)
       obtain ⟨s', rfl⟩ := Submodule.Quotient.mk_surjective
         (balancedRel K (Γ.toSpecies.L i) (Γ.toSpecies.L j) (Γ.toSpecies.M i j)
           ↥(M.vertexFixed (Γ.vertexRep i))) t
       induction s' with
-      | zero =>
-          have hz : (Submodule.Quotient.mk (p := balancedRel K (Γ.toSpecies.L i)
-              (Γ.toSpecies.L j) (Γ.toSpecies.M i j) ↥(M.vertexFixed (Γ.vertexRep i)))
-              (0 : Γ.toSpecies.M i j ⊗[K] ↥(M.vertexFixed (Γ.vertexRep i))))
-              = (0 : EtaleSpecies.Rep.tensor Γ.toSpecies i j
-                  ↥(M.vertexFixed (Γ.vertexRep i))) := rfl
-          rw [hz, Balanced.mk_zero_left]
-          exact h0
       | tmul m w => exact hmk w m a
       | add p q hp hq =>
           have hp2 : (Submodule.Quotient.mk (p := balancedRel K (Γ.toSpecies.L i)
@@ -3945,6 +4002,7 @@ theorem wiiMjL_induction (M : Rep Γ) {i j : Γ.VertexOrbit}
           = Submodule.Quotient.mk s + Submodule.Quotient.mk t := rfl
       rw [hmk2]; exact hadd _ _ hs ht
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.20-C1`'s pin determines its isomorphism** — canonicity, as a theorem rather than as a
 docstring remark.
 
@@ -3981,6 +4039,7 @@ theorem wiiMjPre_pin_unique (M : Rep Γ) {i j : Γ.VertexOrbit}
   | hadd p q hp hq => rw [e₁.map_add, e₂.map_add, hp, hq]
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.23-C5`.**  `Θ` agrees with the canonical rational structure: for the `RQ2-2.22`
 identification `e` and any `c(σ)` acting as `σ` on the `L` factor, `Θ(σ) ∘ e = e ∘ c(σ)`.
 
@@ -4047,6 +4106,7 @@ theorem rationalStructure_agrees (M : Rep Γ) {i j : Γ.VertexOrbit}
         (l4.trans ((congrArg₂ (· + ·) hp hq).trans
           (l3.symm.trans (congrArg (fun z => e z) l2.symm))))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition `prop:rationalstructures`** (census `RQ2-2.23`).
 
 Through the identification `eq:WiiMjL` of `RQ2-2.22` (clause `RQ2-2.23-H1`), and for every
@@ -4517,6 +4577,7 @@ theorem preRhs_addHom_ext (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
       rw [hsplit, map_add, map_add, map_add, hp, hq]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.24-C1`**: `Φ_{ij}` is `G_{v_j}`-equivariant for
 `eq:explicitdecompositiontwisting`. -/
 theorem phiTotal_equivariant (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -4543,6 +4604,7 @@ theorem phiTotal_equivariant (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
 end Assembly24
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The pre-`S5-F8` shape of `IsEdgeDescent`, kept as the finding's evidence.**
 
 This is `IsEdgeDescent`'s body *before* the `S5-F8` repair — the identification `e₀` unconstrained.
@@ -4566,6 +4628,7 @@ def IsEdgeDescentUnpinned (M : Rep Γ) {i j : Γ.VertexOrbit}
       Φ (e₀ (Balanced.mk t a)) = a • ((f t : M.M (Γ.vertexRep j)))
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`f` is the Galois descent of `Φ_{ij}` along THE canonical identification** — clause
 `RQ2-2.24-C2`'s relation, named because `RQ2-2.25-C4` and `RQ2-2.26` need to speak about it too.
 
@@ -4632,6 +4695,7 @@ forces that value to be `0` as soon as `L(v_j)` has a unit other than `1`.
 @census none (finding `S5-F8`, statement-layer; reported, no repair — statements are frozen)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `S5-F8` repair, certified as a strengthening.**  `#check` cannot see this: `IsEdgeDescent`
 is a `def` into `Prop`, so its *type* — and the elaborated signature of all five rows that name it
 — is **byte-identical** before and after the repair, and only the body changed.  What did change is
@@ -4649,6 +4713,7 @@ theorem isEdgeDescent_le_unpinned (M : Rep Γ) {i j : Γ.VertexOrbit}
           →ₗ[(Γ.toSpecies.L j)ᵐᵒᵖ] ↥(M.vertexFixed (Γ.vertexRep j)))
     (h : IsEdgeDescent M ch e₀ f) : IsEdgeDescentUnpinned M ch e₀ f := h.2
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`S5-F8`, step 1.**  `IsEdgeDescent` is stable under scaling the identification by a nonzero
 element of `L(v_j)` — scaling the descent by the same element.
 
@@ -4674,6 +4739,7 @@ theorem isEdgeDescent_smul (M : Rep Γ) {i j : Γ.VertexOrbit}
     = a • ((c : L) • ((f t : M.M (Γ.vertexRep j))))
   rw [smul_comm]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`S5-F8`, step 2 — the general collision, compiled.**  A clause quantifying
 `∀ e₀ f, IsEdgeDescent M ch e₀ f → …` whose conclusion pins `F1 (f (w ⊗ m))` to something
 **independent of `f`** forces `f (w ⊗ m) = 0`, provided `L(v_j)` has a unit other than `1`.
@@ -4722,6 +4788,7 @@ theorem isEdgeDescent_universal_forces_zero (M : Rep Γ) {i j : Γ.VertexOrbit}
   · exact absurd (by linear_combination -h6 : (c : L) = 1) hc1
   · exact h6
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`S5-F8`, step 3 — `RQ2-2.25-C4` in particular.**  The row's `C4`, taken at `N := M` and
 `ψ := 𝟙` (where `C2`'s characterisation forces `ψ' = id`), entails that **every** edge descent is
 zero on generators.
@@ -4829,6 +4896,7 @@ theorem phiTensor_ofL (M : Rep Γ) {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j
 variable [Fintype (Γ.EdgeOrbit i j)]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 theorem phiTotal_e0_generator (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     [∀ ε : Γ.EdgeOrbit i j, Fintype (EdgeChoice.CosetIndex Γ (ch ε))]
     (e₀ : wiiMjL M i j ≃ₗ[L] wiiMjLpreRhs M ch)
@@ -4851,6 +4919,7 @@ theorem phiTotal_e0_generator (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
   exact phiTensor_ofL M (ch ε) η _ w
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 theorem phiTotal_e0_smul (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     [∀ ε : Γ.EdgeOrbit i j, Fintype (EdgeChoice.CosetIndex Γ (ch ε))]
     (e₀ : wiiMjL M i j ≃ₗ[L] wiiMjLpreRhs M ch)
@@ -4873,6 +4942,7 @@ theorem phiTotal_e0_smul (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     EdgeChoice.smul_twist_apply (ch ε) σ η (m ε)]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Induction over the generators of `W_i ⊗_{L_i} {}_iM_j`. -/
 theorem repTensor_induction {P : EtaleSpecies.Rep.tensor Γ.toSpecies i j
       ↥(M.vertexFixed (Γ.vertexRep i)) → Prop}
@@ -4885,7 +4955,6 @@ theorem repTensor_induction {P : EtaleSpecies.Rep.tensor Γ.toSpecies i j
     (balancedRel K (Γ.toSpecies.L i) (Γ.toSpecies.L j) (Γ.toSpecies.M i j)
       ↥(M.vertexFixed (Γ.vertexRep i))) t
   induction s with
-  | zero => simpa using h0
   | tmul m w => exact hmk w m
   | add p q hp hq =>
       have hp2 : (Submodule.Quotient.mk (p := balancedRel K (Γ.toSpecies.L i)
@@ -4894,6 +4963,7 @@ theorem repTensor_induction {P : EtaleSpecies.Rep.tensor Γ.toSpecies i j
       rw [hp2]; exact hadd _ _ hp hq
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `Φ ∘ e₀` lands in `W_j`: the `G_{v_j}`-invariance that Galois descent needs. -/
 theorem phiTotal_e0_fixed (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     [∀ ε : Γ.EdgeOrbit i j, Fintype (EdgeChoice.CosetIndex Γ (ch ε))]
@@ -4922,6 +4992,7 @@ theorem phiTotal_e0_fixed (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
       rw [hsplit, map_add, map_add, map_add, hp, hq]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The descended map `f_{ij} : W_i ⊗_{L_i} {}_iM_j → W_j`. -/
 noncomputable def edgeDescentMap (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     [∀ ε : Γ.EdgeOrbit i j, Fintype (EdgeChoice.CosetIndex Γ (ch ε))]
@@ -4960,6 +5031,7 @@ noncomputable def edgeDescentMap (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice 
     rw [hstep, map_smul, map_smul]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clauses `RQ2-2.24-C2`/`C3`**: `edgeDescentMap` is the Galois descent of `Φ_{ij}`. -/
 theorem isEdgeDescent_edgeDescentMap (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
     [∀ ε : Γ.EdgeOrbit i j, Fintype (EdgeChoice.CosetIndex Γ (ch ε))]
@@ -4987,6 +5059,7 @@ theorem isEdgeDescent_edgeDescentMap (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeCho
   rfl
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The edge descent is unique**, given a fixed choice `ch` — and it is `S5-F8`'s repair that
 makes this true.
 
@@ -5260,6 +5333,7 @@ theorem twist_choice_indep (ch₁ ch₂ : Γ.EdgeChoice ε)
     show h (c : L) = (c : L) from (IntermediateField.mem_fixedField_iff _ _).mp c.2 _ hh]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The edge descent does not depend on the §2.6 choice** — clause `RQ2-2.26-C1`'s `∀ ch`. -/
 theorem edgeDescent_choice_indep (M : Rep Γ) {i j : Γ.VertexOrbit}
     (ch₁ ch₂ : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -5297,6 +5371,7 @@ end ChoiceIndep
 end C2
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition** (`unlabeled:3`, census `RQ2-2.24`).
 
 `Φ_{ij}` — the map of clause `RQ2-2.24-H1`, defined on the right-hand side of `eq:WiiMjLpre` by
@@ -5429,6 +5504,7 @@ theorem Rep.Hom.equivariant {M N : Rep Γ} (ψ : Rep.Hom M N) (v : Γ.V)
     ψ.ψ v (M.φ' (σ : Gal(L/K)) σ.2 m) = N.φ' (σ : Gal(L/K)) σ.2 (ψ.ψ v m) :=
   ψ.rational' (σ : Gal(L/K)) σ.2 m
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.25-C2`**: `ψ_v` restricts to the invariants. -/
 noncomputable def Rep.Hom.vertexFixedMap {M N : Rep Γ} (ψ : Rep.Hom M N) (i : Γ.VertexOrbit) :
     ↥(M.vertexFixed (Γ.vertexRep i)) →ₗ[(Γ.toSpecies.L i)ᵐᵒᵖ]
@@ -5466,6 +5542,7 @@ theorem phiComp_hom {M N : Rep Γ} (ψ : Rep.Hom M N) {i j : Γ.VertexOrbit}
   rfl
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.25-C4`**: `(ψ_i)` is a morphism of `K`-species representations. -/
 theorem F_map_C4 {M N : Rep Γ} (ψ : Rep.Hom M N) {i j : Γ.VertexOrbit}
     (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -5499,6 +5576,7 @@ theorem F_map_C4 {M N : Rep Γ} (ψ : Rep.Hom M N) {i j : Γ.VertexOrbit}
 
 /-! ### `RQ2-2.25` — `F` on morphisms -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition** (`unlabeled:4`, census `RQ2-2.25`).
 
 For any morphism `ψ : M_K → N_K` in `Rep(Γ_K)` and any `i ∈ I` (clause `RQ2-2.25-H1`):
@@ -5589,6 +5667,7 @@ at `L/L(v_i)` — lands it on `M(v_i)`.
 -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The canonical descent `f_{ij}`, taken at the G5 choice `EdgeChoice.choose`. -/
 noncomputable def edgeDescentOf (M : Rep Γ) (i j : Γ.VertexOrbit) :
     EtaleSpecies.Rep.tensor Γ.toSpecies i j ↥(M.vertexFixed (Γ.vertexRep i))
@@ -5604,6 +5683,7 @@ theorem isEdgeDescent_edgeDescentOf (M : Rep Γ) (i j : Γ.VertexOrbit) :
   ((phi_descends M (fun ε : Γ.EdgeOrbit i j =>
     EdgeChoice.choose Γ ε)).choose_spec.2.2.choose_spec).choose_spec
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.26-C1`'s content**: every descent, for every choice, is `edgeDescentOf`. -/
 theorem edgeDescentOf_eq (M : Rep Γ) {i j : Γ.VertexOrbit}
     (ch : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -5613,6 +5693,7 @@ theorem edgeDescentOf_eq (M : Rep Γ) {i j : Γ.VertexOrbit}
     (h : IsEdgeDescent M ch e₀ f) : edgeDescentOf M i j = f :=
   edgeDescent_choice_indep M _ ch _ e₀ _ f (isEdgeDescent_edgeDescentOf M i j) h
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L ⊗_{L_i} W_i`: the `L`- and `Lᵐᵒᵖ`-actions agree, by one `mul_comm`. -/
 theorem tensor_smul_L_eq_op_W (M : Rep Γ) (i : Γ.VertexOrbit) (c : L)
     (z : L ⊗[Γ.toSpecies.L i] ↥(M.vertexFixed (Γ.vertexRep i))) :
@@ -5626,6 +5707,7 @@ theorem tensor_smul_L_eq_op_W (M : Rep Γ) (i : Γ.VertexOrbit) (c : L)
       exact mul_comm c a
   | add p q hp hq => rw [smul_add, smul_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.26-H2`** (`eq:WitoMvi`): Galois descent identifies `W_i ⊗_{L_i} L` with
 `M(v_i)`. -/
 noncomputable def vertexDescentBalanced (M : Rep Γ) (i : Γ.VertexOrbit) :

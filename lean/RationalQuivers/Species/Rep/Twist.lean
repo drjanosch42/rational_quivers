@@ -1,8 +1,12 @@
-import RationalQuivers.Quiver.Rep.Basic
-import RationalQuivers.Descent.KStructure
-import Mathlib.Algebra.Field.TransferInstance
-import Mathlib.LinearAlgebra.TensorProduct.Basic
-import Mathlib.LinearAlgebra.Complex.Module
+module
+
+public import RationalQuivers.Quiver.Rep.Basic
+public import RationalQuivers.Descent.KStructure
+public import Mathlib.Algebra.Field.TransferInstance
+public import Mathlib.LinearAlgebra.TensorProduct.Basic
+public import Mathlib.LinearAlgebra.Complex.Module
+
+@[expose] public section
 
 /-!
 # The twisted base change `V ⊗_{E,σ} L`

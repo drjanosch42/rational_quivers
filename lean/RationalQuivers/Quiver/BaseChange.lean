@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Comap
+module
+
+public import RationalQuivers.Quiver.Comap
+
+@[expose] public section
 
 /-!
 # Base change of `K`-rational quivers
@@ -171,7 +175,7 @@ theorem finiteIndex_range_galRestrict (E' : IntermediateField K L) [FiniteDimens
     (galRestrict K L E').range.FiniteIndex := by
   rw [range_galRestrict]
   refine ⟨?_⟩
-  rw [← IntermediateField.finrank_eq_fixingSubgroup_index E']
+  rw [← IntermediateField.finrank_eq_fixingSubgroup_index L E']
   exact (Module.finrank_pos (R := K) (M := E')).ne'
 
 namespace RationalQuiver

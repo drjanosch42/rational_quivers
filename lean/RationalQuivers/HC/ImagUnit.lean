@@ -1,8 +1,12 @@
-import Mathlib.RingTheory.Adjoin.PowerBasis
-import Mathlib.RingTheory.AdjoinRoot
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.Algebra.Polynomial.SpecificDegree
-import Mathlib.LinearAlgebra.Complex.Module
+module
+
+public import Mathlib.RingTheory.Adjoin.PowerBasis
+public import Mathlib.RingTheory.AdjoinRoot
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.Algebra.Polynomial.SpecificDegree
+public import Mathlib.LinearAlgebra.Complex.Module
+
+@[expose] public section
 
 /-!
 # `L_E = E(√-1)`, `G_E`, `χ_E` (`def:sqrtminusone`)

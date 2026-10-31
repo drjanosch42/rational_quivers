@@ -1,7 +1,11 @@
-import RationalQuivers.Species.Examples
-import RationalQuivers.Species.ToQuiver
-import RationalQuivers.Species.Orbits
-import RationalQuivers.Quiver.Rep.Nilpotent
+module
+
+public import RationalQuivers.Species.Examples
+public import RationalQuivers.Species.ToQuiver
+public import RationalQuivers.Species.Orbits
+public import RationalQuivers.Quiver.Rep.Nilpotent
+
+@[expose] public section
 
 /-!
 # `ex:gelfand` — the `K`-rational Gelfand quiver and its étale species (census `RQ2-2.16`)
@@ -274,6 +278,7 @@ noncomputable def vertexSetEquivV (Γ : RationalQuiver K L) :
     (MulAction.selfEquivSigmaOrbits Gal(L/K) Γ.V).symm
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Edge reconstruction, step 1**: `Specm {}_iM_j` is the set of edge orbits from `i` to `j`.
 Immediate from `maximalSpectrumPiEquiv`, because `Γ.edgeAlgebra i j` IS the product
 `∀ ε : Γ.EdgeOrbit i j, L(e_ε)`.  @census none (helper) -/
@@ -283,6 +288,7 @@ noncomputable def edgeSpectrumEquiv (Γ : RationalQuiver K L) (i j : Γ.VertexOr
     (F := fun ε : Γ.EdgeOrbit i j => (Γ.edgeOrbitField ε : Type))
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Edge reconstruction, step 2**: the residue field at `ε` is the `ε`-th factor.  The maximal
 ideal IS the kernel of the `ε`-th projection (`maximalSpectrum_pi`), and that projection is
 surjective, so the quotient is the factor.  @census none (helper) -/
@@ -341,6 +347,7 @@ noncomputable def orbitCoeEquiv (Γ : RationalQuiver K L) {i j : Γ.VertexOrbit}
     · rintro ⟨z, σ, hσ⟩
       exact ⟨⟨σ • x, ⟨σ, rfl⟩⟩, Subtype.ext hσ⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Edge reconstruction, step 3**: the fibre of `E(S(Γ))` over the index pair `(i,j)` is
 `E_{ij}`.  @census none (helper) -/
 noncomputable def edgeFiberEquiv (Γ : RationalQuiver K L) (i j : Γ.VertexOrbit) :
@@ -353,6 +360,7 @@ noncomputable def edgeFiberEquiv (Γ : RationalQuiver K L) (i j : Γ.VertexOrbit
           (orbitCoeEquiv K L Γ (Quotient.out ε)).symm)).trans
       (MulAction.selfEquivSigmaOrbits Gal(L/K) (Γ.edgeSet i j)).symm)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.13`'s reconstruction on edges**: the étale species of a rational quiver has `Γ.E` as
 its edge set.  @census none (`RQ2-2.13`'s object content, consumed forward) -/
 noncomputable def edgeSetEquivE (Γ : RationalQuiver K L) :
@@ -574,6 +582,7 @@ theorem gelfand_relation_conjugate (h : Nat.card Gal(L/K) = 2) {z : Gal(L/K)} (h
     M.φEdge'_φ' z hae s0 t0 s2 t2 hminus hstar
       (M.φEdge' (gelfandEdge K L h 1) s1 t1 m)]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Finding S5-F1**, closed 2026-08-30 by a source repair: `RQ2-2.16-C3` **as it was printed
 before census r7** was false.  There is a `K`-rational representation of the `ex:gelfand` quiver —
 namely `gelfandTwist α` for any `α` moved by the non-trivial `c` — in which the relation
@@ -814,6 +823,7 @@ theorem gelfandNil_arrowMap (h : Nat.card Gal(L/K) = 2) {z : Gal(L/K)} (hz : z �
   subst ht
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Every path composite of length `≥ 1` lands in `L × 0`.  No induction: only the last arrow
 matters.  @census none (helper) -/
 theorem gelfandNil_pathFlat (h : Nat.card Gal(L/K) = 2) {z : Gal(L/K)} (hz : z ≠ 1) (α : L)
@@ -827,6 +837,7 @@ theorem gelfandNil_pathFlat (h : Nat.card Gal(L/K) = 2) {z : Gal(L/K)} (hz : z �
       rw [gelfandNil_arrowMap]
       exact gelfandNil_flat K L h hz α g.1 _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The probe's answer, half one.**  The witness is **nilpotent** in the sense of `DEF-S2-04`
 (`Rep.IsNilpotent`): every composite of edge maps along a path of length `≥ 3` is zero, because
 `B_β ∘ A = 0` kills every `± → ⋆ → ±` block and every such path contains one.
@@ -876,6 +887,7 @@ theorem gelfandNilTwist_isNilpotent (h : Nat.card Gal(L/K) = 2) {z : Gal(L/K)} (
         rw [gelfandNil_arrowMap]
         exact gelfandNil_flat K L h hz α g2.1 _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The probe's answer, half two — finding S5-F1 held in the nilpotent reading.**  Even inside
 `Rep^nil(Γ_K)`, the relation `a₋b₋ = a₊b₊` is not a consequence of `G`-equivariance: the two loop
 composites of `gelfandNilTwist α` are `(x,y) ↦ (α y, 0)` and `(x,y) ↦ ((cα) y, 0)`, which differ

@@ -1,6 +1,10 @@
-import RationalQuivers.Gelfand.EssSurj.NaturalIso
-import RationalQuivers.Gelfand.Split.Cyclic
-import RationalQuivers.Species.Examples
+module
+
+public import RationalQuivers.Gelfand.EssSurj.NaturalIso
+public import RationalQuivers.Gelfand.Split.Cyclic
+public import RationalQuivers.Species.Examples
+
+@[expose] public section
 
 /-!
 # the case `ℓ = 0`: the rational structure (§5.3, Steps C-1, C-2, C-4)
@@ -74,6 +78,7 @@ theorem cyclicQ_smul_edge (e : Fin 2) :
   show (RQuiver.Aut.toPermE _ ((cyclicQ hcard).ρ Dq.conj)) e = _
   rw [cyclicQ_rho_apply hcard Gelfand.RationalStructure.galConj_ne_one]; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `σ • v` on the cyclic quiver, computed.  @census none (helper) -/
 theorem cyclicQ_smul_eq (σ : Dq.carrier ≃ₐ[E] Dq.carrier) (v : Fin 2) :
     σ • vtxC hcard v = vtxC hcard (if σ = 1 then v else RQuiver.twoLoopsSwapPerm v) := by
@@ -259,6 +264,7 @@ theorem sigma_ext_valC {v w : (cyclicQ hcard).V} (hvw : v = w) (m : V2 A v) (n :
   subst hvw
   exact congrArg _ (Subtype.ext h)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`𝔼_ℚ(M)` as a rational representation of the cyclic quiver** (`RQ-5.07-C1`, given
 `ObjSpecC`).
 
@@ -333,6 +339,7 @@ theorem E_Cyc_map_edge {A B : HCEObj 0 E Dq} (f : A ⟶ B) :
   | 0, m => Subtype.ext (f.map_X _)
   | 1, m => Subtype.ext (f.map_Y _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `𝔼_ℚ(f)` at `ℓ = 0`.  @census none (helper) -/
 noncomputable def E_Cyc_hom {A B : HCEObj 0 E Dq} (hA : ObjSpecC hcard A) (hB : ObjSpecC hcard B)
     (f : A ⟶ B) (hf : HomSpecC f) :
@@ -583,6 +590,7 @@ theorem cycLoop_arrow_comp {w : (cyclicQ hcard).V}
   subst ht1
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Peeling `2k` `+`-based windows off the end of a path landing at `+`.  @census none (helper) -/
 theorem cycLoop_path_peel :
     ∀ (k : ℕ) (a : (cyclicQ hcard).V) (p : Quiver.Path a (vtxC hcard 1)),
@@ -633,6 +641,7 @@ theorem cycLoop_path_peel :
         rw [step1, hqeq, hloop_apply]
         exact (hpow_apply (cycPath hcard A q v)).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`ObjSpecC`'s nilpotency at `ℓ = 0`.**  @census none (helper) -/
 theorem cyc_nilpotentS : ∃ n : ℕ, ∀ (a b : (cyclicQ hcard).V) (p : Quiver.Path a b), n ≤ p.length →
     RationalQuiver.pathCompose (Q := (cyclicQ hcard).toRQuiver) (V2 A) (E_Cyc_edge A) p = 0 := by

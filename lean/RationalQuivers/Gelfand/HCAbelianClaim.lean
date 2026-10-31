@@ -1,4 +1,8 @@
-import RationalQuivers.HC.Abelian
+module
+
+public import RationalQuivers.HC.Abelian
+
+@[expose] public section
 
 /-!
 # `rmk:HCabelian` (§3.2, stage T5)

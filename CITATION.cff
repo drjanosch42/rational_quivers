@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this formalization, please cite the paper and this software as below."
 type: software
 title: "Rational quivers: Lean 4 formalization of Rational structures on quivers and a generalization of Gelfand's equivalence"
-version: "1.0.1"
-date-released: "2026-10-28"
+version: "1.1.0"
+date-released: "2026-10-31"
 doi: "10.5281/zenodo.23735853"
 license: Apache-2.0
 repository-code: "https://github.com/drjanosch42/rational_quivers"

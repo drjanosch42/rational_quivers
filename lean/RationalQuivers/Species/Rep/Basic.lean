@@ -1,7 +1,11 @@
-import RationalQuivers.Species.Basic
-import RationalQuivers.Species.Etale
-import RationalQuivers.Species.Rep.Tensor
-import Mathlib.CategoryTheory.Category.Basic
+module
+
+public import RationalQuivers.Species.Basic
+public import RationalQuivers.Species.Etale
+public import RationalQuivers.Species.Rep.Tensor
+public import Mathlib.CategoryTheory.Category.Basic
+
+@[expose] public section
 
 /-!
 # Representations of a `K`-species, and of an étale `K`-species
@@ -486,10 +490,12 @@ the difference between this and the `instance : Field (S.toSpecies.L i)` experim
 changed a `Semiring` path and broke `Algebra K (S.toSpecies.L i)`.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i` is a right `L_i`-vector space, at the étale head.  @census none (helper, S5-F3) -/
 instance Rep.module_W' (S : EtaleSpecies.{u} K) (V : EtaleSpecies.Rep S) (i : S.I) :
     Module (S.L i)ᵐᵒᵖ (V.W i) := V.module_W i
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i` as a **left** `L_i`-vector space.  For an étale species `L_i` is commutative, so the
 right action of `RQ2-2.17-C1` is equally a left one, read through `RingEquiv.toOpposite` — S3's
 `EtaleSpecies.moduleRight` in reverse.  `RQ2-2.27-C4` needs this side, because
@@ -501,14 +507,17 @@ noncomputable instance Rep.moduleL_W (S : EtaleSpecies.{u} K) (V : EtaleSpecies.
     (i : S.I) : Module (S.L i) (V.W i) :=
   Module.compHom _ ((RingEquiv.toOpposite (S.L i)).toRingHom)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i`'s ambient `K`-structure, at the étale head.  @census none (helper, S5-F3) -/
 instance Rep.module_K_W' (S : EtaleSpecies.{u} K) (V : EtaleSpecies.Rep S) (i : S.I) :
     Module K (V.W i) := V.module_K_W i
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i`'s `K`-structure is the induced one, at the étale head.  @census none (helper, S5-F3) -/
 instance Rep.isScalarTower_W' (S : EtaleSpecies.{u} K) (V : EtaleSpecies.Rep S) (i : S.I) :
     IsScalarTower K (S.L i)ᵐᵒᵖ (V.W i) := V.isScalarTower_W i
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The same tower on the **un-opposed** side, which is the one a base change
 `L_i ⊗_K W_{i,K} → W_i` needs (`RQ2-2.27-H2`).  `L_i` is commutative, so the two agree.
 @census none (helper, S5-F3) -/
@@ -533,6 +542,7 @@ the étale head.  (The left-hand tower `IsScalarTower K (S.L i) (S.M i j)` is al
 instance isScalarTower_right_M' (S : EtaleSpecies.{u} K) (i j : S.I) :
     IsScalarTower K (S.L j)ᵐᵒᵖ (S.M i j) := Species.isScalarTower_right_M S.toSpecies i j
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i` is finite-dimensional, at the étale head.  @census none (helper, S5-F3) -/
 instance Rep.finite_W' (S : EtaleSpecies.{u} K) (V : EtaleSpecies.Rep S) (i : S.I) :
     Module.Finite (S.L i)ᵐᵒᵖ (V.W i) := V.finite_W i
@@ -548,11 +558,13 @@ abbrev Rep.tensor (S : EtaleSpecies.{u} K) (i j : S.I) (X : Type u) [AddCommGrou
     [Module (S.L i)ᵐᵒᵖ X] [IsScalarTower K (S.L i)ᵐᵒᵖ X] : Type u :=
   Balanced K (S.L i) (S.L j) (S.M i j) X
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The two spellings agree definitionally, which is what makes `Rep.tensor` a re-heading and not
 a second object.  @census none (helper, S5-F3) -/
 theorem Rep.tensor_eq (S : EtaleSpecies.{u} K) (V : EtaleSpecies.Rep S) (i j : S.I) :
     Rep.tensor S i j (V.W i) = Species.RepTensor S.toSpecies i j (V.W i) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The structure maps `f_{ij}` at the étale head.**  Definitionally `V.f i j`; the point is the
 type, whose every instance argument is now étale-headed.  This is the declaration that makes
 `Balanced.map`'s four parameters agree on one head, which is what `RQ2-2.18-C2` needs.

@@ -1,4 +1,8 @@
-import RationalQuivers.Species.Hom
+module
+
+public import RationalQuivers.Species.Hom
+
+@[expose] public section
 
 /-!
 # Restriction of étale species along a finite separable extension
@@ -159,6 +163,7 @@ theorem restriction_algebraMap_M (S : EtaleSpecies.{u} N) (i j : S.I) :
     @algebraMap K (S.M i j) _ _ ((restriction (K := K) S).algebra_M i j) =
       (algebraMap N (S.M i j)).comp (algebraMap K N) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Restriction of a morphism of étale `N`-species. The index map and all component algebra maps
 are unchanged; only the base of the scalars is restricted.
 

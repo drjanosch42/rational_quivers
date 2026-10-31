@@ -1,10 +1,14 @@
-import RationalQuivers.Species.Basic
-import Mathlib.RingTheory.Etale.Basic
-import Mathlib.RingTheory.Etale.Field
-import Mathlib.RingTheory.Etale.Pi
-import Mathlib.RingTheory.Bialgebra.Basic
-import Mathlib.FieldTheory.SeparableDegree
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+module
+
+public import RationalQuivers.Species.Basic
+public import Mathlib.RingTheory.Etale.Basic
+public import Mathlib.RingTheory.Etale.Field
+public import Mathlib.RingTheory.Etale.Pi
+public import Mathlib.RingTheory.Bialgebra.Basic
+public import Mathlib.FieldTheory.SeparableDegree
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+
+@[expose] public section
 
 /-!
 # Étale `K`-species
@@ -333,10 +337,12 @@ theorem gelfandShadow_left_ne_right :
   have h2 : (Complex.I : ℂ) = (starRingEnd ℂ) Complex.I := congrArg (fun f => f Complex.I) h
   norm_num [Complex.ext_iff] at h2
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `gelfandShadow`'s two vertices carry genuinely different fields: `K ≅ L_⋆` … -/
 theorem gelfandShadow_vertex_star : Function.Bijective (algebraMap ℝ (gelfandShadow.L false)) :=
   ⟨fun _ _ h => h, fun a => ⟨a, rfl⟩⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- … but `K ≇ L_±`. Together with `gelfandShadow_vertex_star` this exhibits a species with
 `L_i ≠ L_j`, which no earlier in-tree model did.
 

@@ -1,4 +1,8 @@
-import RationalQuivers.Species.Rep.FunctorF
+module
+
+public import RationalQuivers.Species.Rep.FunctorF
+
+@[expose] public section
 
 /-!
 # The functor `H : Rep(S(Γ_K)) → Rep(Γ_K)` (§2.6, census `RQ2-2.27`, `RQ2-2.28`)
@@ -45,6 +49,7 @@ variable {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
 theorem vertexClass_smul (σ : Gal(L/K)) (v : Γ.V) :
     Γ.vertexClass (σ • v) = Γ.vertexClass v := Quotient.sound ⟨σ, rfl⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`M(v) := W_{i,K} ⊗_K L`** for `i = Gv` (`eq:MvforWi`), indexed by the orbit — see the module
 header for why that is the right indexing.  Written in mathlib's base-change factor order.
 
@@ -55,6 +60,7 @@ noncomputable abbrev hObj (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (i : Γ.VertexOrbit) : Type u :=
   L ⊗[K] ↥(WK i)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Transport of `hObj` along an equality of vertex orbits.
 
 **Named, not `▸`.**  The transport doctrine (`CONVENTIONS.md`; S4's rule, restated for `RQ2-2.23`'s
@@ -69,6 +75,7 @@ noncomputable def hObjCast (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) {i i' : Γ.VertexOrbit} (h : i = i') :
     hObj V WK i ≃+ hObj V WK i' := h ▸ AddEquiv.refl _
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem hObjCast_rfl (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (i : Γ.VertexOrbit)
     (x : hObj V WK i) : hObjCast V WK (rfl : i = i) x = x := rfl
@@ -91,11 +98,13 @@ as the source keeps it as an observation.
 @census none (helper: clause `RQ2-2.27-H2`, `RQ2-2.28-H2`, `RQ2-2.29`)
 @clauses   RQ2-2.27-H2
 -/
+set_option backward.isDefEq.respectTransparency.types false in
 def IsKRationalStructure (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit)
     (WKi : Submodule K (V.W i)) : Prop :=
   Function.Bijective
     (LinearMap.liftBaseChange (Γ.toSpecies.L i) ((WKi.subtype).restrictScalars K))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `eq:KrationalWi` on pure tensors: the canonical map is `a ⊗ w ↦ a · w`.
 @census none (helper) -/
 theorem isKRationalStructure_apply (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit)
@@ -103,6 +112,7 @@ theorem isKRationalStructure_apply (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.V
     LinearMap.liftBaseChange (Γ.toSpecies.L i) ((WKi.subtype).restrictScalars K) (a ⊗ₜ w)
       = a • (w : V.W i) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.27-C4`** follows from `H2`, as in the source.  @census none (helper)
 @clauses   RQ2-2.27-C4 -/
 theorem nonempty_baseChange_of_isKRationalStructure
@@ -135,16 +145,19 @@ continuous `G`-set.
 @census none (G4 engine for `RQ2-2.27`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`φ_{v,σ}` of `eq:varphi2`**: `σ ⊗ 1` on `M(v) = W_{i,K} ⊗_K L`. -/
 noncomputable def hPhi (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ : Gal(L/K)) (i : Γ.VertexOrbit) :
     hObj V WK i ≃+ hObj V WK i :=
   (TensorProduct.congr (σ.toLinearEquiv) (LinearEquiv.refl K ↥(WK i))).toAddEquiv
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem hPhi_tmul (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ : Gal(L/K)) (i : Γ.VertexOrbit)
     (a : L) (w : ↥(WK i)) : hPhi V WK σ i (a ⊗ₜ w) = σ a ⊗ₜ w := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.27-C1`**, second half: `φ_{v,σ}` is `σ`-linear. -/
 theorem hPhi_smul (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ : Gal(L/K)) (i : Γ.VertexOrbit)
@@ -157,6 +170,7 @@ theorem hPhi_smul (V : EtaleSpecies.Rep Γ.toSpecies)
       rfl
   | add p q hp hq => rw [smul_add, map_add, map_add, hp, hq, smul_add]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.27-C2`**: the cocycle condition. -/
 theorem hPhi_comp (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ τ : Gal(L/K)) (i : Γ.VertexOrbit)
@@ -166,6 +180,7 @@ theorem hPhi_comp (V : EtaleSpecies.Rep Γ.toSpecies)
   | tmul b w => rw [hPhi_tmul, hPhi_tmul, hPhi_tmul, AlgEquiv.mul_apply]
   | add p q hp hq => rw [map_add, map_add, map_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `φ_{v,1} = id`. -/
 theorem hPhi_one (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (i : Γ.VertexOrbit)
@@ -175,12 +190,14 @@ theorem hPhi_one (V : EtaleSpecies.Rep Γ.toSpecies)
   | tmul b w => rw [hPhi_tmul]; rfl
   | add p q hp hq => rw [map_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hObjCast` is a transport: it is heterogeneously the identity. -/
 theorem hObjCast_heq (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) {i i' : Γ.VertexOrbit} (h : i = i')
     (x : hObj V WK i) : HEq (hObjCast V WK h x) x := by
   subst h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Membership in `RQ2-2.27-C3`'s set, cast-free. -/
 theorem hSigma_eq_of (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ : Gal(L/K)) (v : Γ.V)
@@ -193,6 +210,7 @@ theorem hSigma_eq_of (V : EtaleSpecies.Rep Γ.toSpecies)
   rw [hy]
   exact hObjCast_heq V WK _ y
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem hSigma_eq_iff (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (σ : Gal(L/K)) (v : Γ.V)
     (y : hObj V WK (Γ.vertexClass v)) :
@@ -208,6 +226,7 @@ theorem hSigma_eq_iff (V : EtaleSpecies.Rep Γ.toSpecies)
       (hPhi V WK σ (Γ.vertexClass v) y)).symm.trans h.2)
   · exact fun h => hSigma_eq_of V WK σ v y h.1 h.2
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The stabiliser of a point of `⊔_v M(v)`, as a subgroup. -/
 def hPhiStab (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i)) (v : Γ.V)
@@ -222,6 +241,7 @@ def hPhiStab (V : EtaleSpecies.Rep Γ.toSpecies)
       rw [ha.2, inv_mul_cancel] at this
       rw [this, hPhi_one]⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Every element of `M(v) = L ⊗_K W_{i,K}` is fixed by the elements of `Gal(L/K)` fixing some
 finite intermediate field. -/
 theorem hPhi_exists_fixing_field (V : EtaleSpecies.Rep Γ.toSpecies)
@@ -253,6 +273,7 @@ theorem hPhi_exists_fixing_field (V : EtaleSpecies.Rep Γ.toSpecies)
         exact fun z hz => hσ z ((le_sup_right : E₂ ≤ E₁ ⊔ E₂) hz)
       rw [map_add, hf₁ σ hm₁, hf₂ σ hm₂]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.27-C3`**: the `G`-action on `⊔_v M(v)` is continuous, in open-stabiliser form. -/
 theorem hPhi_isOpen (V : EtaleSpecies.Rep Γ.toSpecies)
     (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
@@ -308,14 +329,18 @@ Two small pieces make the middle arrow go through, and both are `§51`-shaped:
 -/
 
 section C5
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.27-C4` as an equivalence**: `W_{i,K} ⊗_K L_i ≅ W_i`. -/
 noncomputable def kRatEquiv {i : Γ.VertexOrbit} (h : IsKRationalStructure V i (WK i)) :
     ((Γ.toSpecies.L i) ⊗[K] ↥(WK i)) ≃ₗ[Γ.toSpecies.L i] V.W i :=
   LinearEquiv.ofBijective _ h
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The transport `C5` needs**: `L(e_ε) ⊗_{L_i} W_i ≅ L(e_ε) ⊗_K W_{i,K}`, `L(e_ε)`-linearly,
 so that it transports across `Twist ⊗_{TwistBase} −`. -/
 noncomputable def edgeSummandKRat {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
@@ -375,6 +400,7 @@ noncomputable def twistLTensorCongr {E : IntermediateField K L} {ρ : Gal(L/K)}
           rfl
       | add p q hp hq => rw [smul_add, map_add, map_add, hp, hq, smul_add])
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `(ε,η)`-summand of `eq:WiiMjL2`, identified**: through clause `C4` and the twist
 absorbing its own base, it is `M(v) = L ⊗_K W_{i,K}` **on the nose**. -/
 noncomputable def wiiMjL2Summand {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j) (ρ : Gal(L/K))
@@ -423,16 +449,19 @@ statement would not even typecheck as written.
 section C5Chain
 variable (V : EtaleSpecies.Rep Γ.toSpecies) (i j : Γ.VertexOrbit)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `{}_iM_j ⊗_{L_i} W_i` over `L_j`, from its right action.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleSpeciesLj_innerTensorH :
     Module (Γ.toSpecies.L j) (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] (V.W i)) :=
   moduleOfOpposite _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …re-headed.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleVOFj_innerTensorH :
     Module ↥(Γ.vertexOrbitField j) (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] (V.W i)) :=
   inferInstanceAs (Module (Γ.toSpecies.L j) _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `innerEquiv` at `V.W i`, upgraded to `L_j`-linear at the frozen head. -/
 noncomputable def innerEquivH :
     EtaleSpecies.Rep.tensor Γ.toSpecies i j (V.W i)
@@ -445,6 +474,7 @@ noncomputable def innerEquivH :
       exact (Balanced.equivTensor (K := K) (A := Γ.toSpecies.L i) (B := Γ.toSpecies.L j)
         (X := V.W i) (fun _ _ => rfl)).map_smul (MulOpposite.op c) x)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The splitting at `V.W i`, over `L_i`. -/
 noncomputable def piSplitH :
     (Γ.toSpecies.M i j ⊗[Γ.toSpecies.L i] (V.W i))
@@ -455,6 +485,7 @@ noncomputable def piSplitH :
     fun ε => (edgeLeftAlgebraSpecies ε).toModule
   exact TensorProduct.piLeft _ _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem piSplitH_tmul (m : Γ.toSpecies.M i j) (w : V.W i) (ε : Γ.EdgeOrbit i j) :
     piSplitH V i j (m ⊗ₜ[Γ.toSpecies.L i] w) ε
       = (letI := edgeLeftAlgebraSpecies ε; (m ε) ⊗ₜ[Γ.toSpecies.L i] w) := by
@@ -465,6 +496,7 @@ noncomputable def piSplitH :
   show TensorProduct.piLeft _ _ _ (m ⊗ₜ[Γ.toSpecies.L i] w) ε = _
   simp [TensorProduct.piLeft, TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …upgraded to `L_j`-linear: `L_j` acts on the source through `{}_iM_j`'s right action and on
 the target componentwise through `edgeComponentRight`. -/
 noncomputable def piSplitVOFH :
@@ -482,6 +514,7 @@ noncomputable def piSplitVOFH :
     | add p q hp hq => rw [smul_add, map_add, map_add, hp, hq, smul_add])
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`eq:WiiMjL2` as a named equivalence.**  `RQ2-2.27-C5` states it as `Nonempty`, but `RQ2-2.28`'s
 `φ_e` is *the displayed composite through it*, so the map itself has to be nameable.  The `RQ2-2.19`
 identification per edge orbit is taken by `Exists.choose`; nothing downstream depends on which,
@@ -520,6 +553,7 @@ noncomputable def wiiMjL2Equiv (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k)
             (DirectSum.linearEquivFunOnFintype L _ _).symm
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clauses `RQ2-2.27-C5`/`C6`** (`eq:WiiMjL2`): `W_i ⊗_{L_i} {}_iM_j ⊗_{L_j} L = ⊕_ε ⊕_η M(v)`,
 with a **direct sum** over `η`. -/
 theorem wiiMjL2_nonempty (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k))
@@ -537,6 +571,7 @@ theorem wiiMjL2_nonempty (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k))
 
 end C5Chain
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition** (`unlabeled:5`, census `RQ2-2.27`).
 
 Given a representation `(W_i, f_{ij})` of `S(Γ_K)` (clause `RQ2-2.27-H1`), a **chosen** `K`-rational
@@ -656,11 +691,13 @@ The one thing needed beyond inference is a head bridge — `S5-F3` again, in its
 @census none (G4 engine for `RQ2-2.28`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `W_i` over `L_i` at the `vertexOrbitField` head.  @census none (helper, `S5-F3`) -/
 noncomputable instance moduleVOFi_W (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit) :
     Module ↥(Γ.vertexOrbitField i) (V.W i) :=
   inferInstanceAs (Module (Γ.toSpecies.L i) _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`e_fix`'s core**: `W_i ≅ (L ⊗_{L_i} W_i)^{Gal(L/L_i)}`, S0's `RQ2-1.13` over the base `L_i`.
 @census none (helper for `RQ2-2.28`) -/
 noncomputable def wFixedDescent (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit) :
@@ -700,9 +737,12 @@ identification.
 -/
 
 section PhiEdge
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `L ⊗_{L_j} W_j`: the `L`- and `Lᵐᵒᵖ`-actions agree. -/
 theorem tensor_smul_L_eq_op_VW (j : Γ.VertexOrbit) (c : L)
     (z : L ⊗[Γ.toSpecies.L j] (V.W j)) : c • z = MulOpposite.op c • z := by
@@ -715,6 +755,7 @@ theorem tensor_smul_L_eq_op_VW (j : Γ.VertexOrbit) (c : L)
       exact mul_comm c a
   | add p q hp hq => rw [smul_add, smul_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`M(v_i) = L ⊗_{L_i} W_i`**, the form Galois descent over `L/L_i` consumes: clause `C4`
 followed by base-change cancellation. -/
 noncomputable def hObjEquivBaseChange (i : Γ.VertexOrbit)
@@ -725,6 +766,7 @@ noncomputable def hObjEquivBaseChange (i : Γ.VertexOrbit)
     (TensorProduct.AlgebraTensorModule.cancelBaseChange
       K (Γ.toSpecies.L i) L L ↥(WK i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem hObjEquivBaseChange_tmul (i : Γ.VertexOrbit)
     (h : IsKRationalStructure V i (WK i)) (a : L) (c : Γ.toSpecies.L i) (w : ↥(WK i)) :
     hObjEquivBaseChange V WK i h (a ⊗ₜ[Γ.toSpecies.L i] (kRatEquiv V WK h (c ⊗ₜ[K] w)))
@@ -738,6 +780,7 @@ noncomputable def hObjEquivBaseChange (i : Γ.VertexOrbit)
   congr 1
   rw [Algebra.smul_def, mul_comm]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`W_j ⊗_{L_j} L ≅ M(v_j)`, through clause `C4`** rather than through Galois descent:
 the `RQ2-2.28`-side analogue of `vertexDescentBalanced`. -/
 noncomputable def balancedKRat (j : Γ.VertexOrbit)
@@ -755,6 +798,7 @@ noncomputable def balancedKRat (j : Γ.VertexOrbit)
             (tensor_smul_L_eq_op_VW V j c _).symm))).trans
     (hObjEquivBaseChange V WK j h)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f'_{ij} ⊗ 1_L`, as an `L`-linear map.  `Balanced.map` is `Lᵐᵒᵖ`-linear; the upgrade is two
 applications of the `S5-F7` bridge `balanced_smul_L_eq_op`, on the two carriers. -/
 noncomputable def fPrimeBaseChange (i j : Γ.VertexOrbit) :
@@ -782,6 +826,7 @@ noncomputable def phiEdgeBlock (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructu
   (balancedKRat V WK j (hWK j)).toLinearMap ∘ₗ fPrimeBaseChange V i j ∘ₗ
     (wiiMjL2Equiv V i j WK hWK ch).symm.toLinearMap
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …and its restriction to one `(ε,η)`-summand, which is `φ_e` for the corresponding edge. -/
 noncomputable def phiEdgeAt (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WK k))
     (ch : ∀ (k l : Γ.VertexOrbit) (ε : Γ.EdgeOrbit k l), Γ.EdgeChoice ε)
@@ -827,9 +872,12 @@ commutes with `balAct` **by `rfl` on generators**; and `balancedKRat` intertwine
 -/
 
 section BalAct
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `h ∈ G_{v_j}` as an `L_j`-linear endomorphism of `L`. -/
 noncomputable def galLinearVOF (j : Γ.VertexOrbit) (h : Gal(L/K))
     (hh : h • Γ.vertexRep j = Γ.vertexRep j) : L →ₗ[Γ.toSpecies.L j] L where
@@ -844,6 +892,7 @@ noncomputable def galLinearVOF (j : Γ.VertexOrbit) (h : Gal(L/K))
 section GenericCarrier
 variable {X : Type u} [AddCommGroup X] [Module K X]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `G_{v_j}`-action on `X ⊗_{L_j} L`**: `h` on the `L`-factor.  Well defined because `h`
 fixes `L_j`, which is exactly `galLinearVOF`. -/
 noncomputable def balAct (j : Γ.VertexOrbit) [Module (Γ.toSpecies.L j)ᵐᵒᵖ X]
@@ -868,6 +917,7 @@ noncomputable def balAct (j : Γ.VertexOrbit) [Module (Γ.toSpecies.L j)ᵐᵒ�
   rw [Balanced.equivTensor_mk, LinearMap.rTensor_tmul]
   exact Balanced.equivTensor_symm_tmul hX _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem hObjEquivBaseChange_gal (j : Γ.VertexOrbit)
     (hj : IsKRationalStructure V j (WK j)) (h : Gal(L/K))
     (hh : h • Γ.vertexRep j = Γ.vertexRep j)
@@ -895,6 +945,7 @@ theorem hObjEquivBaseChange_gal (j : Γ.VertexOrbit)
 
 end GenericCarrier
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Additive maps out of a `Balanced` agree if they agree on pure tensors. -/
 theorem balanced_addHom_ext {A B Y X0 Z : Type u} [Ring A] [Algebra K A] [Ring B]
     [AddCommGroup Y] [Module K Y] [Module A Y] [Module Bᵐᵒᵖ Y] [IsScalarTower K A Y]
@@ -906,14 +957,13 @@ theorem balanced_addHom_ext {A B Y X0 Z : Type u} [Ring A] [Algebra K A] [Ring B
   refine AddMonoidHom.ext fun t => ?_
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X0) t
   induction s with
-  | zero => rw [show (Submodule.Quotient.mk (0 : Y ⊗[K] X0) :
-      Balanced K A B Y X0) = 0 from rfl, map_zero, map_zero]
   | tmul y x => exact H x y
   | add s t hs ht =>
       have hmk : (Submodule.Quotient.mk (s + t) : Balanced K A B Y X0)
           = Submodule.Quotient.mk s + Submodule.Quotient.mk t := rfl
       rw [hmk, map_add, map_add, hs, ht]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `balancedKRat` intertwines `balAct` with `hPhi`. -/
 theorem balancedKRat_balAct (j : Γ.VertexOrbit) (hj : IsKRationalStructure V j (WK j))
     (h : Gal(L/K)) (hh : h • Γ.vertexRep j = Γ.vertexRep j)
@@ -927,6 +977,7 @@ theorem balancedKRat_balAct (j : Γ.VertexOrbit) (hj : IsKRationalStructure V j 
   rw [LinearEquiv.apply_symm_apply, hObjEquivBaseChange_gal]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f' ⊗ 1_L` commutes with `balAct` — it acts on the other factor. -/
 theorem fPrimeBaseChange_balAct (i j : Γ.VertexOrbit)
     (h : Gal(L/K)) (hh : h • Γ.vertexRep j = Γ.vertexRep j)
@@ -942,6 +993,7 @@ theorem fPrimeBaseChange_balAct (i j : Γ.VertexOrbit)
     rfl
   exact DFunLike.congr_fun key z
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Claim 2 of route (C)**: the `f' ⊗ 1_L` half of `φ_e` intertwines `balAct` with `hPhi`.
 Note this is `phiEdgeBlock ∘ wiiMjL2Equiv` — the chain is *cancelled*, not inverted. -/
 theorem edgeBlockCore_balAct (i j : Γ.VertexOrbit) (hj : IsKRationalStructure V j (WK j))
@@ -953,6 +1005,7 @@ theorem edgeBlockCore_balAct (i j : Γ.VertexOrbit) (hj : IsKRationalStructure V
   rw [fPrimeBaseChange_balAct, balancedKRat_balAct]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …stated against `phiEdgeBlock` itself, with `wiiMjL2Equiv` cancelling. -/
 theorem phiEdgeBlock_balAct
     (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WK k))
@@ -1041,6 +1094,7 @@ section Claim1
 variable (V : EtaleSpecies.Rep Γ.toSpecies) {i j : Γ.VertexOrbit}
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `H`-side chain pin**, mirroring `wiiMjPreChain_apply`. -/
 theorem wiiMjL2Equiv_apply
     (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k))
@@ -1079,8 +1133,11 @@ theorem wiiMjL2Equiv_apply
 
 
 section Claim1Theta
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (WK : ∀ k : Γ.VertexOrbit, Submodule K (V.W k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `wiiMjL2Summand` on a `Twist.ofL` generator, before the twist is absorbed. -/
 theorem wiiMjL2Summand_ofL {i : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j) (ρ : Gal(L/K))
     (hi : IsKRationalStructure V i (WK i)) (b : L) (v : edgeSummandG (V.W i) ε) :
@@ -1109,6 +1166,7 @@ theorem hPhi_twistAbsorb {E : IntermediateField K L} {ρ ρ' : Gal(L/K)} (h : Ga
       rw [TensorProduct.tmul_add, TensorProduct.tmul_add, map_add, map_add, map_add, hp, hq]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`A_h`**: `balAct h` acts on `⊕_ε ⊕_η M(v_i)` by permuting `η` and applying `hPhi h`. -/
 theorem wiiMjL2Equiv_balAct {i : Γ.VertexOrbit}
     (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WK k))
@@ -1135,13 +1193,6 @@ theorem wiiMjL2Equiv_balAct {i : Γ.VertexOrbit}
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective
       (balancedRel K (Γ.toSpecies.L i) (Γ.toSpecies.L j) (Γ.toSpecies.M i j) (V.W i)) t
     induction s with
-    | zero =>
-        rw [show (Submodule.Quotient.mk (0 : Γ.toSpecies.M i j ⊗[K] V.W i) :
-          EtaleSpecies.Rep.tensor Γ.toSpecies i j (V.W i)) = 0 from rfl]
-        rw [show Balanced.mk (K := K) (A := Γ.toSpecies.L j) (B := L)
-          (0 : EtaleSpecies.Rep.tensor Γ.toSpecies i j (V.W i)) a = 0 from
-          Balanced.mk_zero_left a]
-        simp
     | tmul m w =>
         show _ = _
         rw [show (Submodule.Quotient.mk (m ⊗ₜ[K] w) :
@@ -1201,6 +1252,7 @@ theorem baseTrans_conj_smul_cosetOne {i : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j
   exact inv_mem hstab
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`hfix`** — the fixed-field statement `phiEdgeRep_equivariant` was reduced to. -/
 theorem phiEdgeAt_fixed {i : Γ.VertexOrbit}
     (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WK k))
@@ -1298,9 +1350,12 @@ the composite is `K`-linear, and `LinearMap.liftBaseChange` extends it back `L`-
 
 
 section EdgeDatum
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hPhi` is `K`-linear: `σ` fixes `K`.  @census none (helper) -/
 theorem hPhi_smul_K (σ : Gal(L/K)) (i : Γ.VertexOrbit) (c : K) (x : hObj V WK i) :
     hPhi V WK σ i (c • x) = c • hPhi V WK σ i x := by
@@ -1367,6 +1422,7 @@ open scoped Classical in
   LinearMap.liftBaseChange_tmul _ _ _ _
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `g k g^{-1}` fixing `Z` is `k` fixing `φ_g^{-1} Z`.  @census none (helper) -/
 theorem hPhi_fix_symm {j : Γ.VertexOrbit} {g k : Gal(L/K)} (Z : hObj V WK j)
     (h : hPhi V WK (g * k * g⁻¹) j Z = Z) :
@@ -1377,6 +1433,7 @@ theorem hPhi_fix_symm {j : Γ.VertexOrbit} {g k : Gal(L/K)} (Z : hObj V WK j)
   rw [hgk, ← hPhi_comp, AddEquiv.apply_symm_apply, h]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`φ_{e_ε}` is `G_{e_ε}`-equivariant, reduced to a statement about `phiEdgeAt` alone.**
 
 This is the theorem the whole edge field rests on: it is simultaneously what makes
@@ -1438,6 +1495,7 @@ that is the form the `G_{e}`-fixing argument needs: for an edge `e` at `v_j`, `G
 @census none (G4 engine for `RQ2-2.28`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `L_j`-part of `M(v_j)` is `G_{v_j}`-fixed.**  `hPhi` is `σ ⊗ 1` and `σ ∈ G_{v_j}` fixes
 `L_j = L^{G_{v_j}}` pointwise.  @census none (helper) -/
 theorem hPhi_fix_rTensor (j : Γ.VertexOrbit)
@@ -1457,6 +1515,7 @@ theorem hPhi_fix_rTensor (j : Γ.VertexOrbit)
       exact (IntermediateField.mem_fixedField_iff _ _).mp c.2 h hh
   | add p q hp hq => rw [map_add, map_add, hp, hq]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`e_fix`'s forward map**: `W_j → M(v_j)`, through clause `C4` and the `L_j`-part.
 @census none (helper for `RQ2-2.28`) -/
 noncomputable def kFormIncl (j : Γ.VertexOrbit) (hj : IsKRationalStructure V j (WK j)) :
@@ -1465,6 +1524,7 @@ noncomputable def kFormIncl (j : Γ.VertexOrbit) (hj : IsKRationalStructure V j 
       ((Algebra.linearMap (Γ.toSpecies.L j) L).restrictScalars K)) ∘ₗ
     ((kRatEquiv V WK hj).symm.toLinearMap.restrictScalars K)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- …and it lands in the `G_{v_j}`-fixed points.  @census none (helper) -/
 theorem hPhi_fix_kFormIncl (j : Γ.VertexOrbit) (hj : IsKRationalStructure V j (WK j))
     (h : Gal(L/K)) (hh : h • Γ.vertexRep j = Γ.vertexRep j) (y : V.W j) :
@@ -1498,9 +1558,12 @@ heterogeneously — the only form in which that is stateable, and all the `cocyc
 -/
 
 section HObjRep
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hPhi` commutes with the orbit transport, heterogeneously.  @census none (helper) -/
 theorem hPhi_hObjCast_heq {i i' : Γ.VertexOrbit} (h : i = i') (σ : Gal(L/K))
     (x : hObj V WK i) :
@@ -1510,6 +1573,7 @@ theorem hPhi_hObjCast_heq {i i' : Γ.VertexOrbit} (h : i = i') (σ : Gal(L/K))
 theorem hObjCast_smul {i i' : Γ.VertexOrbit} (h : i = i') (a : L) (x : hObj V WK i) :
     hObjCast V WK h (a • x) = a • hObjCast V WK h x := by subst h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`H.obj V`, given its edge datum.**  The eight non-edge fields of the `FDRep` — everything
 `RQ2-2.27` already proved — with `φEdge` and clause `RQ2-1.08-C9` taken as parameters.
 
@@ -1557,6 +1621,7 @@ noncomputable def hObjRepOf
 @[simp] theorem hObjRepOf_M (φE) (hφE) (v : Γ.V) :
     (hObjRepOf V WK φE hφE).toRep.M v = hObj V WK (Γ.vertexClass v) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem hObjRepOf_φEdge (φE) (hφE) (e : Γ.E) :
     (hObjRepOf V WK φE hφE).toRep.φEdge e = φE e := rfl
 
@@ -1604,9 +1669,12 @@ here rather than `letI`s at each use, so that every occurrence is the *same term
 section EdgeField
 
 
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hPhi`'s inverse is `hPhi` at the inverse. -/
 theorem hPhi_symm_eq (g : Gal(L/K)) (i : Γ.VertexOrbit) (x : hObj V WK i) :
     (hPhi V WK g i).symm x = hPhi V WK g⁻¹ i x := by
@@ -1777,6 +1845,7 @@ noncomputable def hObjRep : FDRep Γ :=
 @[simp] theorem hObjRep_M (v : Γ.V) :
     (hObjRep V WK hWK ch).toRep.M v = hObj V WK (Γ.vertexClass v) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem hObjRep_phiEdge (e : Γ.E) :
     (hObjRep V WK hWK ch).toRep.φEdge e = phiEdgeFull V WK hWK ch e := rfl
 
@@ -1802,6 +1871,8 @@ Three small facts that `e_fix`'s assembly consumes, and that are worth having na
 -/
 
 section EFix
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
   (hWK : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WK k))
@@ -2158,6 +2229,7 @@ theorem EdgeChoice.tau_cosetOne_mem {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i 
       = ch.τ⁻¹ • Γ.edgeRep ε from EdgeChoice.rep_cosetOne_mem ch,
     smul_smul, mul_inv_cancel, one_smul]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 3b**: on the `K`-form, `phiEdgeAt` at any coset is `phiEdgeRep` twisted by `η τ_ε⁻¹` —
 which is exactly the twist `Φ_{ij}`'s `(ε,η)`-component carries.  @census none (helper) -/
 theorem phiEdgeAt_kForm {i j : Γ.VertexOrbit}
@@ -2307,6 +2379,7 @@ theorem kFormIncl_kRatEquiv_tmul {i : Γ.VertexOrbit} (h : IsKRationalStructure 
   rw [LinearEquiv.symm_apply_apply, LinearMap.rTensor_tmul]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 3c at a general `w₀`** — 3c plus additivity through `kRatEquiv`.
 @census none (helper) -/
 theorem phiEdgeAt_wiiMjL2_general {i j : Γ.VertexOrbit}
@@ -2363,6 +2436,7 @@ theorem eFix_symm_apply
     (i : Γ.VertexOrbit) (y : V.W i) :
     (eFix V WK hWK ch i).symm y = eFixFwd V WK hWK ch i y := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.28-H2`(a)** — the descent of `H.obj V`'s edge maps is `V`'s own structure map,
 read through `e_fix`.  @census none (clause witness for `RQ2-2.28-H2`) -/
 theorem hObjRep_edgeDescent_eq {i j : Γ.VertexOrbit}
@@ -2455,12 +2529,15 @@ map (§62.6) meeting the morphism map.
 -/
 
 section HMap
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable {U V : EtaleSpecies.Rep Γ.toSpecies}
   (WKU : ∀ i : Γ.VertexOrbit, Submodule K (U.W i))
   (WKV : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
   (hU : ∀ k : Γ.VertexOrbit, IsKRationalStructure U k (WKU k))
   (hV : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WKV k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `ψ_i` read `L_i`-linearly: the two actions are the same action through `RingEquiv.toOpposite`. -/
 noncomputable def psiL (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) :
     U.W i →ₗ[Γ.toSpecies.L i] V.W i where
@@ -2468,6 +2545,7 @@ noncomputable def psiL (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) :
   map_add' := map_add _
   map_smul' c x := (ψ.ψ i).map_smul (MulOpposite.op c) x
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `ψ_i` base-changed along `− ⊗_{L_i} L`. -/
 noncomputable def psiBase (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) :
     (L ⊗[Γ.toSpecies.L i] (U.W i)) →ₗ[L] (L ⊗[Γ.toSpecies.L i] (V.W i)) :=
@@ -2502,6 +2580,7 @@ theorem hMapVertex_kForm (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit)
   rw [LinearEquiv.symm_apply_apply, kFormIncl_eq]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`hMapVertex` on `kFormIncl`'s image**, for an arbitrary `W_i`-element — the general form of
 `hMapVertex_kForm`, and the one the naturality argument uses. -/
 theorem hMapVertex_kFormIncl (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) (z : U.W i) :
@@ -2539,9 +2618,12 @@ twist on the `L_i`-scalar and both typecheck.
 -/
 
 section SummandTwist
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (V : EtaleSpecies.Rep Γ.toSpecies)
   (WK : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `(ε,η)`-summand is `kFormIncl` twisted by `ρ σ_ε`.**  `twistAbsorb`'s `ρ` and
 `edgeSummandKRat`'s `σ_ε` collected into one group element.  @census none (helper) -/
 theorem wiiMjL2Summand_kFormIncl {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
@@ -2605,6 +2687,8 @@ route (C)'s technique used a third time and for the third time cheaper than the 
 -/
 
 section ChainNat
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable {U V : EtaleSpecies.Rep Γ.toSpecies}
   (WKU : ∀ i : Γ.VertexOrbit, Submodule K (U.W i))
   (WKV : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
@@ -2623,6 +2707,7 @@ noncomputable def psiTwist (ψ : Species.Rep.Hom U V) (g : Gal(L/K)) (i : Γ.Ver
     rw [show g (g⁻¹ c) = c from congrArg (fun t : Gal(L/K) => t c) (mul_inv_cancel g)]
     rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `Ψ^g` undoes the twist it is given.  @census none (helper) -/
 theorem psiTwist_hPhi (ψ : Species.Rep.Hom U V) (g : Gal(L/K)) (i : Γ.VertexOrbit)
     (z : U.W i) :
@@ -2644,6 +2729,7 @@ noncomputable def hMapTensor (ψ : Species.Rep.Hom U V) (i j : Γ.VertexOrbit) :
       (U.smul_K_W i) (V.smul_K_W i) (ψ.ψ i) (Γ.toSpecies.L j)) L
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`eq:WiiMjL2` is natural — against the twisted diagonal.**  @census none (helper) -/
 theorem wiiMjL2Equiv_natural
     (ch : ∀ (k l : Γ.VertexOrbit) (ε : Γ.EdgeOrbit k l), Γ.EdgeChoice ε)
@@ -2671,13 +2757,6 @@ theorem wiiMjL2Equiv_natural
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective
       (balancedRel K (Γ.toSpecies.L i) (Γ.toSpecies.L j) (Γ.toSpecies.M i j) (U.W i)) t
     induction s with
-    | zero =>
-        rw [show (Submodule.Quotient.mk (0 : Γ.toSpecies.M i j ⊗[K] U.W i) :
-          EtaleSpecies.Rep.tensor Γ.toSpecies i j (U.W i)) = 0 from rfl,
-          show Balanced.mk (K := K) (A := Γ.toSpecies.L j) (B := L)
-            (0 : EtaleSpecies.Rep.tensor Γ.toSpecies i j (U.W i)) a = 0 from
-            Balanced.mk_zero_left a]
-        simp
     | tmul m z0 =>
         show wiiMjL2Equiv V i j WKV hV ch
             (hMapTensor ψ i j (Balanced.mk (Balanced.mk z0 m) a)) ε η = _
@@ -2737,16 +2816,20 @@ theorem exists_smul_vertexRep (v : Γ.V) :
 /-- The chosen translation carrying `v_i` to `v`.  @census none (helper) -/
 noncomputable def vertexTrans (v : Γ.V) : Gal(L/K) := (exists_smul_vertexRep v).choose
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem vertexTrans_spec (v : Γ.V) :
     vertexTrans v • Γ.vertexRep (Γ.vertexClass v) = v := (exists_smul_vertexRep v).choose_spec
 
 section HMapPsi
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable {U V : EtaleSpecies.Rep Γ.toSpecies}
   (WKU : ∀ i : Γ.VertexOrbit, Submodule K (U.W i))
   (WKV : ∀ i : Γ.VertexOrbit, Submodule K (V.W i))
   (hU : ∀ k : Γ.VertexOrbit, IsKRationalStructure U k (WKU k))
   (hV : ∀ k : Γ.VertexOrbit, IsKRationalStructure V k (WKV k))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The well-definedness lemma**: `hMapVertex` commutes with `φ_k` for `k ∈ G_{v_i}`, because
 that is exactly when `k` fixes `L_i`.  @census none (helper) -/
 theorem hMapVertex_gal (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) (k : Gal(L/K))
@@ -2836,6 +2919,7 @@ theorem psiTwist_congr (ψ : Species.Rep.Hom U V) (i : Γ.VertexOrbit) (g g' : G
       rw [show ((g'⁻¹ * g)⁻¹ : Gal(L/K)) = (g'⁻¹ * g)⁻¹ from rfl, inv_smul_eq_iff, hk]),
     hPhi_comp, show g * (g'⁻¹ * g)⁻¹ = g' from by group]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Naturality of clause `C4`'s identification.  @census none (helper) -/
 theorem balancedKRat_natural (ψ : Species.Rep.Hom U V) (j : Γ.VertexOrbit)
     (t : Balanced K (Γ.toSpecies.L j) L L (U.W j)) :
@@ -2860,6 +2944,7 @@ theorem balancedKRat_natural (ψ : Species.Rep.Hom U V) (j : Γ.VertexOrbit)
     rfl
   exact DFunLike.congr_fun key t
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Naturality of `f' ⊗ 1_L`** — this *is* the species-morphism axiom, and the only place the
 hypothesis on `ψ` is used.  @census none (helper) -/
 theorem fPrimeBaseChange_natural (ψ : Species.Rep.Hom U V) (i j : Γ.VertexOrbit)
@@ -2877,13 +2962,6 @@ theorem fPrimeBaseChange_natural (ψ : Species.Rep.Hom U V) (i j : Γ.VertexOrbi
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective
       (balancedRel K (Γ.toSpecies.L i) (Γ.toSpecies.L j) (Γ.toSpecies.M i j) (U.W i)) t
     induction s with
-    | zero =>
-        rw [show (Submodule.Quotient.mk (0 : Γ.toSpecies.M i j ⊗[K] U.W i) :
-          EtaleSpecies.Rep.tensor Γ.toSpecies i j (U.W i)) = 0 from rfl,
-          show Balanced.mk (K := K) (A := Γ.toSpecies.L j) (B := L)
-            (0 : EtaleSpecies.Rep.tensor Γ.toSpecies i j (U.W i)) a = 0 from
-            Balanced.mk_zero_left a]
-        simp
     | tmul m w =>
         show fPrimeBaseChange V i j
             (hMapTensor ψ i j (Balanced.mk (Balanced.mk w m) a)) = _
@@ -2904,6 +2982,7 @@ theorem fPrimeBaseChange_natural (ψ : Species.Rep.Hom U V) (i j : Γ.VertexOrbi
   exact DFunLike.congr_fun key z
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The composed identity**: `Ψ_j` intertwines the two `φ_e`-blocks, against the twisted
 diagonal.  `phiEdgeBlock ∘ wiiMjL2Equiv` cancels on both sides, so this is `balancedKRat`'s
 naturality composed with the species-morphism axiom.  @census none (helper) -/
@@ -2929,6 +3008,7 @@ theorem phiEdgeBlock_natural
     balancedKRat_natural]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`phiEdgeAt` on `kFormIncl`, at any coset** — the general form of `phiEdgeAt_kForm`, obtained
 from `phiEdgeAt_wiiMjL2_general` at the constant tuple `m ≡ 1`.  @census none (helper) -/
 theorem phiEdgeAt_kFormIncl {i j : Γ.VertexOrbit} (V : EtaleSpecies.Rep Γ.toSpecies)
@@ -3009,6 +3089,7 @@ theorem phiEdgeAt_natural
   rw [hz, hbal] at hkey
   exact hkey
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `kFormIncl` on the coercion of a `K`-form element.  @census none (helper) -/
 theorem kFormIncl_coe {i : Γ.VertexOrbit} (W : EtaleSpecies.Rep Γ.toSpecies)
     (WKW : ∀ k : Γ.VertexOrbit, Submodule K (W.W k))
@@ -3137,6 +3218,7 @@ theorem hMapPsi_eq (ψ : Species.Rep.Hom U V) (v : Γ.V) :
     hMapPsi WKU WKV hU hV ψ v
       = psiTwist WKU WKV hU hV ψ (vertexTrans v) (Γ.vertexClass v) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hObjCast` cancels its own inverse, the other way.  @census none (helper) -/
 @[simp] theorem hObjCast_cast_symm {W : EtaleSpecies.Rep Γ.toSpecies}
     {WKW : ∀ k : Γ.VertexOrbit, Submodule K (W.W k)}
@@ -3252,6 +3334,7 @@ theorem hMapVertex_id (i : Γ.VertexOrbit) (y : hObj U WKU i) :
     | add p q hp hq => rw [map_add, hp, hq]
   rw [hb, LinearEquiv.apply_symm_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hMapVertex` of a composite is the composite.  @census none (helper) -/
 theorem hMapVertex_comp {W : EtaleSpecies.Rep Γ.toSpecies}
     (WKW : ∀ i : Γ.VertexOrbit, Submodule K (W.W i))
@@ -3277,11 +3360,14 @@ theorem hMapVertex_comp {W : EtaleSpecies.Rep Γ.toSpecies}
 end HMapPsi
 
 section HFunctor
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable (WK : ∀ (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit), Submodule K (V.W i))
   (hWK : ∀ (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit),
     IsKRationalStructure V i (WK V i))
   (ch : ∀ (k l : Γ.VertexOrbit) (ε : Γ.EdgeOrbit k l), Γ.EdgeChoice ε)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `hMapPsi` of the identity is the identity.  @census none (helper) -/
 theorem hMapPsi_id (V : EtaleSpecies.Rep Γ.toSpecies) (v : Γ.V)
     (y : hObj V (WK V) (Γ.vertexClass v)) :
@@ -3332,6 +3418,7 @@ theorem hFunctor_obj (V : EtaleSpecies.Rep Γ.toSpecies) :
     (hFunctor WK hWK ch).obj V = hObjRep V (WK V) (hWK V) ch := rfl
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.29`'s hypothesis `hH3`, discharged for this project's own `H`** — the finding `S5-F9`
 binder, verified non-vacuous by a compiled proof rather than by prose.
 
@@ -3420,6 +3507,7 @@ theorem cocycle_mem_stabilizer
         rw [← Γ.target_smul, hedge]
     _ = Γ.vertexRep j := by rw [← h2, inv_smul_smul]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Proposition** (`unlabeled:6`, census `RQ2-2.28`).
 
 For all `σ ∈ G` and all `e ∈ E` (clause `RQ2-2.28-H1`), with `φ_e` the displayed composition through
@@ -3554,6 +3642,7 @@ original basis, so that map is a bijection.
 @census none (G5 inhabitant for `IsKRationalStructure`; the `hWK` half of `V-S5G4-3`(c))
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **G5**: every `W_i` carries a `K`-rational structure — `IsKRationalStructure` is inhabited at
 every object and every vertex orbit, so the `hWK` hypothesis of `RQ2-2.27`/`RQ2-2.28`/`RQ2-2.29` is
 satisfiable and those rows are not conditional on an empty class.

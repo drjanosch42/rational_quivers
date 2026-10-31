@@ -1,4 +1,8 @@
-import RationalQuivers.Examples.Basic
+module
+
+public import RationalQuivers.Examples.Basic
+
+@[expose] public section
 
 /-!
 # §6 preamble — the diagram convention for `ℚ`-rational quiver representations
@@ -83,6 +87,7 @@ noncomputable def displayActC {M : Fin 2 → Type} [∀ v, AddCommGroup (M v)]
 
 /-! ## The convention -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.04`** (§6 preamble) — the two-row diagram convention for `ℚ`-rational representations
 of the Gelfand quiver `Γ_ℚ`.
 
@@ -220,6 +225,7 @@ theorem repDiagramConvention
       rw [gelfandQ_smul_edge] at hx
       exact hx m' hm'
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.04-C5`** — "an analogous diagrammatic representation exists for the cyclic quiver":
 the same two equivalences for `ex:cyclic`'s two-node display, whose Galois bookkeeping is the
 two-element swap (`Gelfand.Cyclic.cyclicQ_smul_vertex`, `…_smul_edge`).

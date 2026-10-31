@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Hom
+module
+
+public import RationalQuivers.Quiver.Hom
+
+@[expose] public section
 
 /-!
 # Transport of a rational structure along a homomorphism of Galois groups

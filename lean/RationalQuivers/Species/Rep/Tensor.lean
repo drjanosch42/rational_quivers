@@ -1,9 +1,13 @@
-import Mathlib.LinearAlgebra.TensorProduct.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Map
-import Mathlib.LinearAlgebra.Quotient.Basic
-import Mathlib.Algebra.Module.Opposite
-import Mathlib.Algebra.Algebra.Opposite
-import Mathlib.RingTheory.Finiteness.Basic
+module
+
+public import Mathlib.LinearAlgebra.TensorProduct.Basic
+public import Mathlib.LinearAlgebra.TensorProduct.Map
+public import Mathlib.LinearAlgebra.Quotient.Basic
+public import Mathlib.Algebra.Module.Opposite
+public import Mathlib.Algebra.Algebra.Opposite
+public import Mathlib.RingTheory.Finiteness.Basic
+
+@[expose] public section
 
 /-!
 # The balanced tensor product `X ⊗_A Y` over a non-commutative base
@@ -203,7 +207,6 @@ theorem Balanced.hom_ext {Z : Type u} [AddCommGroup Z] [Module Bᵐᵒᵖ Z]
   refine LinearMap.ext fun t => ?_
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective _ t
   induction s with
-  | zero => simp
   | tmul y x => exact H x y
   | add s t hs ht =>
       have hmk : Submodule.Quotient.mk (p := balancedRel K A B Y X) (s + t)
@@ -236,7 +239,6 @@ def Balanced.lift {Z : Type u} [AddCommGroup Z] [Module K Z] [Module Bᵐᵒᵖ 
         map_add' := map_add _
         map_smul' := fun b t => by
           induction t with
-          | zero => simp
           | tmul y x =>
               show TensorProduct.lift f ((b • y) ⊗ₜ[K] x) = b • TensorProduct.lift f (y ⊗ₜ[K] x)
               rw [TensorProduct.lift.tmul, TensorProduct.lift.tmul]
@@ -384,7 +386,6 @@ def balancedMapAux
   map_add' t t' := map_add _ t t'
   map_smul' b t := by
     induction t with
-    | zero => simp
     | tmul y x =>
         show LinearMap.lTensor Y _ ((b • y) ⊗ₜ[K] x)
             = b • LinearMap.lTensor Y _ (y ⊗ₜ[K] x)
@@ -471,7 +472,6 @@ noncomputable def balancedLeftAux (K : Type u) [Field K] (A : Type u) [Ring A] [
   map_add' t t' := map_add _ t t'
   map_smul' c t := by
     induction t with
-    | zero => simp
     | tmul z y =>
         show LinearMap.lTensor Z _ ((c • z) ⊗ₜ[K] y) = c • LinearMap.lTensor Z _ (z ⊗ₜ[K] y)
         simp [TensorProduct.smul_tmul']
@@ -503,7 +503,6 @@ noncomputable def balancedLeftHom :
     refine LinearMap.ext fun t => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
     induction s with
-    | zero => simp
     | tmul z y => show Submodule.Quotient.mk (z ⊗ₜ[K] ((1 : A) • y)) = _; rw [one_smul]; rfl
     | add s s' hs hs' =>
         have hmk : Submodule.Quotient.mk (p := balancedRel K B C Z Y) (s + s')
@@ -513,7 +512,6 @@ noncomputable def balancedLeftHom :
     refine LinearMap.ext fun t => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
     induction s with
-    | zero => simp
     | tmul z y => show Submodule.Quotient.mk (z ⊗ₜ[K] ((a * a') • y)) = _; rw [mul_smul]; rfl
     | add s s' hs hs' =>
         have hmk : Submodule.Quotient.mk (p := balancedRel K B C Z Y) (s + s')
@@ -523,7 +521,6 @@ noncomputable def balancedLeftHom :
     refine LinearMap.ext fun t => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
     induction s with
-    | zero => simp
     | tmul z y => show Submodule.Quotient.mk (z ⊗ₜ[K] ((0 : A) • y)) = _
                   rw [zero_smul, TensorProduct.tmul_zero]; rfl
     | add s s' hs hs' =>
@@ -534,7 +531,6 @@ noncomputable def balancedLeftHom :
     refine LinearMap.ext fun t => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
     induction s with
-    | zero => simp
     | tmul z y => show Submodule.Quotient.mk (z ⊗ₜ[K] ((a + a') • y)) = _
                   rw [add_smul, TensorProduct.tmul_add]; rfl
     | add s s' hs hs' =>
@@ -573,7 +569,6 @@ theorem Balanced.mk_smul_K_left (c : K) (y : Y) (z : Z) :
   refine ⟨fun c a t => ?_⟩
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
   induction s with
-  | zero => simp
   | tmul z y =>
       show Balanced.mk (K := K) (A := B) (B := C) ((c • a) • y) z
           = c • Balanced.mk (K := K) (A := B) (B := C) (a • y) z
@@ -592,7 +587,6 @@ theorem Balanced.mk_smul_K_left (c : K) (y : Y) (z : Z) :
   refine ⟨fun a c t => ?_⟩
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) t
   induction s with
-  | zero => simp
   | tmul z y => rfl
   | add s s' hs hs' =>
       have hmk : Submodule.Quotient.mk (p := balancedRel K B C Z Y) (s + s')
@@ -649,7 +643,6 @@ theorem Balanced.hom_extK {W : Type u} [AddCommGroup W] [Module K W]
   refine LinearMap.ext fun t => ?_
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
   induction s with
-  | zero => simp
   | tmul y x => exact H x y
   | add s t hs ht =>
       have hmk : Submodule.Quotient.mk (p := balancedRel K A B Y X) (s + t)
@@ -663,7 +656,6 @@ theorem Balanced.ext_forall {W : Type u} [AddCommGroup W]
   refine AddMonoidHom.ext fun t => ?_
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
   induction s with
-  | zero => simp
   | tmul y x => exact H x y
   | add s t hs ht =>
       have hmk : Submodule.Quotient.mk (p := balancedRel K A B Y X) (s + t)
@@ -800,7 +792,6 @@ noncomputable def assocFwd :
   · intro b z t
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
     induction s with
-    | zero => simp
     | tmul y x => rw [Balanced.quot_mk, assocBil_mk, Balanced.smul_mk, assocBil_mk,
           Balanced.mk_smul]
     | add s s' hs hs' =>
@@ -810,7 +801,6 @@ noncomputable def assocFwd :
   · intro c z t
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
     induction s with
-    | zero => simp
     | tmul y x => rw [Balanced.quot_mk, assocBil_mk, assocBil_mk, Balanced.smul_mk,
           Balanced.smul_mk]
     | add s s' hs hs' =>
@@ -898,7 +888,6 @@ noncomputable def assocBack :
   · intro a w x
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) w
     induction s with
-    | zero => simp
     | tmul z y =>
         show assocBackInner K A B C Y Z X x (a • Balanced.mk y z)
             = assocBackInner K A B C Y Z X (MulOpposite.op a • x) (Balanced.mk y z)
@@ -911,7 +900,6 @@ noncomputable def assocBack :
   · intro c w x
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) w
     induction s with
-    | zero => simp
     | tmul z y =>
         show assocBackInner K A B C Y Z X x (c • Balanced.mk y z)
             = c • assocBackInner K A B C Y Z X x (Balanced.mk y z)
@@ -945,10 +933,6 @@ noncomputable def Balanced.assoc :
   · refine Balanced.hom_ext fun x w => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K B C Z Y) w
     induction s with
-    | zero =>
-        have h0 : (Submodule.Quotient.mk (0 : Z ⊗[K] Y) : Balanced K B C Z Y) = 0 := rfl
-        simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq]
-        rw [h0, Balanced.mk_zero_right' (A' := A) (B' := C), map_zero, map_zero]
     | tmul z y =>
         show assocFwd K A B C Y Z X (assocBack K A B C Y Z X
             (Balanced.mk (K := K) (A := A) (B := C) x (Balanced.mk y z))) = _
@@ -962,10 +946,6 @@ noncomputable def Balanced.assoc :
   · refine Balanced.hom_ext fun w z => ?_
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) w
     induction s with
-    | zero =>
-        have h0 : (Submodule.Quotient.mk (0 : Y ⊗[K] X) : Balanced K A B Y X) = 0 := rfl
-        simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq]
-        rw [h0, Balanced.mk_zero_left' (A' := B) (B' := C), map_zero, map_zero]
     | tmul y x =>
         show assocBack K A B C Y Z X (assocFwd K A B C Y Z X
             (Balanced.mk (K := K) (A := B) (B := C) (Balanced.mk x y) z)) = _
@@ -1141,7 +1121,10 @@ noncomputable def Balanced.mapY (φ : Y →ₗ[Bᵐᵒᵖ] Y')
           map_smul' := fun c x => by
             rw [RingHom.id_apply, Balanced.mk_smul_K_cross,
               smul_K_of_tower (C' := B) c (φ y), ← Balanced.smul_K_mk] }
-       map_add' := fun y y' => by ext x; rw [map_add]; exact Balanced.mk_add_right _ _ _
+       map_add' := fun y y' => by
+         ext x
+         simp only [LinearMap.add_apply, LinearMap.coe_mk, AddHom.coe_mk]
+         rw [map_add]; exact Balanced.mk_add_right _ _ _
        map_smul' := fun c y => by
          ext x
          simp only [RingHom.id_apply, LinearMap.smul_apply, LinearMap.coe_mk, AddHom.coe_mk]
@@ -1335,7 +1318,7 @@ noncomputable def Balanced.piY :
     (piYBack (K := K) (A := A) (B := B) (Y := Y) (X := X)) ?_ ?_
   · refine LinearMap.ext fun t => ?_
     funext b
-    simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq, piYBack, LinearMap.coeFn_sum,
+    simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq, piYBack, LinearMap.sum_apply,
       Finset.sum_apply, map_sum]
     rw [Finset.sum_eq_single b]
     · exact piYFwd_mapY_single_self b (t b)
@@ -1343,7 +1326,7 @@ noncomputable def Balanced.piY :
       exact piYFwd_mapY_single_ne a b hab (t a)
     · intro hb; exact absurd (Finset.mem_univ b) hb
   · refine Balanced.hom_ext fun x y => ?_
-    simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq, piYBack, LinearMap.coeFn_sum,
+    simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq, piYBack, LinearMap.sum_apply,
       Finset.sum_apply]
     have hstep : ∀ a : ι, (Balanced.mapY (K := K) (A := A) (B := B) (X := X)
         (LinearMap.single Bᵐᵒᵖ Y a) (single_smul_A a) (single_smul_K a))
@@ -1489,7 +1472,6 @@ noncomputable def Balanced.equivTensor
   · intro t
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
     induction s with
-    | zero => simp
     | tmul y x => rfl
     | add s s' hs hs' =>
         have hmk : Submodule.Quotient.mk (p := balancedRel K A B Y X) (s + s')

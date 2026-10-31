@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Split.Chains
+module
+
+public import RationalQuivers.Gelfand.Split.Chains
+
+@[expose] public section
 
 /-!
 # The case `ℓ = 0` over a field containing `√-1` (tex §5.3, "The case `ℓ = 0`"; Steps C-1, C-3, C-5a…c)
@@ -633,16 +637,19 @@ theorem cycSLoop_path_peel (A : HCFObj F 0) :
                 (RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
                   (E_CycSplit_edge A) g_prev u)
               = cycSLoop A u := fun u => by
-          have h := LinearMap.congr_fun hloop u
-          rwa [LinearMap.comp_apply] at h
+          exact LinearMap.congr_fun hloop u
         have step1 : cycSPath A ((q2.cons g_prev).cons g_last) v
             = RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
                 (E_CycSplit_edge A) g_last
                 (RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
                   (E_CycSplit_edge A) g_prev (cycSPath A q2 v)) := by
-          show RationalQuiver.pathCompose _ _ ((q2.cons g_prev).cons g_last) v = _
-          rw [RationalQuiver.pathCompose_cons, RationalQuiver.pathCompose_cons,
-            LinearMap.comp_apply, LinearMap.comp_apply]
+          have e1 := RationalQuiver.pathCompose_cons (Q := (cyclicSplit F).toRQuiver) (V2i A)
+            (E_CycSplit_edge A) (q2.cons g_prev) g_last
+          have e2 := RationalQuiver.pathCompose_cons (Q := (cyclicSplit F).toRQuiver) (V2i A)
+            (E_CycSplit_edge A) q2 g_prev
+          exact (LinearMap.congr_fun e1 v).trans
+            (congrArg (RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
+              (E_CycSplit_edge A) g_last) (LinearMap.congr_fun e2 v))
         have hpow_apply : ∀ z : V2i A 1,
             (((cycSLoop A) ^ (k + 1)) z) = cycSLoop A (((cycSLoop A) ^ k) z) := by
           intro z
@@ -659,8 +666,7 @@ theorem E_CycSplit_isNilpotent (A : HCFObj F 0) : (E_CycSplit_rep A).IsNilpotent
   · subst hb
     obtain ⟨q, _, hq⟩ := cycSLoop_path_peel A m _ p (by omega)
     have hzero : ∀ z : V2i A 1, (0 : Module.End F (V2i A 1)) z = 0 := fun _ => rfl
-    rw [hq, hm]
-    exact hzero _
+    exact (hq v).trans (by rw [hm]; exact hzero _)
   · cases p with
     | nil => simp [Quiver.Path.length] at hp
     | cons q1 g_last =>
@@ -671,11 +677,14 @@ theorem E_CycSplit_isNilpotent (A : HCFObj F 0) : (E_CycSplit_rep A).IsNilpotent
         simp only [Quiver.Path.length] at hp; omega
       obtain ⟨q, _, hq⟩ := cycSLoop_path_peel A m _ q1 hp1
       have hzero : ∀ z : V2i A 1, (0 : Module.End F (V2i A 1)) z = 0 := fun _ => rfl
-      show RationalQuiver.pathCompose _ _ (q1.cons g_last) v = 0
-      rw [RationalQuiver.pathCompose_cons, LinearMap.comp_apply]
+      have e1 := RationalQuiver.pathCompose_cons (Q := (cyclicSplit F).toRQuiver) (V2i A)
+        (E_CycSplit_edge A) q1 g_last
+      refine (LinearMap.congr_fun e1 v).trans ?_
       show RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
         (E_CycSplit_edge A) g_last (cycSPath A q1 v) = 0
-      rw [hq, hm, hzero]
+      refine (congrArg (RationalQuiver.arrowCompose (Q := (cyclicSplit F).toRQuiver) (V2i A)
+        (E_CycSplit_edge A) g_last) (hq v)).trans ?_
+      rw [hm]
       exact map_zero _
 
 /-! #### The functor, its faithfulness (`E1`) and its fullness (`E9`) -/

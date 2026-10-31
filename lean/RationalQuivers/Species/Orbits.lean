@@ -1,9 +1,13 @@
-import RationalQuivers.Species.Etale
-import RationalQuivers.Quiver.Basic
-import RationalQuivers.Quiver.Models
-import Mathlib.RingTheory.Spectrum.Maximal.Defs
-import Mathlib.FieldTheory.Separable
-import Mathlib.RingTheory.Artinian.Module
+module
+
+public import RationalQuivers.Species.Etale
+public import RationalQuivers.Quiver.Basic
+public import RationalQuivers.Quiver.Models
+public import Mathlib.RingTheory.Spectrum.Maximal.Defs
+public import Mathlib.FieldTheory.Separable
+public import Mathlib.RingTheory.Artinian.Module
+
+@[expose] public section
 
 /-!
 # The vertex and edge `Gal(L/K)`-sets of an étale `K`-species, and their orbits
@@ -117,8 +121,8 @@ the trivial case `L = K` where every clause of §2.3 collapses.
 -/
 theorem complexLoop_isSplitBy : (EtaleSpecies.complexLoop).IsSplitBy ℂ := by
   haveI := RationalQuivers.isGalois_real_complex
-  exact { splits_L := fun _ _ => IsAlgClosed.splits_codomain _
-          splits_M := fun _ _ _ => IsAlgClosed.splits_codomain _ }
+  exact { splits_L := fun _ _ => IsAlgClosed.splits _
+          splits_M := fun _ _ _ => IsAlgClosed.splits _ }
 
 /-! ### The `Gal(L/K)`-action on embeddings -/
 

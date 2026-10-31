@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.BaseChange.NNRep
+module
+
+public import RationalQuivers.Gelfand.BaseChange.NNRep
+
+@[expose] public section
 
 /-!
 # `𝔼` is compatible with base change: non-split → non-split (WP-15, T1 case (2))
@@ -81,6 +85,7 @@ noncomputable def E_Q_fdrep_bcNN (hι : ConjCompat D D'') (hℓ : 1 ≤ ℓ) (A 
     haveI : Module.Finite D.carrier (Split.V3 A.qi v) := A.admissible _
     exact Module.Finite.base_change D.carrier D''.carrier (Split.V3 A.qi v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The rational-structure square of the component, as an identity of additive maps.
 @census none (helper; WP-15) -/
 theorem bcNN_hrat (hι : ConjCompat D D'') (hℓ : 1 ≤ ℓ) (A : HCEObj ℓ E D)

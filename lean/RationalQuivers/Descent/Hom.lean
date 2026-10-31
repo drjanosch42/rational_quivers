@@ -1,7 +1,11 @@
-import RationalQuivers.Descent.KStructure
-import Mathlib.LinearAlgebra.Basis.Defs
-import Mathlib.LinearAlgebra.FiniteDimensional.Basic
-import Mathlib.LinearAlgebra.FreeModule.Finite.Basic
+module
+
+public import RationalQuivers.Descent.KStructure
+public import Mathlib.LinearAlgebra.Basis.Defs
+public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+public import Mathlib.LinearAlgebra.FreeModule.Finite.Basic
+
+@[expose] public section
 
 /-!
 # Galois descent: the Galois action on `Hom_L(V,W)`
@@ -63,25 +67,25 @@ theorem homGaloisMap_apply (σ : Gal(L/K)) (φ : V →ₗ[L] W) (v : V) :
 
 omit [Module K V] [IsScalarTower K L V] [Module K W] [IsScalarTower K L W] in
 /-- Helper (no census row): `φ^1 = φ`. -/
-private theorem homGaloisMap_one (φ : V →ₗ[L] W) : homGaloisMap K L V W 1 φ = φ := by
+theorem homGaloisMap_one (φ : V →ₗ[L] W) : homGaloisMap K L V W 1 φ = φ := by
   ext v; simp only [homGaloisMap_apply, inv_one, one_smul]
 
 omit [Module K V] [IsScalarTower K L V] [Module K W] [IsScalarTower K L W] in
 /-- Helper (no census row): `φ^(στ) = (φ^τ)^σ`. -/
-private theorem homGaloisMap_mul (σ τ : Gal(L/K)) (φ : V →ₗ[L] W) :
+theorem homGaloisMap_mul (σ τ : Gal(L/K)) (φ : V →ₗ[L] W) :
     homGaloisMap K L V W (σ * τ) φ
       = homGaloisMap K L V W σ (homGaloisMap K L V W τ φ) := by
   ext v; simp only [homGaloisMap_apply, mul_smul, mul_inv_rev]
 
 omit [Module K V] [IsScalarTower K L V] [Module K W] [IsScalarTower K L W] in
 /-- Helper (no census row): `0^σ = 0`. -/
-private theorem homGaloisMap_zero (σ : Gal(L/K)) :
+theorem homGaloisMap_zero (σ : Gal(L/K)) :
     homGaloisMap K L V W σ (0 : V →ₗ[L] W) = 0 := by
   ext v; simp only [homGaloisMap_apply, LinearMap.zero_apply, smul_zero]
 
 omit [Module K V] [IsScalarTower K L V] [Module K W] [IsScalarTower K L W] in
 /-- Helper (no census row): `(φ + ψ)^σ = φ^σ + ψ^σ`. -/
-private theorem homGaloisMap_add (σ : Gal(L/K)) (φ ψ : V →ₗ[L] W) :
+theorem homGaloisMap_add (σ : Gal(L/K)) (φ ψ : V →ₗ[L] W) :
     homGaloisMap K L V W σ (φ + ψ)
       = homGaloisMap K L V W σ φ + homGaloisMap K L V W σ ψ := by
   ext v; simp only [homGaloisMap_apply, LinearMap.add_apply, smul_add]

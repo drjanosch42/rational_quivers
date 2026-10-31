@@ -1,5 +1,9 @@
-import Mathlib.FieldTheory.Galois.Basic
-import RationalQuivers.HC.Sl2
+module
+
+public import Mathlib.FieldTheory.Galois.Basic
+public import RationalQuivers.HC.Sl2
+
+@[expose] public section
 
 /-!
 # The Galois facts of `ℚ[√-1]/ℚ`, in-tree (commission `C-M2-1`)

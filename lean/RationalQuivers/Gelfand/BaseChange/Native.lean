@@ -1,6 +1,10 @@
-import RationalQuivers.Gelfand.BaseChange.Main
-import RationalQuivers.Gelfand.BaseChange.HomNN
-import RationalQuivers.Gelfand.Compat
+module
+
+public import RationalQuivers.Gelfand.BaseChange.Main
+public import RationalQuivers.Gelfand.BaseChange.HomNN
+public import RationalQuivers.Gelfand.Compat
+
+@[expose] public section
 
 /-!
 # `prop:basechange` on `HC_λ(𝔤,K)_E` and `𝔼_E` (tex §5.5, stage T4)
@@ -71,6 +75,7 @@ noncomputable def bcIsoNN {ℓ : ℕ} (hℓ : 1 ≤ ℓ) :
     Functor.isoWhiskerRight (Compat.hcEquivHCEObj hc).unitIso.symm
       (Equivalence.E_EGel hℓ ⋙ bcQnn hc hc''))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-5.14-C3`**, case (b), `ℓ ≥ 1`: the component of the native isomorphism at a vertex **is**
 the component of the relocated `E_bc_nn_iso`, i.e. the canonical vertex map `bcVtx`
 (`L'' ⊗_{L_E} M_n → (L'' ⊗ M)_n`, `b ⊗ m ↦ b ⊗ m`): every other factor has identity components.
@@ -112,6 +117,7 @@ noncomputable def bcIsoNNZ :
         (qBCnnC (h'' := (D''.sqrtExt hc'').card_gal) (restrictionDatum (D.sqrtExt hc) (D''.sqrtExt hc'') (conjCompatE hc hc'')) ⋙ T''.inverse)) ≪≫
     Functor.isoWhiskerRight (Compat.hcEquivHCEObj hc).unitIso.symm (Cyclic.E_ECyc ⋙ bcQnnZ hc hc''))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `C3` for case (b), `ℓ = 0`: the components of the (T1) isomorphism are those of the relocated v1 isomorphism,
 whose components are the canonical vertex maps.  @census none (helper; clause `RQ2-5.14-C3`) -/
 theorem bcIsoNNZ_app_ψ (A : HC 0 E D) (v : Fin 2) :
@@ -206,6 +212,7 @@ noncomputable def bcIsoSSZ :
     Functor.isoWhiskerRight (Compat.splitNativeZ a ha).symm
       (RationalQuiver.RepNil.toSplitFunctor E'' ⋙ T''.inverse)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `C3` for case (a), `ℓ ≥ 1`: the components of the (T1) isomorphism are those of the relocated v1 isomorphism,
 whose components are the canonical vertex maps.  @census none (helper; clause `RQ2-5.14-C3`) -/
 theorem bcIsoSS_app_ψ {ℓ : ℕ} (hℓ : 1 ≤ ℓ) (A : HC ℓ E (ImagUnit.ofSplit a ha)) (v : Fin 3) :
@@ -218,6 +225,7 @@ theorem bcIsoSS_app_ψ {ℓ : ℕ} (hℓ : 1 ≤ ℓ) (A : HC ℓ E (ImagUnit.of
   repeat erw [CategoryTheory.Functor.map_id]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `C3` for case (a), `ℓ = 0`: the components of the (T1) isomorphism are those of the relocated v1 isomorphism,
 whose components are the canonical vertex maps.  @census none (helper; clause `RQ2-5.14-C3`) -/
 theorem bcIsoSSZ_app_ψ (A : HC 0 E (ImagUnit.ofSplit a ha)) (v : Fin 2) :
@@ -295,6 +303,7 @@ noncomputable def bcIsoMxZ :
     Functor.isoWhiskerRight (Compat.hcEquivHCEObj hc).unitIso.symm
       (Cyclic.E_ECyc ⋙ bcQmxZ hc a'' ha'')
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `C3` for case (c), `ℓ ≥ 1`: the components of the (T1) isomorphism are those of the relocated v1 isomorphism,
 whose components are the canonical vertex maps.  @census none (helper; clause `RQ2-5.14-C3`) -/
 theorem bcIsoMx_app_ψ {ℓ : ℕ} (hℓ : 1 ≤ ℓ) (A : HC ℓ E D) (v : Fin 3) :
@@ -311,6 +320,7 @@ theorem bcIsoMx_app_ψ {ℓ : ℕ} (hℓ : 1 ≤ ℓ) (A : HC ℓ E D) (v : Fin 
   repeat erw [CategoryTheory.Functor.map_id]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `C3` for case (c), `ℓ = 0`: the components of the (T1) isomorphism are those of the relocated v1 isomorphism,
 whose components are the canonical vertex maps.  @census none (helper; clause `RQ2-5.14-C3`) -/
 theorem bcIsoMxZ_app_ψ (A : HC 0 E D) (v : Fin 2) :
@@ -342,6 +352,7 @@ variable [Algebra L L''] [Algebra K K''] [Algebra K L''] [IsScalarTower K L L'']
   [IsScalarTower K K'' L'']
 variable (R : RestrictionDatum K L K'' L'')
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `nn` base change of a finite-dimensional representation.  @census none (helper; WP-15) -/
 noncomputable def fdBcNNC (M : FDRep (cyclicOfCardTwo K L h)) :
     FDRep (cyclicOfCardTwo K'' L'' h'') where
@@ -441,6 +452,7 @@ variable [Algebra E E''] [Algebra D.L D''.L] [Algebra E D''.L]
   [IsScalarTower E E'' D''.L] [IsScalarTower E D.L D''.L]
 variable (hc : ∃ σ : D.L ≃ₐ[E] D.L, D.chi σ = -1) (hc'' : ∃ σ : D''.L ≃ₐ[E''] D''.L, D''.chi σ = -1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **T2, quiver side, non-split → non-split** (case (b)), `ℓ ≥ 1`: for `V, W ∈ Rep^nil(Γ_E)`, read in
 the `gelfandOfCardTwo` presentation (`Compat.targetEquivCardTwo`, identity on spaces), the canonical
 map `E'' ⊗_E Hom(V, W) → Hom(L'' ⊗_{L_E} V, L'' ⊗_{L_E} W)` is an isomorphism.
@@ -459,6 +471,7 @@ theorem homBC_nn (V W : (Equivalence.RepNilGel D).FullSubcategory) :
           = algebraMap E'' D''.L a • LinearMap.baseChange D''.L (Rep.homFam _ _ ψ.1 v) :=
   homModule_baseChange_nn _ _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **T2, quiver side, non-split → non-split**, `ℓ = 0` (`homModule_baseChange_nnC`).
 @census none (helper; clause `RQ2-5.14-C4`, case (b), `ℓ = 0`) -/
 theorem homBC_nnZ (V W : (RepNilTarget D 0).FullSubcategory) :

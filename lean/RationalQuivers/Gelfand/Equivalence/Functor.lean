@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Equivalence.WellDefined
+module
+
+public import RationalQuivers.Gelfand.Equivalence.WellDefined
+
+@[expose] public section
 
 /-!
 # functoriality of `𝔼_E` (§5.3, Step O-15)
@@ -53,8 +57,8 @@ noncomputable def E_Q_hom {A B : HCEObj ℓ E Dq} (hA : Gelfand.RationalStructur
     refine Subtype.ext ?_
     show f.toLinearMap (galAct hℓ A σ v m) = galAct hℓ B σ v (f.toLinearMap m)
     by_cases hσ : σ = 1
-    · subst hσ; rw [galAct_one, galAct_one]
-    · rw [galAct_of_ne hℓ A hσ, galAct_of_ne hℓ B hσ]
+    · subst hσ; rw [galAct_one hℓ A v, galAct_one hℓ B v]
+    · rw [galAct_of_ne hℓ A hσ v, galAct_of_ne hℓ B hσ v]
       show f.toLinearMap (A.setup.conj (Gelfand.RationalStructure.limAt hℓ A v m)) = B.setup.conj (Gelfand.RationalStructure.limAt hℓ B v (f.toLinearMap m))
       rw [f.map_conj, hf v m]
 
@@ -179,9 +183,10 @@ noncomputable def E_E_hom {A B : HC ℓ E D} (f : A ⟶ B) :
     refine Subtype.ext ?_
     show (f : HC.Hom A B).toLinearMap (Gelfand.RationalStructure.E_E_φ hℓ A σ v m) = Gelfand.RationalStructure.E_E_φ hℓ B σ v ((f : HC.Hom A B).toLinearMap m)
     rcases D.chi_cases σ with hσ | hσ
-    · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, Gelfand.RationalStructure.E_E_φ_of_one hℓ B hσ]
-    · rw [Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ, Gelfand.RationalStructure.E_E_φ_of_neg hℓ B hσ, (f : HC.Hom A B).map_gal,
-        limAt_natural hℓ f]
+    · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ v, Gelfand.RationalStructure.E_E_φ_of_one hℓ B hσ v]
+    · rw [Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ v, Gelfand.RationalStructure.E_E_φ_of_neg hℓ B hσ v,
+        (f : HC.Hom A B).map_gal,
+        limAt_natural hℓ f _ v]
 
 /-- **`𝔼_E`, `ℓ ≥ 1`**, as a functor.  @census none (helper) -/
 noncomputable def E_EGel : HC ℓ E D ⥤ (RepNilGel D).FullSubcategory where

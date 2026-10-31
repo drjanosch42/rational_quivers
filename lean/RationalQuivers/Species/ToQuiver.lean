@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Orbits
-import Mathlib.RingTheory.TensorProduct.Basic
+module
+
+public import RationalQuivers.Species.Orbits
+public import Mathlib.RingTheory.TensorProduct.Basic
+
+@[expose] public section
 
 /-!
 # The `K`-rational quiver `Γ_K(S)` associated to an étale `K`-species
@@ -348,6 +352,7 @@ theorem isSeparable_residueField (c : S.edgeIndexSet) :
     (Algebra.FormallyEtale.iff_of_equiv (S.quotientEquivResidueField c)).mp h2
   exact (Algebra.FormallyUnramified.iff_isSeparable K (S.residueField c)).mp inferInstance
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `dim_K {}_iM_j = Σ_ε dim_K L_ε`. -/
 theorem finrank_M_eq_sum (i j : S.I) [Fintype (MaximalSpectrum (S.M i j))] :
     Module.finrank K (S.M i j)
@@ -420,6 +425,7 @@ theorem finrank_mul_card_embOver (hL : S.IsSplitBy L)
 
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.12-C3`** (`eq:etalebialgebradecomposition`).
 Fix an embedding `ι : L_j → L` and regard `L` as an `L_j`-algebra through it. Then
 `L ⊗_{L_j} {}_iM_j` decomposes canonically as an `L_i,L`-bialgebra into the product, over **all**

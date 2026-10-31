@@ -1,5 +1,9 @@
-import RationalQuivers.HC.Graded
-import RationalQuivers.HC.Sl2
+module
+
+public import RationalQuivers.HC.Graded
+public import RationalQuivers.HC.Sl2
+
+@[expose] public section
 
 /-!
 # The Casimir element, its descent to `ℚ`, and generalized infinitesimal characters

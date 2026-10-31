@@ -1,8 +1,12 @@
-import RationalQuivers.Quiver.Rep.BaseChange
-import RationalQuivers.Descent.Galois
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.RingTheory.Flat.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+module
+
+public import RationalQuivers.Quiver.Rep.BaseChange
+public import RationalQuivers.Descent.Galois
+public import Mathlib.RingTheory.TensorProduct.Basic
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+
+@[expose] public section
 
 /-!
 # Galois descent along a tower `K ⊆ E' ⊆ L`
@@ -220,7 +224,6 @@ theorem tower_fixedPoints_iso [IsGalois K L] (X : VecK K L) [FiniteDimensional L
         (X.restrictBase E').carrier) = descentCounit K L X (q z) := by
     intro z
     induction z with
-    | zero => simp only [map_zero, Submodule.coe_zero]; rfl
     | tmul a m =>
         rw [hg, LinearMap.liftBaseChange_tmul, hq, LinearMap.rTensor_tmul]
         show ((a • g₀ m : fixedPoints (E' : Type u) L (X.restrictBase E')) :

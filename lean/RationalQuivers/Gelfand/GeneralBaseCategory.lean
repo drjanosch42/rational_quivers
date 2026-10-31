@@ -1,9 +1,13 @@
-import RationalQuivers.HC.Category
-import RationalQuivers.HC.BaseChange
-import RationalQuivers.Gelfand.Split.Construction
-import RationalQuivers.Gelfand.QuadraticExtension
-import Mathlib.CategoryTheory.Preadditive.Basic
-import Mathlib.CategoryTheory.Linear.Basic
+module
+
+public import RationalQuivers.HC.Category
+public import RationalQuivers.HC.BaseChange
+public import RationalQuivers.Gelfand.Split.Construction
+public import RationalQuivers.Gelfand.QuadraticExtension
+public import Mathlib.CategoryTheory.Preadditive.Basic
+public import Mathlib.CategoryTheory.Linear.Basic
+
+@[expose] public section
 
 /-!
 # `HC_λ(𝔤,K)_E` for an arbitrary characteristic-zero `E`

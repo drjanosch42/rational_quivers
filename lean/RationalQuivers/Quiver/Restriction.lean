@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.BaseChange
+module
+
+public import RationalQuivers.Quiver.BaseChange
+
+@[expose] public section
 
 /-!
 # Restriction of `K`-rational quivers
@@ -375,7 +379,7 @@ theorem card_restrictionObj_V (Γ : RationalQuiver (E' : Type u) L) :
     Nat.card (restrictionObj K L E' Γ).V = Module.finrank K E' * Nat.card Γ.V := by
   show Nat.card (InducedSet (galRestrict K L E') Γ.V) = _
   rw [InducedSet.card_eq _ (injective_galRestrict K L E'), range_galRestrict,
-    ← IntermediateField.finrank_eq_fixingSubgroup_index E']
+    ← IntermediateField.finrank_eq_fixingSubgroup_index L E']
 
 /-- **P5 (adjunction non-degeneracy, `RQ2-1.06`/`RQ2-1.07`).** Restriction along `E'/K` **strictly**
 enlarges the vertex set whenever `E' ≠ K`, so the induced-set construction is not the identity in
@@ -407,7 +411,7 @@ theorem card_restrictionObj_E (Γ : RationalQuiver (E' : Type u) L) :
     Nat.card (restrictionObj K L E' Γ).E = Module.finrank K E' * Nat.card Γ.E := by
   show Nat.card (InducedSet (galRestrict K L E') Γ.E) = _
   rw [InducedSet.card_eq _ (injective_galRestrict K L E'), range_galRestrict,
-    ← IntermediateField.finrank_eq_fixingSubgroup_index E']
+    ← IntermediateField.finrank_eq_fixingSubgroup_index L E']
 
 /-- **Definition 1.6** (`def:quiverrestriction`) as a functor. The source calls restriction and
 base change "adjoint pairs of functors" (Introduction), and

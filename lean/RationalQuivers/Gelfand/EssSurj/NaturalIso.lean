@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.EssSurj.Descent
+module
+
+public import RationalQuivers.Gelfand.EssSurj.Descent
+
+@[expose] public section
 
 /-!
 # essential surjectivity, the natural isomorphism (§5.3, Steps O-20 … O-24)
@@ -182,6 +186,7 @@ theorem conjStar_xStarAt (V : Gelfand.RationalStructure.RepNilQ hcard) :
   rw [conjStar_smul, hc, conjStar_xiProd]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A `c`-invariant operator at `⋆` commutes with `φ_{⋆,c}`.  @census none (helper) -/
 theorem Vphi_comm_of_conjStar (V : Gelfand.RationalStructure.RepNilQ hcard) {φ : Module.End Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 1)}
     (h : conjStar hcard V φ = φ) (x : Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 1) :
@@ -338,6 +343,7 @@ theorem eStar_phmT :
       ((Gelfand.RationalStructure.inputStar D.setup hℓ).phmT) (D.thStar.symm (D.thStar z))))
   rw [D.thStar.symm_apply_apply, D.thStar.symm_apply_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`E3` at the `(⋆)` run** (`stages/S8/DESIGN-NOTES.md` §13.4, obstacle (a) discharged):
 `φ^{(∞)}_⋆ = 𝟏` on `V(⋆)`.
 
@@ -456,6 +462,7 @@ theorem eMinus_phmT :
   rw [LinearEquiv.apply_symm_apply] at key
   exact (Gelfand.RationalStructure.readVia D.setup D.toMinus).injective key
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`E3` at the `(+)` run** — `φ^{(∞)}_+ − 𝟏` is nilpotent on `V(+)` (census clause
 `RQ-5.05-C21`, first conjunct).  Here `W_-^τ = W_+` already holds, so this is S6's addendum read
 through the bridge; the generalised engine is used uniformly for all three runs.
@@ -501,6 +508,7 @@ theorem limPlusV_unipotent : IsNilpotent (D.limPlusV - 1) := by
   rw [hval, add_sub_cancel_left]
   exact Gelfand.RationalStructure.isNilpotent_of_conj D.thPlus (fun _ => by simp) hmp
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`E3` at the `(−)` run** — `φ^{(∞)}_- − 𝟏` is nilpotent on `V(−)` (census clause
 `RQ-5.05-C21`, second conjunct).  @census none (helper: `E3`) -/
 theorem limMinusV_unipotent : IsNilpotent (D.limMinusV - 1) := by
@@ -851,6 +859,7 @@ theorem cjMinus_limMinusV : cjMinus hcard V D.limMinusV = Ring.inverse D.limPlus
   exact (Ring.inverse_unit (⟨D.limPlusV, cjMinus hcard V D.limMinusV, hL, hR⟩ :
     (Module.End Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 2))ˣ)).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ-5.05-C22`** (`eq:pmsquarerootsinverses`) —
 `φ_± ∘ (φ^{(∞)}_±)^{1/2} = ((φ^{(∞)}_∓)^{1/2})^{-1} ∘ φ_±`, **which is what the display prints**
 since the author's ruling of 2026-09-11 on `AN-35`…`AN-42` (`AN-40`: the trailing `φ_±` became
@@ -987,6 +996,7 @@ theorem limitDiag_edgeBp (x : Split.VM (Gelfand.RationalStructure.toSplitW hcard
   rw [← hL, ← hR]
   exact congrArg D.toPlus (Subtype.ext hkey)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`F-S8-G4-1`, the refutation of what the source printed until 2026-09-11** (`AN-42`;
 `stages/S8/DESIGN-NOTES.md` §14).  Kept, dated and past-tensed: the hypothesis `h` is census clause
 `RQ-5.05-C23`'s first conjunct **as the source printed it before the author's Option-B ruling of
@@ -1018,6 +1028,7 @@ theorem C23_printed_forces_AN41
         rw [sq, Module.End.mul_apply]
     _ = Split.Vedge (Gelfand.RationalStructure.toSplitW hcard V) 0 x := by rw [hs x, hs x]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`F-S8-G4-1`, the refutation at the other end** — likewise a dated record of what the source
 printed until 2026-09-11.  `C24`'s then-printed fourth edge equation —
 `(φ^{(∞)}_+)^{1/2} ∘ φ_{b₊} = φ_{b₊}`, i.e. `eq:limitsquarerootdiagram1`'s `b₊` square with
@@ -1159,6 +1170,7 @@ theorem limitDiag_edgeBm (x : Split.VM (Gelfand.RationalStructure.toSplitW hcard
   rw [← hL, ← hR]
   exact congrArg D.toMinus (Subtype.ext hkey)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`eq:limitdiagram`'s `a₊` square, read on `V(•)`** — `X⋆ ∘ φ_{a₊} ∘ φ^{(∞)}_+ = φ_{a₊}`.
 
 The fourth conjunct of `DiagSq`, `A ∘ X⋆^{-1} ∘ Y = Y ∘ P`, read through `toPlus` on the source and
@@ -1258,12 +1270,14 @@ theorem limPlusV_isUnit : IsUnit D.limPlusV := isUnit_of_sub_one_isNilpotent D.l
 theorem limMinusV_isUnit : IsUnit D.limMinusV :=
   isUnit_of_sub_one_isNilpotent D.limMinusV_unipotent
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `eq:limitdiagram`'s `b₊` square as an intertwining relation for `φ_{b₊}`:
 `φ_{b₊} ∘ X⋆ = (φ^{(∞)}_+)^{-1} ∘ φ_{b₊}`.  @census none (helper) -/
 theorem limitDiag_edgeBp' (x : Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 1) :
     Split.Vedge (Gelfand.RationalStructure.toSplitW hcard V) 3 (D.xStarV x) = Ring.inverse D.limPlusV (Split.Vedge (Gelfand.RationalStructure.toSplitW hcard V) 3 x) := by
   rw [← D.limitDiag_edgeBp x, inverse_end_apply D.limPlusV_isUnit]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `eq:limitdiagram`'s `a₊` square as an intertwining relation for `φ_{a₊}`:
 `φ_{a₊} ∘ φ^{(∞)}_+ = (X⋆)^{-1} ∘ φ_{a₊}`.  @census none (helper) -/
 theorem limitDiag_edgeAp' (x : Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 2) :
@@ -1390,6 +1404,7 @@ theorem sqrtDiag0_edgeBp (h2 : (2 : Dq.carrier) ≠ 0) (x : Split.VM (Gelfand.Ra
   rw [D.sqrtDiag_edgeBp h2 (D.xStarV x), ← ring_inverse_eq_linInv, D.sqrtXStarV_inv_xStarV h2,
     D.xStarV_sqrtXStarV_inv h2]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `a₊` square of `R-S8-23`'s Option-A FIRST diagram** — what the source printed as
 `eq:limitsquarerootdiagram0` until the author's ruling of 2026-09-11 — whose edge is
 `X⋆^{-1}φ_{a₊}`.  Kept as a true helper identity; the AMENDED diagram's `a₊` square is
@@ -1439,6 +1454,7 @@ theorem sqrtDiagEV_edgeBp (h2 : (2 : Dq.carrier) ≠ 0) (x : Split.VM (Gelfand.R
   rw [D.sqrtDiag_edgeBp h2 (D.xStarV x), ← ring_inverse_eq_linInv,
     D.sqrtXStarV_inv_xStarV h2]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `a₊` square of the amended source's ONE diagram**: top edge `X⋆⁻¹φ_{a₊}`, bottom edge
 `φ_{a₊}`, verticals `s₊` and `t`.  `t ∘ (X⋆⁻¹φ_{a₊}) = φ_{a₊} ∘ s₊`, via `sqrtDiag_edgeAp`
 and `(X⋆)^{1/2} ∘ (X⋆)^{-1} = (X⋆)^{-1/2}`.  @census none (helper) -/
@@ -1495,6 +1511,7 @@ below are the `h₂`-parameterized companions of engine `E8`'s `conjStar_sub'`,
 `conjStar_sqrt_xStarV` and `Vphi_sqrt_xStarV`, stated here because `C24` consumes them at this
 earlier point in the file; `E8`'s own copies (at `qiTwo`) are unchanged. -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c`-conjugation at `⋆` is additive on differences.  @census none (helper) -/
 theorem conjStar_sub (a b : Module.End Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 1)) :
     conjStar hcard V (a - b) = conjStar hcard V a - conjStar hcard V b := by
@@ -1555,6 +1572,7 @@ theorem essSurj_C23 :
     fun x => D.sqrtDiagEV_edgeBp (two_ne_zero_of_base (K := E) two_ne_zero) x,
     fun x => D.sqrtDiagEV_edgeAp (two_ne_zero_of_base (K := E) two_ne_zero) x⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ-5.05-C24`, as the author's Option-B ruling of 2026-09-11 states it** (`AN-41`/`AN-42`;
 census revision r14, tag `census-v1.11`).  It also carries what `RQ-5.05-C25` used to claim: that
 clause is **retired in the source** — the final `(𝟏_{V(+)}, X⋆, 𝟏_{V(−)})` sentence is deleted, not
@@ -1958,6 +1976,7 @@ theorem xStarV_toStarLo (z : D.setup.weight.comp (-((ℓ : ℤ) - 1)))
   subst hz
   exact (D.toStarHi_xStar z hw).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `a₋`: `X|_{M(-)} = φ_{a₋}` on the nose (pin `X_bdry_minus`).
 @census none (helper; engine `E8`) -/
 theorem edgeRead_aMinus (m : Split.V3 D.setup.toQiSetup 0) :
@@ -1968,6 +1987,7 @@ theorem edgeRead_aMinus (m : Split.V3 D.setup.toQiSetup 0) :
     Subtype.ext (D.X_bdry_minus m.1 m.2)
   rw [h, LinearEquiv.apply_symm_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `b₋`: `Y|_{M(⋆)} = φ_{b₋}` on the nose (pin `Y_bdry_minus`).
 @census none (helper; engine `E8`) -/
 theorem edgeRead_bMinus (m : Split.V3 D.setup.toQiSetup 1) :
@@ -1978,6 +1998,7 @@ theorem edgeRead_bMinus (m : Split.V3 D.setup.toQiSetup 1) :
     Subtype.ext (D.Y_bdry_minus m.1 m.2)
   rw [h, LinearEquiv.apply_symm_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `b₊`: `X X⋆|_{M(⋆)} = φ_{b₊} ∘ X⋆` (pin `X_bdry_plus`).
 @census none (helper; engine `E8`) -/
 theorem edgeRead_bPlus (m : Split.V3 D.setup.toQiSetup (RQuiver.gelfand.source 3)) :
@@ -1994,6 +2015,7 @@ theorem edgeRead_bPlus (m : Split.V3 D.setup.toQiSetup (RQuiver.gelfand.source 3
     exact D.X_bdry_plus (Split.xStar D.setup.toQiSetup m.1) hmem
   rw [h, LinearEquiv.apply_symm_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `a₊`: `X⋆ ∘ (X⋆⁻¹ Y)|_{M(+)} = φ_{a₊}` (pin `Y_bdry_plus` and `xStar_xStarInv`).
 @census none (helper; engine `E8`) -/
 theorem edgeRead_aPlus (m : Split.V3 D.setup.toQiSetup (RQuiver.gelfand.source 2)) :
@@ -2094,6 +2116,7 @@ is `c`-invariance of the square root, and `Vphi_comm_of_conjStar` turns it into
 `DESIGN-NOTES.md` §17.4(c), obstacle 1 — closed WITHOUT `conjBy_sqrtOfScalarPlusNilpotent`, whose
 `γ = 1` specialisation is what would not normalise. -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c`-conjugation at `⋆` is additive on differences.  @census none (helper; engine `E8`) -/
 theorem conjStar_sub' (a b : Module.End Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) 1)) :
     conjStar hcard V (a - b) = conjStar hcard V a - conjStar hcard V b := by
@@ -2158,6 +2181,7 @@ theorem repEqCast_val {A : HCEObj ℓ E Dq} (hA : Gelfand.RationalStructure.ObjS
     (((Gelfand.Equivalence.E_Q_rep hcard hℓ A hA).eqCast h m : Split.V3 A.qi w)).1 = m.1 := by
   subst h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The transported `c`-structure of `𝔼_ℚ(M)`, on carrier values: it is `φ_{v,c}`.
 @census none (helper; engine `E8`) -/
 theorem repPhi'_val {A : HCEObj ℓ E Dq} (hA : Gelfand.RationalStructure.ObjSpec hcard hℓ A) {v w : (Gelfand.RationalStructure.gelfandQ hcard).V}
@@ -2282,6 +2306,7 @@ theorem natPsi_rational_conj (hA : Gelfand.RationalStructure.ObjSpec hcard hℓ 
     rw [hb]
     exact hC
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `natPsiInv` is a left inverse of `natPsi`.  @census none (helper; engine `E8`) -/
 theorem natPsiInv_natPsi : ∀ (v : Fin 3) (x : Split.V3 D.setup.toQiSetup v),
     natPsiInv D v (natPsi D v x) = x
@@ -2519,6 +2544,7 @@ variable (hV : ∀ (σ : Gal(L/K)) (v : Γ.V), σ • v = (σ • wV ρ' v : (Γ
   (hE : ∀ (σ : Gal(L/K)) (e : Γ.E), σ • e = (σ • wE ρ' e : (Γ.withρ ρ').E))
 include hV hE
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Re-indexing**: a representation of `Γ`, read as a representation of `Γ.withρ ρ'` for a `ρ'`
 acting by the same permutations: the same spaces and edges, `φ` transported.  @census none (helper) -/
 noncomputable def _root_.RationalQuivers.RationalQuiver.Rep.reρ (M : RationalQuiver.Rep Γ) :
@@ -2637,6 +2663,7 @@ theorem eqCast_eqCast {Γ : RationalQuiver E D.L} (M : RationalQuiver.Rep Γ) {u
   subst h₁; subst h₂; rfl
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Essential surjectivity, `√-1 ∉ E`** (Steps O-18b … O-24): for `V ∈ Rep^nil(Γ_E)` the
 construction `M` of the relocated engine (with `c := φ_c^M`) satisfies `𝔼_E(M_E) ≅ V`, the iso being
 `(s_−, t, s_+)` (`natPsi`, Step O-23).  @census none (helper) -/
@@ -2675,6 +2702,7 @@ theorem E_EGel_essSurj_nonsplit (hc : ∃ σ : D.L ≃ₐ[E] D.L, D.chi σ = -1)
 
 /-! ### Essential surjectivity, `√-1 ∈ E`: Step O-7h -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The underlying split representation of `V ∈ Rep^nil(Γ_E)`: the same spaces and edges with the
 trivial `Gal(L_E/L_E)`-structure.  @census none (helper) -/
 noncomputable def toSplitRepGel (V : (Gelfand.Equivalence.RepNilGel D).FullSubcategory) :
@@ -2685,11 +2713,13 @@ noncomputable def toSplitRepGel (V : (Gelfand.Equivalence.RepNilGel D).FullSubca
     (fun e => V.obj.toRep.φEdge e) (fun _ _ _ _ h => by cases h; rfl)
   finiteDimensional v := V.obj.finiteDimensional v
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `toSplitRepGel V` is nilpotent with the relation.  @census none (helper) -/
 noncomputable abbrev toSplitGel (V : (Gelfand.Equivalence.RepNilGel D).FullSubcategory) :
     (RepNilRelSplit D.L).FullSubcategory :=
   ⟨toSplitRepGel V, V.property.1, V.property.2⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Essential surjectivity, `√-1 ∈ E`**: `G_E = 1`, and the split construction of tex §5.1
 (Step O-7h, `Split.essSurj`: `SplitEssSurjData`, `xStar_eq_poly`, `isoPoly`) gives `M`.
 @census none (helper) -/

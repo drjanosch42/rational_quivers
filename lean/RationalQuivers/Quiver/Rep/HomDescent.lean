@@ -1,7 +1,11 @@
-import RationalQuivers.Quiver.Rep.TowerDescent
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.RingTheory.Flat.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+module
+
+public import RationalQuivers.Quiver.Rep.TowerDescent
+public import Mathlib.RingTheory.TensorProduct.Basic
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+
+@[expose] public section
 
 /-!
 # Base change for `Hom`: Hom-descent for rational quiver representations

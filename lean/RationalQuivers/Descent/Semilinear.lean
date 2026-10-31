@@ -1,5 +1,9 @@
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.Algebra.Module.Equiv.Defs
+module
+
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.Algebra.Module.Equiv.Defs
+
+@[expose] public section
 
 /-!
 # Galois descent: semi-linear maps

@@ -1,12 +1,17 @@
-import RationalQuivers.Descent.Semilinear
-import Mathlib.Algebra.Field.ZMod
-import Mathlib.FieldTheory.Galois.Infinite
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.FieldTheory.Perfect
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.Topology.Algebra.MulAction
+module
+
+public import RationalQuivers.Descent.Semilinear
+public import Mathlib.Algebra.Field.ZMod
+public import Mathlib.FieldTheory.Galois.Infinite
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+public import Mathlib.FieldTheory.KrullTopology
+public import Mathlib.FieldTheory.Perfect
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+public import Mathlib.RingTheory.TensorProduct.Basic
+public import Mathlib.Topology.Algebra.MulAction
+public import Mathlib.Topology.Algebra.OpenSubgroup
+
+@[expose] public section
 
 /-!
 # Galois descent: `K`-structures on `L`-vector spaces
@@ -223,13 +228,13 @@ variable (K L : Type u) [Field K] [Field L] [Algebra K L]
 variable (V : Type u) [AddCommGroup V] [Module K V]
 
 /-- Helper (no census row): `1 ∈ Gal(L/K)` acts on `L ⊗[K] V` as the identity. -/
-private theorem galoisTensorMap_one :
+theorem galoisTensorMap_one :
     TensorProduct.map (1 : Gal(L/K)).toLinearMap (LinearMap.id : V →ₗ[K] V) = LinearMap.id := by
   refine TensorProduct.ext' fun a v => ?_
   simp [TensorProduct.map_tmul]
 
 /-- Helper (no census row): the action of `Gal(L/K)` on `L ⊗[K] V` is multiplicative. -/
-private theorem galoisTensorMap_mul (σ τ : Gal(L/K)) :
+theorem galoisTensorMap_mul (σ τ : Gal(L/K)) :
     TensorProduct.map (σ * τ).toLinearMap (LinearMap.id : V →ₗ[K] V)
       = (TensorProduct.map σ.toLinearMap (LinearMap.id : V →ₗ[K] V)) ∘ₗ
         (TensorProduct.map τ.toLinearMap (LinearMap.id : V →ₗ[K] V)) := by
@@ -241,27 +246,25 @@ underlying census `RQ2-1.18`).
 
 @census    none
 -/
-instance galoisTensorAction : DistribMulAction Gal(L/K) (L ⊗[K] V) where
-  smul σ x := TensorProduct.map σ.toLinearMap LinearMap.id x
-  one_smul x := congrFun (congrArg DFunLike.coe (galoisTensorMap_one K L V)) x
-  mul_smul σ τ x := congrFun (congrArg DFunLike.coe (galoisTensorMap_mul K L V σ τ)) x
-  smul_zero _ := map_zero _
-  smul_add _ x y := map_add _ x y
+instance galoisTensorAction : DistribMulAction Gal(L/K) (L ⊗[K] V) :=
+  TensorProduct.leftDistribMulAction
 
 /-- Helper (no census row): the action of `σ` on `L ⊗[K] V` is `σ ⊗ id`. -/
 theorem galoisTensorAction_apply (σ : Gal(L/K)) (x : L ⊗[K] V) :
-    σ • x = TensorProduct.map σ.toLinearMap (LinearMap.id : V →ₗ[K] V) x := rfl
+    σ • x = TensorProduct.map σ.toLinearMap (LinearMap.id : V →ₗ[K] V) x := by
+  induction x with
+  | tmul a v => rfl
+  | add x y hx hy => rw [smul_add, map_add, hx, hy]
 
 @[simp]
 theorem galoisTensorAction_tmul (σ : Gal(L/K)) (a : L) (v : V) :
     σ • (a ⊗ₜ[K] v) = σ a ⊗ₜ[K] v := rfl
 
 /-- Helper (no census row): the canonical action on `L ⊗[K] V` is semi-linear. -/
-private theorem galoisTensorAction_semilinear (σ : Gal(L/K)) (a : L) (x : L ⊗[K] V) :
+theorem galoisTensorAction_semilinear (σ : Gal(L/K)) (a : L) (x : L ⊗[K] V) :
     σ • (a • x) = σ a • (σ • x) := by
   simp only [galoisTensorAction_apply]
   induction x with
-  | zero => simp
   | tmul b v =>
       rw [TensorProduct.smul_tmul', smul_eq_mul, TensorProduct.map_tmul,
         TensorProduct.map_tmul, TensorProduct.smul_tmul', smul_eq_mul]
@@ -279,14 +282,10 @@ mathlib's `stabilizer_isOpen_of_isIntegral`; sums use the (finite) intersection 
 
 @census    none
 -/
-private theorem exists_openSubgroup_fixing [Algebra.IsIntegral K L] (x : L ⊗[K] V) :
+theorem exists_openSubgroup_fixing [Algebra.IsIntegral K L] (x : L ⊗[K] V) :
     ∃ U : OpenSubgroup Gal(L/K),
       (U : Subgroup Gal(L/K)) ≤ MulAction.stabilizer Gal(L/K) x := by
   induction x with
-  | zero =>
-      refine ⟨⊤, fun σ _ => ?_⟩
-      show TensorProduct.map σ.toLinearMap (LinearMap.id : V →ₗ[K] V) 0 = 0
-      exact map_zero _
   | tmul a v =>
       refine ⟨⟨MulAction.stabilizer Gal(L/K) a,
         stabilizer_isOpen_of_isIntegral (K := K) (L := L) a⟩, fun σ hσ => ?_⟩
@@ -352,7 +351,6 @@ theorem isKRational_baseChange (φ : V →ₗ[K] W) :
   show LinearMap.baseChange L φ (TensorProduct.map σ.toLinearMap LinearMap.id x)
       = TensorProduct.map σ.toLinearMap LinearMap.id (LinearMap.baseChange L φ x)
   induction x with
-  | zero => simp only [map_zero]
   | tmul a v =>
       simp only [TensorProduct.map_tmul, LinearMap.baseChange_tmul, LinearMap.id_coe, id_eq,
         AlgEquiv.toLinearMap_apply]

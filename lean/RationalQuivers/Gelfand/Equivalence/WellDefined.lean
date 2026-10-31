@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.RationalStructure.Phi
+module
+
+public import RationalQuivers.Gelfand.RationalStructure.Phi
+
+@[expose] public section
 
 /-!
 # well-definedness of `𝔼_E` (§5.3, Steps O-13, O-14)
@@ -54,7 +58,7 @@ theorem galAct_of_ne {σ : Dq.carrier ≃ₐ[E] Dq.carrier} (hσ : σ ≠ 1) (v 
 theorem gelfandQ_smul_eq (σ : Dq.carrier ≃ₐ[E] Dq.carrier) (v : Fin 3) :
     σ • Gelfand.RationalStructure.vtxQ hcard v = Gelfand.RationalStructure.vtxQ hcard (if σ = 1 then v else RQuiver.gelfandVertexSwap v) := by
   by_cases hσ : σ = 1
-  · subst hσ; simp [Gelfand.RationalStructure.vtxQ]
+  · subst hσ; rw [if_pos rfl]; exact one_smul _ _
   · rw [if_neg hσ, Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hσ, Gelfand.RationalStructure.gelfandQ_smul_vertex]
 
 theorem galAct_mem (σ : Dq.carrier ≃ₐ[E] Dq.carrier) (v : Fin 3) (m : A.carrier)
@@ -137,22 +141,23 @@ noncomputable def E_Q_rep (h : Gelfand.RationalStructure.ObjSpec hcard hℓ A) :
       refine Subtype.ext ?_
       show galAct hℓ A σ v (a • m) = σ a • galAct hℓ A σ v m
       by_cases hσ : σ = 1
-      · subst hσ; simp [galAct_one]
-      · rw [galAct_of_ne hℓ A hσ, galAct_of_ne hℓ A hσ, Gelfand.RationalStructure.phiC_smul,
+      · subst hσ; rw [galAct_one hℓ A v, galAct_one hℓ A v]; rfl
+      · rw [galAct_of_ne hℓ A hσ v, galAct_of_ne hℓ A hσ v, Gelfand.RationalStructure.phiC_smul hℓ A v,
           Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hσ])
     (fun σ τ v m => by
       refine sigma_ext_val hcard A (mul_smul σ τ (Gelfand.RationalStructure.vtxQ hcard v)).symm _ _ ?_
       show galAct hℓ A σ _ (galAct hℓ A τ v m) = galAct hℓ A (σ * τ) v m
       by_cases hσ : σ = 1
-      · subst hσ; rw [galAct_one, one_mul]
+      · subst hσ; rw [galAct_one hℓ A (τ • v : (Gelfand.RationalStructure.gelfandQ hcard).V), one_mul]
       · by_cases hτ : τ = 1
-        · subst hτ; rw [galAct_one, mul_one]; simp [galAct]
+        · subst hτ; rw [galAct_one hℓ A v, mul_one]; simp [galAct]
         · have hστ : σ * τ = 1 := by
             rw [Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hσ, Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hτ, Gelfand.RationalStructure.galConj_mul_self]
-          rw [hστ, galAct_one, galAct_of_ne hℓ A hσ, galAct_of_ne hℓ A hτ]
+          rw [hστ, galAct_one hℓ A v, galAct_of_ne hℓ A hσ (τ • v : (Gelfand.RationalStructure.gelfandQ hcard).V), galAct_of_ne hℓ A hτ v]
           have hm := m.2
           have hv : τ • Gelfand.RationalStructure.vtxQ hcard v = Gelfand.RationalStructure.vtxQ hcard (RQuiver.gelfandVertexSwap v) := by
-            rw [gelfandQ_smul_eq, if_neg hτ]
+            rw [gelfandQ_smul_eq hcard τ v,
+              if_neg (α := Fin 3) (t := (v : Fin 3)) (e := RQuiver.gelfandVertexSwap v) hτ]
           show Gelfand.RationalStructure.phiC hℓ A (τ • Gelfand.RationalStructure.vtxQ hcard v) (Gelfand.RationalStructure.phiC hℓ A v m) = m
           rw [hv]
           exact h.cocycle v m hm)
@@ -169,8 +174,11 @@ noncomputable def E_Q_rep (h : Gelfand.RationalStructure.ObjSpec hcard hℓ A) :
       rw [hm']
       by_cases hσ : σ = 1
       · subst hσ
-        rw [galAct_one, galAct_one, one_smul]
-      · rw [galAct_of_ne hℓ A hσ, galAct_of_ne hℓ A hσ, Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hσ,
+        rw [galAct_one hℓ A (RQuiver.gelfand.source e),
+          galAct_one hℓ A ((Gelfand.RationalStructure.gelfandQ hcard).toRQuiver.target e), one_smul]
+      · rw [galAct_of_ne hℓ A hσ (RQuiver.gelfand.source e),
+          galAct_of_ne hℓ A hσ ((Gelfand.RationalStructure.gelfandQ hcard).toRQuiver.target e),
+          Gelfand.RationalStructure.eq_galConj_of_ne_one hcard hσ,
           Gelfand.RationalStructure.gelfandQ_smul_edge hcard e]
         exact h.equiv e m m.2)
 
@@ -487,17 +495,17 @@ noncomputable def E_E_rep : RationalQuiver.Rep (RationalQuiver.gelfandOfSign E D
       refine Subtype.ext ?_
       show Gelfand.RationalStructure.E_E_φ hℓ A σ v (a • m) = σ a • Gelfand.RationalStructure.E_E_φ hℓ A σ v m
       rcases D.chi_cases σ with hσ | hσ
-      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, D.eq_one_of_chi_one hσ]; rfl
-      · rw [Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ, Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ, map_smul, galActOf_smul])
+      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ v, Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ v, D.eq_one_of_chi_one hσ]; rfl
+      · rw [Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ v, Gelfand.RationalStructure.E_E_φ_of_neg hℓ A hσ v, map_smul, galActOf_smul])
     (fun σ τ v m => by
       refine gelSigma_ext_val A (mul_smul σ τ (vtxE D v)).symm _ _ ?_
       show Gelfand.RationalStructure.E_E_φ hℓ A σ _ (Gelfand.RationalStructure.E_E_φ hℓ A τ v m) = Gelfand.RationalStructure.E_E_φ hℓ A (σ * τ) v m
       rcases D.chi_cases σ with hσ | hσ
-      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, D.eq_one_of_chi_one hσ, one_mul]
+      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ (τ • v : (RationalQuiver.gelfandOfSign E D.L D.chiHom).V), D.eq_one_of_chi_one hσ, one_mul]
       · rcases D.chi_cases τ with hτ | hτ
-        · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hτ, D.eq_one_of_chi_one hτ, mul_one, one_smul]
+        · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hτ v, D.eq_one_of_chi_one hτ, mul_one, one_smul]
         · obtain rfl := D.eq_of_chi_neg_one hτ hσ
-          rw [D.mul_self, Gelfand.RationalStructure.E_E_φ_of_one hℓ A D.chi_one, vtxE_smul]
+          rw [D.mul_self, Gelfand.RationalStructure.E_E_φ_of_one hℓ A D.chi_one v, vtxE_smul τ v]
           exact E_E_φ_cocycle hℓ A τ v m m.2)
     (fun e => Split.E_F_edge A.qi (A.qi.starInverses hℓ) hℓ e)
     (fun σ e m m' hmm' => by
@@ -511,9 +519,15 @@ noncomputable def E_E_rep : RationalQuiver.Rep (RationalQuiver.gelfandOfSign E D
       refine Eq.trans ?_ (congrArg (Gelfand.RationalStructure.E_E_φ hℓ A σ _) (edgeE_val hℓ A e m)).symm
       rw [hm']
       rcases D.chi_cases σ with hσ | hσ
-      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ, D.eq_one_of_chi_one hσ, one_smul]
-      · rw [Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ, Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ, gammaE_smul_edge,
-          if_neg (by rw [hσ]; decide)]
+      · rw [Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ (RQuiver.gelfand.source e),
+          Gelfand.RationalStructure.E_E_φ_of_one hℓ A hσ
+            ((RationalQuiver.gelfandOfSign E D.L D.chiHom).toRQuiver.target e),
+          D.eq_one_of_chi_one hσ, one_smul]
+      · rw [Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ (RQuiver.gelfand.source e),
+          Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ
+            ((RationalQuiver.gelfandOfSign E D.L D.chiHom).toRQuiver.target e), gammaE_smul_edge σ e,
+          if_neg (α := Fin 4) (t := (e : Fin 4)) (e := RQuiver.gelfandEdgeSwap e)
+            (show ¬D.chi σ = 1 by rw [hσ]; decide)]
         exact (objSpec hℓ A ⟨σ, hσ⟩).equiv e (m : A.carrier) m.2)
 
 /-- `𝔼_E(M)` is finite-dimensional.  @census none (helper) -/

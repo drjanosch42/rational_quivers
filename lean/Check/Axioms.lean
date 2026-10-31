@@ -1,4 +1,6 @@
-import RationalQuivers
+module
+
+public import RationalQuivers
 
 /-!
 # Axiom check for the claimed declarations

@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.BaseChange.Mixed
+module
+
+public import RationalQuivers.Gelfand.BaseChange.Mixed
+
+@[expose] public section
 
 /-!
 # Base change non-split → non-split, HC side (WP-15, T1 case (2))

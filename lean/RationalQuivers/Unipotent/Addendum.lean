@@ -1,4 +1,8 @@
-import RationalQuivers.Unipotent.Stabilization
+module
+
+public import RationalQuivers.Unipotent.Stabilization
+
+@[expose] public section
 
 /-!
 # The addenda of `cor:unipotentstabilization` relative to an identification (`rmk:stabilizationaddenda`)

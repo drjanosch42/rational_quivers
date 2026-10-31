@@ -1,4 +1,8 @@
-import RationalQuivers.Examples.Basic
+module
+
+public import RationalQuivers.Examples.Basic
+
+@[expose] public section
 
 /-!
 # §6.1 — the finite-dimensional representations `F_ℓ`
@@ -339,6 +343,7 @@ theorem F_weightSpaces (ℓ : ℕ) (hℓ : 1 ≤ ℓ) :
     show ¬ suppF ℓ (-((ℓ : ℤ) - 1) - 2)
     rintro ⟨h1, h2, h3⟩; omega
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.01-C5`, `C7`, `C8`, `C9`** — the displayed `ℚ`-rational Gelfand-quiver diagram of
 `§6.1`:
 
@@ -438,6 +443,7 @@ theorem F_quiverRep_eq (ℓ : ℕ) (hℓ : 1 ≤ ℓ) :
     exact fun v hv => (Split.yStar_xStar_apply (Q := (qiSetupOf (F ℓ hℓ))) hℓ v hv).trans
       (tMinus_eq_one_of_casimir_scalar (qiSetupOf (F ℓ hℓ)) hℓ hcas v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.01-C10`** — the displayed étale `ℚ`-species representation of `§6.1`:
 `W_{⋆} = M(⋆)^{G_⋆} = ℚ`, `W_{±} = M(+)^{G_+} = 0`, and every structure map `f_{ij}` is zero.
 

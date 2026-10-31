@@ -1,5 +1,9 @@
-import RationalQuivers.Examples.FiniteDimensional
-import RationalQuivers.Examples.DiscreteSeries
+module
+
+public import RationalQuivers.Examples.FiniteDimensional
+public import RationalQuivers.Examples.DiscreteSeries
+
+@[expose] public section
 
 /-!
 # §6.3 — the principal series `P_{ℓ,ε}` and its dual `P^∨_{ℓ,ε}`
@@ -925,6 +929,7 @@ theorem projPdualD_hY (ℓ : ℕ) : ∀ n : ℤ, suppP ℓ n →
       ring
   · rw [if_neg hd2, if_neg hd2, ite_self]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `D_ℓ ↪ P_{ℓ,ε}`: the inclusion of basis vectors — no rescaling, because the two objects carry
 the **same** raising scalar `scalD`.  @census none (helper) -/
 noncomputable def incDP (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε = 1)
@@ -938,6 +943,7 @@ noncomputable def incDP (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε =
       rw [D_galAct ℓ, P_galAct ℓ ε hℓ hε hpe]
       exact wtDiag_conj (D_symm ℓ) (P_symm ℓ) (fun _ => rfl) v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `P_{ℓ,ε} ↠ F_ℓ`: the rescaling by the `(ℓ-1)`-st row of Pascal's triangle.
 @census none (helper) -/
 noncomputable def projPF (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε = 1)
@@ -951,6 +957,7 @@ noncomputable def projPF (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε 
       rw [P_galAct ℓ ε hℓ hε hpe, F_galAct ℓ hℓ]
       exact wtDiag_conj (P_symm ℓ) (F_symm ℓ) (cPF_symm ℓ) v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `F_ℓ ↪ P^∨_{ℓ,ε}`: again an inclusion of basis vectors, since both carry `scalF`.
 @census none (helper) -/
 noncomputable def incFPdual (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε = 1)
@@ -964,6 +971,7 @@ noncomputable def incFPdual (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ 
       rw [F_galAct ℓ hℓ, Pdual_galAct ℓ ε hℓ hε hpe]
       exact wtDiag_conj (F_symm ℓ) (P_symm ℓ) (fun _ => rfl) v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `P^∨_{ℓ,ε} ↠ D_ℓ`.  @census none (helper) -/
 noncomputable def projPdualD (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε = 1)
     (hpe : (ℓ : ℤ) % 2 ≠ (ε : ℤ) % 2) : (Pdual ℓ ε hℓ hε hpe) ⟶ (D ℓ) :=
@@ -982,6 +990,7 @@ section Statements
 
 variable (ℓ ε : ℕ) (hℓ : 1 ≤ ℓ) (hε : ε = 0 ∨ ε = 1) (hpe : (ℓ : ℤ) % 2 ≠ (ε : ℤ) % 2)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.03-C2`** — `P_{ℓ,ε}` fits into a **non-split** short exact sequence
 `0 → D_ℓ → P_{ℓ,ε} → F_ℓ → 0` in `HC_{ℓ²}(𝔤,K)_ℚ`.
 
@@ -1068,6 +1077,7 @@ theorem P_exactSequence :
     rw [hse, map_zero] at hkey
     exact (Finsupp.single_ne_zero.mpr one_ne_zero) hkey.symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.03-C4`** — the dual fits into `0 → F_ℓ → P^∨_{ℓ,ε} → D_ℓ → 0`.
 
 @census    none (auxiliary; discharges census clause `RQ2-6.03-C4`)
@@ -1130,6 +1140,7 @@ theorem P_weightSpaces :
    fun _ hn => wtComp_eq_bot (S := suppP ℓ) hn,
    fun _ hn => wtComp_finrank (S := suppP ℓ) hn⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.03-C5`, `C6`, `C7`, `C8` (first display)** — the displayed `ℚ`-rational Gelfand-quiver
 diagram of `P_{ℓ,ε}`:
 
@@ -1406,6 +1417,7 @@ theorem Pdual_quiverRep_eq :
     show Finsupp.single _ (((scalF ℓ ((ℓ : ℤ) - 1) : ℚ) : (Qi : Type)) * b) = 0
     rw [hwall, Rat.cast_zero, zero_mul, Finsupp.single_zero]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.03-C9`, `C10`** — the étale `ℚ`-species representation attached to `P_{ℓ,ε}`:
 `W_{⋆} = ℚ` and `W_{±} = ℚ[√-1]` (`C9`), with `f_{{⋆},{±}}` the **non-zero** structure map and
 `f_{{±},{⋆}} = 0` (`C10`, as corrected by `F-S9-1`).
@@ -1455,6 +1467,7 @@ theorem P_speciesRep_eq :
       · rw [h]; exact hb1.1
       · rw [h]; exact hb3.1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.03-C11`** — the species representation attached to `P^∨_{ℓ,ε}`: the same two spaces,
 with `f_{{±},{⋆}}` the **non-zero** structure map (the trace, up to identification) and
 `f_{{⋆},{±}} = 0`.

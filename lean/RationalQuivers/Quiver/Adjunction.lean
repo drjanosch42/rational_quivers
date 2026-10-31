@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Restriction
+module
+
+public import RationalQuivers.Quiver.Restriction
+
+@[expose] public section
 
 /-!
 # Restriction is left adjoint to base change
@@ -46,7 +50,7 @@ of the unit of `prop:quiverrestrictionbasechangeadjunction`, in the generality o
 
 @census none (helper for `RQ2-1.07`)
 -/
-private theorem mk_one_smul {X : Type u} [MulAction Gal(L/E') X] (σ : Gal(L/E')) (x : X) :
+theorem mk_one_smul {X : Type u} [MulAction Gal(L/E') X] (σ : Gal(L/E')) (x : X) :
     InducedSet.mk (galRestrict K L E') 1 (σ • x)
       = InducedSet.permHom (galRestrict K L E') X (galRestrict K L E' σ)
           (InducedSet.mk (galRestrict K L E') 1 x) := by
@@ -59,7 +63,7 @@ Compatibility with `s` and `t` is `InducedSet.map_mk`; `Gal(L/E')`-equivariance 
 
 @census none (helper for `RQ2-1.07`)
 -/
-private def adjUnit :
+def adjUnit :
     𝟭 (RationalQuiver (E' : Type u) L) ⟶ restriction K L E' ⋙ baseChange K L E' where
   app _ :=
     { toRQuiverHom :=
@@ -79,7 +83,7 @@ work: on `E' ⊗_K Γ'_K` the element `σ : Gal(L/E')` acts as `f σ`, so the tw
 
 @census none (helper for `RQ2-1.07`)
 -/
-private def adjCounitOnV (Γ' : RationalQuiver K L) :
+def adjCounitOnV (Γ' : RationalQuiver K L) :
     InducedSet (galRestrict K L E') ((baseChange K L E').obj Γ').V → Γ'.V :=
   Quotient.lift (fun p : Gal(L/K) × Γ'.V => p.1 • p.2) (by
     -- The `Gal(L/K)`-action on `E' ⊗_K Γ'_K` is that of `Γ'_K`; naming it locally is what
@@ -95,7 +99,7 @@ private def adjCounitOnV (Γ' : RationalQuiver K L) :
 
 @census none (helper for `RQ2-1.07`)
 -/
-private def adjCounitOnE (Γ' : RationalQuiver K L) :
+def adjCounitOnE (Γ' : RationalQuiver K L) :
     InducedSet (galRestrict K L E') ((baseChange K L E').obj Γ').E → Γ'.E :=
   Quotient.lift (fun p : Gal(L/K) × Γ'.E => p.1 • p.2) (by
     -- The `Gal(L/K)`-action on `E' ⊗_K Γ'_K` is that of `Γ'_K`; naming it locally is what
@@ -114,7 +118,7 @@ followed by `mul_smul`.
 
 @census none (helper for `RQ2-1.07`)
 -/
-private def adjCounit :
+def adjCounit :
     baseChange K L E' ⋙ restriction K L E' ⟶ 𝟭 (RationalQuiver K L) where
   app Γ' :=
     { toRQuiverHom :=

@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.BaseChange.NNRep
-import RationalQuivers.Gelfand.BaseChange.Hom
+module
+
+public import RationalQuivers.Gelfand.BaseChange.NNRep
+public import RationalQuivers.Gelfand.BaseChange.Hom
+
+@[expose] public section
 
 /-!
 # `Hom` commutes with base change, non-split → non-split (WP-15, T2 case (2))
@@ -40,6 +44,7 @@ variable [Algebra L L''] [Algebra K K''] [Algebra K L''] [IsScalarTower K L L'']
   [IsScalarTower K K'' L'']
 variable (R : RestrictionDatum K L K'' L'')
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `nn` base change of a finite-dimensional representation.  @census none (helper; WP-15) -/
 noncomputable def fdBcNN (M : FDRep (gelfandOfCardTwo K L h)) :
     FDRep (gelfandOfCardTwo K'' L'' h'') where

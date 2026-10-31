@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.BaseChange.NN
+module
+
+public import RationalQuivers.Gelfand.BaseChange.NN
+
+@[expose] public section
 
 /-!
 # `𝔼` is compatible with base change at `ℓ = 0` (the cyclic quiver; WP-15, T1)
@@ -243,6 +247,7 @@ theorem RestrictionDatum.inv_smul_vertexC (R : RestrictionDatum K L K'' L'') (σ
 
 variable (R)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The structure maps of the base change**, `φ''_{v,σ}(b ⊗ m) = σ(b) ⊗ φ_{v,θ(σ)}(m)`.
 @census none (helper; WP-15) -/
 noncomputable def phiNNEquivC (M : Rep (cyclicOfCardTwo K L h)) (σ : Gal(L''/K''))
@@ -262,6 +267,7 @@ noncomputable def phiNNEquivC (M : Rep (cyclicOfCardTwo K L h)) (σ : Gal(L''/K'
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   map_add' x y := map_add _ x y
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem phiNNEquivC_tmul (M : Rep (cyclicOfCardTwo K L h)) (σ : Gal(L''/K''))
     (v : (cyclicOfCardTwo K L h).V) (b : L'') (m : M.M v) :
     phiNNEquivC (h'' := h'') R M σ v (b ⊗ₜ[L] m)
@@ -278,6 +284,7 @@ theorem eqCast_φ'_transC (M : Rep (cyclicOfCardTwo K L h)) (g : Gal(L/K))
   subst h2; rfl
 
 variable (h'') in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Transport in the base-changed family, indexed by the vertices of `Γ_{K''}`.
 @census none (helper; WP-15) -/
 noncomputable def castNNC (M : Rep (cyclicOfCardTwo K L h))
@@ -285,11 +292,13 @@ noncomputable def castNNC (M : Rep (cyclicOfCardTwo K L h))
     L'' ⊗[L] M.M v ≃ₗ[L''] L'' ⊗[L] M.M w :=
   famCast (L := L'') (fun u : (cyclicOfCardTwo K'' L'' h'').V => L'' ⊗[L] M.M u) hvw
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem castNNC_tmul (M : Rep (cyclicOfCardTwo K L h)) {v w : (cyclicOfCardTwo K'' L'' h'').V}
     (hvw : v = w) (b : L'') (m : M.M v) :
     castNNC h'' M hvw (b ⊗ₜ[L] m) = b ⊗ₜ[L] M.eqCast hvw m := by
   subst hvw; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The cocycle condition for `φ''`, transported.  @census none (helper; WP-15) -/
 theorem phiNNC_cocycle (M : Rep (cyclicOfCardTwo K L h)) (σ τ : Gal(L''/K''))
     (v : (cyclicOfCardTwo K'' L'' h'').V) (x : L'' ⊗[L] M.M v) :
@@ -317,6 +326,7 @@ theorem eqCast_φEdge'_transC (M : Rep (cyclicOfCardTwo K L h)) (e : (cyclicOfCa
     M.eqCast hb2 (M.φEdge' e ha hb x) = M.φEdge' e ha (hb.trans hb2) x := by
   subst hb2; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge equivariance for `φ''`, transported.  The edge maps are written as `φEdge'` with
 endpoints named in `Γ_{K''}`, so that every vertex term is one of `Γ_{K''}`.
 @census none (helper; WP-15) -/
@@ -343,6 +353,7 @@ theorem phiNNC_edge (M : Rep (cyclicOfCardTwo K L h)) (σ : Gal(L''/K''))
     exact M.φEdge'_φ' (R.θ σ) (R.smul_edgeC σ e) rfl rfl rfl _ _ _ m
   | add x y hx hy => simp only [map_add, hx, hy]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `nn` base change of a representation of the cyclic quiver.**
 @census none (helper; WP-15; the `nn` shape of `RQ-5.08-C4`, quiver side) -/
 noncomputable def Rep.bcNNC (M : Rep (cyclicOfCardTwo K L h)) :
@@ -368,17 +379,21 @@ noncomputable def Rep.bcNNC (M : Rep (cyclicOfCardTwo K L h)) :
       exact sigma_mk_eq_of_famCast (L := L'') (fun u => L'' ⊗[L] M.M u)
         ((cyclicOfCardTwo K'' L'' h'').target_smul σ e) _ _ (phiNNC_edge R M σ e x))
 
+set_option backward.isDefEq.respectTransparency.types false in
 @[simp] theorem Rep.bcNNC_M (M : Rep (cyclicOfCardTwo K L h)) (v : (cyclicOfCardTwo K L h).V) :
     (Rep.bcNNC (h'' := h'') R M).M v = L'' ⊗[L] M.M v := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem Rep.bcNNC_φEdge (M : Rep (cyclicOfCardTwo K L h)) (e : (cyclicOfCardTwo K L h).E) :
     (Rep.bcNNC (h'' := h'') R M).φEdge e = LinearMap.baseChange L'' (M.φEdge e) := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem Rep.bcNNC_φ_tmul (M : Rep (cyclicOfCardTwo K L h)) (σ : Gal(L''/K''))
     (v : (cyclicOfCardTwo K L h).V) (b : L'') (m : M.M v) :
     (Rep.bcNNC (h'' := h'') R M).φ σ v (b ⊗ₜ[L] m)
       = σ b ⊗ₜ[L] M.φ' (R.θ σ) (R.smul_vertexC (h'' := h'') σ v) m := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Path composites of the `nn` base change.  @census none (helper; WP-15) -/
 theorem Rep.pathMap_bcNNC (M : Rep (cyclicOfCardTwo K L h)) {a b : (cyclicOfCardTwo K L h).V}
     (p : Quiver.Path a b) :
@@ -391,6 +406,7 @@ theorem ψ_φ'C {M N : Rep (cyclicOfCardTwo K L h)} (f : Rep.Hom M N) (g : Gal(L
     f.ψ w (M.φ' g hvw m) = N.φ' g hvw (f.ψ v m) := by
   subst hvw; exact f.rational g v m
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `nn` base change of a morphism.  @census none (helper; WP-15) -/
 noncomputable def Rep.Hom.bcNNC {M N : Rep (cyclicOfCardTwo K L h)} (f : Rep.Hom M N) :
     Rep.Hom (Rep.bcNNC (h'' := h'') R M) (Rep.bcNNC (h'' := h'') R N) where
@@ -411,6 +427,7 @@ noncomputable def Rep.Hom.bcNNC {M N : Rep (cyclicOfCardTwo K L h)} (f : Rep.Hom
       exact ψ_φ'C f _ _ m
     | add x y hx hy => simp only [map_add, hx, hy]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The `nn` quiver-side base-change functor for the cyclic quiver**
 `Rep^nil(cyclic_K) ⥤ Rep^nil(cyclic_{K''})`, constructed.
 @census none (helper; WP-15; the `nn` shape of `RQ-5.08-C4` at `ℓ = 0`) -/
@@ -489,6 +506,7 @@ theorem galActC_bcNN (hι : ConjCompat D D'') (A : HCEObj 0 E D)
     rw [conjBC_tmul, D''.eq_conj_of_ne_one hσ]
 
 variable (D D'') in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `E''(√-1) ⊗ 𝔼_E(M)` at `ℓ = 0`.  @census none (helper; WP-15) -/
 noncomputable def E_Cyc_fdrep_bcNN (hι : ConjCompat D D'') (A : HCEObj 0 E D)
     (hA : Gelfand.Cyclic.ObjSpecC D.card_gal A) :
@@ -498,6 +516,7 @@ noncomputable def E_Cyc_fdrep_bcNN (hι : ConjCompat D D'') (A : HCEObj 0 E D)
     haveI : Module.Finite D.carrier (Gelfand.Cyclic.V2 A v) := A.admissible _
     exact Module.Finite.base_change D.carrier D''.carrier (Gelfand.Cyclic.V2 A v)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The rational-structure square of the component at `ℓ = 0`, as an identity of additive maps.
 @census none (helper; WP-15) -/
 theorem bcNNC_hrat (hι : ConjCompat D D'') (A : HCEObj 0 E D) (hA : Gelfand.Cyclic.ObjSpecC D.card_gal A)
@@ -532,6 +551,7 @@ noncomputable def bcNNRepIsoC (hι : ConjCompat D D'') (A : HCEObj 0 E D)
     (fun σ v x => DFunLike.congr_fun (bcNNC_hrat hι A hA hA'' σ v) x)
 
 variable (E D E'' D'') in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The square of case (2) at `ℓ = 0`, in the direction the components are built in.
 @census none (helper; WP-15) -/
 noncomputable def E_bc_cyc_nn_iso' (hι : ConjCompat D D'') (h : Gelfand.Cyclic.E_CycSpec D.card_gal)

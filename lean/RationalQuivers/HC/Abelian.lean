@@ -1,9 +1,13 @@
-import RationalQuivers.HC.Category
-import RationalQuivers.Descent.Galois
-import Mathlib.CategoryTheory.Abelian.Basic
-import Mathlib.RingTheory.Flat.Equalizer
-import Mathlib.LinearAlgebra.TensorProduct.Prod
-import Mathlib.RingTheory.Finiteness.Prod
+module
+
+public import RationalQuivers.HC.Category
+public import RationalQuivers.Descent.Galois
+public import Mathlib.CategoryTheory.Abelian.Basic
+public import Mathlib.RingTheory.Flat.Equalizer
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
+public import Mathlib.RingTheory.Finiteness.Prod
+
+@[expose] public section
 
 /-!
 # `HC_λ(𝔤,K)_E` is abelian, for every field `E` of characteristic `0`
@@ -72,7 +76,6 @@ theorem galoisTwist_lTensor {W : Type} [AddCommGroup W] [Module E W] (g : V →�
     (σ : D.L ≃ₐ[E] D.L) (x : D.L ⊗[E] V) :
     galoisTwist σ (g.lTensor D.L x) = g.lTensor D.L (galoisTwist σ x) := by
   induction x with
-  | zero => simp
   | tmul a v => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -483,7 +486,6 @@ theorem formIncl_formMap (f : Hom A B) (v : A.form) :
 theorem baseChange_formMap (f : Hom A B) (x : D.L ⊗[E] A.form) :
     B.baseChange (f.formMap.lTensor D.L x) = f.toLinearMap (A.baseChange x) := by
   induction x with
-  | zero => simp
   | tmul a v =>
       have h1 : (a ⊗ₜ[E] v : D.L ⊗[E] A.form) = a • ((1 : D.L) ⊗ₜ[E] v) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -813,7 +815,6 @@ theorem prodRight_galoisTwist (σ : D.L ≃ₐ[E] D.L) (z : D.L ⊗[E] (A.form �
       (galoisTwist σ (TensorProduct.prodRight E D.L D.L A.form B.form z).1,
         galoisTwist σ (TensorProduct.prodRight E D.L D.L A.form B.form z).2) := by
   induction z with
-  | zero => simp only [map_zero]; rfl
   | tmul a v => simp
   | add x y hx hy => simp only [map_add, hx, hy, Prod.fst_add, Prod.snd_add, Prod.mk_add_mk]
 
@@ -898,7 +899,6 @@ instance : Subsingleton (D.L ⊗[E] PUnit.{1}) :=
   ⟨fun x y => by
     have h : ∀ z : D.L ⊗[E] PUnit.{1}, z = 0 := fun z => by
       induction z with
-      | zero => rfl
       | tmul a u => rw [Subsingleton.elim u 0, TensorProduct.tmul_zero]
       | add x y hx hy => rw [hx, hy, add_zero]
     rw [h x, h y]⟩

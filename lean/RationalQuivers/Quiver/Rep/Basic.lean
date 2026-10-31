@@ -1,5 +1,9 @@
-import RationalQuivers.Descent.Hom
-import RationalQuivers.Quiver.Basic
+module
+
+public import RationalQuivers.Descent.Hom
+public import RationalQuivers.Quiver.Basic
+
+@[expose] public section
 
 /-!
 # Rational quiver representations
@@ -631,8 +635,7 @@ theorem constL_nontrivial (Γ : RationalQuiver K L) (t : Γ.E → L)
 /-- **G5 non-degeneracy**: the edge maps of `constLOne` are the identity. -/
 theorem constLOne_φEdge_apply (Γ : RationalQuiver K L) (e : Γ.E)
     (m : (constLOne Γ).M (Γ.toRQuiver.source e)) : (constLOne Γ).φEdge e m = m := by
-  show LinearMap.mulLeft L (1 : L) m = m
-  rw [LinearMap.mulLeft_apply, one_mul]
+  exact one_mul (M := L) m
 
 /-- **G5 non-degeneracy**: the edge maps of `constLOne` are **not** zero, so the inhabitant does
 not satisfy the all-trivial interpretation of `def:rationalrepresentations`(iii). -/
@@ -641,8 +644,7 @@ theorem constLOne_φEdge_ne_zero (Γ : RationalQuiver K L) (e : Γ.E) :
   intro h
   have h1 : (1 : L) = 0 := by
     have h2 := LinearMap.congr_fun h (1 : L)
-    rw [constLOne_φEdge_apply] at h2
-    exact h2
+    exact (constLOne_φEdge_apply Γ e (1 : L)).symm.trans h2
   exact one_ne_zero h1
 
 end Rep

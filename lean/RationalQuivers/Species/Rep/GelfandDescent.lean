@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.Equivalence
-import RationalQuivers.Species.Rep.Gelfand
+module
+
+public import RationalQuivers.Species.Rep.Equivalence
+public import RationalQuivers.Species.Rep.Gelfand
+
+@[expose] public section
 
 /-!
 # The descent formula for `S(Γ_K)`'s structure maps (§2.5, the support of `RQ2-2.37`)
@@ -57,6 +61,7 @@ open scoped Classical
 variable {K L : Type} [Field K] [Field L] [Algebra K L] [IsGalois K L]
   {Γ : RationalQuiver K L}
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The descent formula on a generator.**  `f_{ij}(w ⊗ m) = ∑_ε ∑_η (ητ_ε⁻¹)(m_ε)·Φ_{ε,η}(w)`,
 read inside `M(v_j)`. 
 @census none (helper; R-ERR-4 relocation) -/
@@ -75,6 +80,7 @@ theorem edgeDescentOf_generator (M : Rep Γ) (i j : Γ.VertexOrbit)
   rw [← hval]
   exact Finset.sum_congr rfl fun ε _ => Finset.sum_congr rfl fun η _ => by rw [one_mul]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- If every edge map of `M` vanishes, so does every descended structure map. 
 @census none (helper; R-ERR-4 relocation) -/
 theorem edgeDescentOf_eq_zero_of_edges (M : Rep Γ) (i j : Γ.VertexOrbit)
@@ -99,6 +105,7 @@ theorem edgeDescentOf_eq_zero_of_edges (M : Rep Γ) (i j : Γ.VertexOrbit)
     rw [hpc, smul_zero]
   · rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- If every edge **from `i` to `j`** vanishes, so does `f_{ij}`. 
 @census none (helper; R-ERR-4 relocation) -/
 theorem edgeDescentOf_eq_zero_of_edgeSet (M : Rep Γ) (i j : Γ.VertexOrbit)
@@ -141,6 +148,7 @@ theorem cosetIndex_subsingleton {i j : Γ.VertexOrbit} {ε : Γ.EdgeOrbit i j} (
     rw [h]; infer_instance
   exact ⟨Quotient.ind fun a => Quotient.ind fun b => congrArg _ (Subsingleton.elim a b)⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The descent formula when there is exactly one edge orbit from `i` to `j`. 
 @census none (helper; R-ERR-4 relocation) -/
 theorem edgeDescentOf_uniqueOrbit (M : Rep Γ) (i j : Γ.VertexOrbit)
@@ -398,15 +406,18 @@ theorem wv_inj (M : RationalQuiver.FDRep Γ) (i : Γ.toSpecies.I)
     {a b : ((RationalQuiver.FFunctor Γ).obj M).W i} (hab : wv M i a = wv M i b) : a = b :=
   Subtype.ext hab
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `wv_zero`.  @census none (helper; R-ERR-4 relocation) -/
 theorem wv_zero (M : RationalQuiver.FDRep Γ) (i : Γ.toSpecies.I) :
     wv M i (0 : ((RationalQuiver.FFunctor Γ).obj M).W i) = 0 := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The balanced product `W_i ⊗_{L_i} {}_iM_j`. 
 @census none (helper; R-ERR-4 relocation) -/
 noncomputable abbrev Ten (M : RationalQuiver.FDRep Γ) (i j : Γ.toSpecies.I) : Type :=
   Γ.toSpecies.toSpecies.RepTensor i j (((RationalQuiver.FFunctor Γ).obj M).W i)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The generator `w ⊗ m`. 
 @census none (helper; R-ERR-4 relocation) -/
 noncomputable abbrev tmk (M : RationalQuiver.FDRep Γ) (i j : Γ.toSpecies.I)

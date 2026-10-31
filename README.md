@@ -22,7 +22,23 @@ Every theorem of the manuscript that the formalization claims (109 labelled stat
 [`correspondence/`](correspondence/)) is proved in Lean without `sorry` and with no axioms beyond
 `propext`, `Classical.choice` and `Quot.sound`. CI checks both on every push.
 
-Exported from the development repository at commit `a155fd7173150417b85225af1b8956c0afa29275` (version 1.0.1).
+Exported from the development repository at commit `85531499e11d6d75ba9b8307db353fde9894b93a` (version 1.1.0).
+
+## Changes since v1.0.x
+
+Version 1.1.0 ports the formalization from Lean `v4.31.0` with mathlib commit `fabf563a` to Lean
+`v4.35.0` with mathlib `v4.35.0`, and to Lean's module system. The theorems and their statements are
+the same: the same 109 labelled statements have Lean claimants, under the same names, in the same
+files, and no declaration was renamed or removed. With the default pretty-printer all 109 claimed
+statements print identically on both versions. The differences in fully elaborated form come from
+mathlib's own changes: other instance paths, renamed library constants (`setOf` → `Set.ofPred`,
+`MonoidHomClass.toMonoidHom` → `MonoidHom.ofClass`), and `CategoryTheory.Aut X` becoming a structure, so
+that `a.hom` now reads `a.asIso.hom`. The port changes no mathematical content. Details are under
+[Lean version and module system](#lean-version-and-module-system).
+
+The paper (arXiv:2506.23251v2, submitted to the Journal of Algebra) cites version `v1.0.0`, commit
+`b69c173`, of this repository. That reference stays valid: `v1.0.0` and `v1.0.1` remain in the
+history, build with the toolchain pinned there (Lean `v4.31.0`) and carry the same theorems.
 
 ## Paper ↔ Lean
 
@@ -63,8 +79,8 @@ The Lean sources follow the sections of the manuscript:
 
 ## Building
 
-The toolchain is `leanprover/lean4:v4.31.0` (`lean/lean-toolchain`), and mathlib is pinned to commit
-`fabf563a7c95a166b8d7b6efca11c8b4dc9d911f` (`lean/lakefile.toml`, `lean/lake-manifest.json`). With
+The toolchain is `leanprover/lean4:v4.35.0` (`lean/lean-toolchain`), and mathlib is pinned to commit
+`56a005855ea17e0b0958f73ec801ae140b0a1679` (`lean/lakefile.toml`, `lean/lake-manifest.json`). With
 [elan](https://github.com/leanprover/elan) installed:
 
 ```
@@ -75,6 +91,7 @@ lake build Check       # check the claimed declarations (see below)
 ```
 
 Without `lake exe cache get`, `lake build` compiles mathlib from source, which takes hours.
+elan installs the pinned toolchain on first use.
 
 The manuscript builds with a standard TeX Live installation:
 
@@ -102,6 +119,35 @@ table of Appendix A settle on the third pass.)
   rather than computed. Every claimed declaration's docstring has a `@divergence` field that
   states how the Lean statement differs from the printed text, if at all (`none`,
   `JUSTIFIED_REFORMULATION` or `WEAKENED_OR_PARTIAL`, with the affected clauses).
+
+## Lean version and module system
+
+* **Pins.** `lean/lean-toolchain` is `leanprover/lean4:v4.35.0`. mathlib is pinned to tag `v4.35.0`, commit
+  `56a005855ea17e0b0958f73ec801ae140b0a1679`, in `lean/lakefile.toml` and `lean/lake-manifest.json`.
+* **Module system.** Every `.lean` file in this repository starts with a `module` header. Imports are
+  `public import`, and each file's declarations sit in an `@[expose] public section`, so definitions
+  unfold across files exactly as they did before the port. Nothing is `meta` and no file uses
+  `import all`.
+* **Elaboration option.** 523 declarations or sections (506 with `set_option … in`, 17 scoped to a
+  named section) set `backward.isDefEq.respectTransparency.types false`. Newer Lean versions make
+  the elaborator unify types at the transparency of the current task, for example the instance
+  transparency of type-class search, where older versions unfolded further. The formalization identifies index types such as `Fin 3` with the
+  vertex type `Γ.V` of a quiver by unfolding definitions, and in these places the stricter setting no
+  longer finds the instance or the rewrite. The option restores the earlier unification behaviour for
+  types. It changes only how the elaborator finds terms. The kernel checks every resulting proof term
+  as usual, and the axioms a declaration uses are unaffected; the axiom checks below run on the
+  kernel-checked environment.
+* **Small source changes.** 13 `private` helpers became public, because exposed definitions use them.
+  `Descent.galoisTensorAction` is now defined as mathlib's `TensorProduct.leftDistribMulAction`, the
+  instance mathlib now provides on `L ⊗[K] V`, which removes an instance diamond. Accessors
+  `RQuiver.Aut.hom`/`inv` were added for the `Aut` structure, and a few helper instances at concrete
+  index types. No statement was edited.
+* **Audit of the port.** The development repository's audit instrument (not exported; see
+  Provenance) was run on the ported tree. It scanned 11 638 declarations and found no `sorryAx` and no
+  axiom outside `propext`, `Classical.choice` and `Quot.sound`. Its other checks also passed: coverage
+  (109 claimed, 0 unclaimed), clauses (669/669), and proof-route faithfulness (45/45 `SAME`). Its
+  negative controls, a `sorry` and a false axiom in fixture modules, are detected through the module
+  boundary.
 
 ## Scope and modelling choices
 

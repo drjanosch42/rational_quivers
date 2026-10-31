@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.EssSurj.Construction
+module
+
+public import RationalQuivers.Gelfand.EssSurj.Construction
+
+@[expose] public section
 
 /-!
 # essential surjectivity, the rational structure on `M` (§5.3, Step O-19)
@@ -149,6 +153,7 @@ noncomputable def essBaseChange (ℓ : ℕ) :
   LinearEquiv.ofBijective (Descent.descentCounit E Dq.carrier (essVecK hcard V ℓ))
     (Descent.descentCounit_bijective E Dq.carrier (essVecK hcard V ℓ))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`c` fixes `1 ⊗ v`** (`RationalSetup.conj_baseChange`): by construction, since `M_ℚ` IS the
 fixed-point space.  @census none (helper; engine `E2`) -/
 theorem essConj_baseChange (ℓ : ℕ) (v : ↥(essForm hcard V ℓ)) :

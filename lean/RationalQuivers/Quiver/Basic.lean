@@ -1,8 +1,12 @@
-import Mathlib.CategoryTheory.Category.Quiv
-import Mathlib.CategoryTheory.Endomorphism
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.Topology.Algebra.MulAction
+module
+
+public import Mathlib.CategoryTheory.Category.Quiv
+public import Mathlib.CategoryTheory.Endomorphism
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.FieldTheory.KrullTopology
+public import Mathlib.Topology.Algebra.MulAction
+
+@[expose] public section
 
 /-!
 # Classical quivers and `K`-rational structures on them
@@ -154,6 +158,46 @@ category `RQuiver`. It carries mathlib's `Group` structure, whose multiplication
 -/
 abbrev Aut (Γ : RQuiver.{u}) : Type u := CategoryTheory.Aut Γ
 
+/-! Port v4.35 (`workflow/v2/release/PORT-V435.md`): mathlib's `CategoryTheory.Aut X` changed from
+the abbreviation `X ≅ X` to a one-field structure (`Aut.of`/`Aut.asIso`). The four accessors below
+restore, for `Aut Γ`, the projections `a.hom`, `a.inv`, `a.hom_inv_id`, `a.inv_hom_id` that the
+old definition provided; each is by definition the corresponding projection of `a.asIso`. -/
+
+/-- The underlying morphism of an automorphism (`= a.asIso.hom`). Port v4.35.
+
+@census none (helper)
+-/
+abbrev Aut.hom {Γ : RQuiver.{u}} (a : Aut Γ) : Γ ⟶ Γ := a.asIso.hom
+
+/-- The underlying inverse morphism of an automorphism (`= a.asIso.inv`). Port v4.35.
+
+@census none (helper)
+-/
+abbrev Aut.inv {Γ : RQuiver.{u}} (a : Aut Γ) : Γ ⟶ Γ := a.asIso.inv
+
+/-- `a.hom ≫ a.inv = 𝟙 Γ`. Port v4.35.
+
+@census none (helper)
+-/
+@[reassoc]
+theorem Aut.hom_inv_id {Γ : RQuiver.{u}} (a : Aut Γ) : a.hom ≫ a.inv = 𝟙 Γ :=
+  a.asIso.hom_inv_id
+
+/-- `a.inv ≫ a.hom = 𝟙 Γ`. Port v4.35.
+
+@census none (helper)
+-/
+@[reassoc]
+theorem Aut.inv_hom_id {Γ : RQuiver.{u}} (a : Aut Γ) : a.inv ≫ a.hom = 𝟙 Γ :=
+  a.asIso.inv_hom_id
+
+/-- Two automorphisms with the same underlying morphism are equal. Port v4.35.
+
+@census none (helper)
+-/
+theorem Aut.ext {Γ : RQuiver.{u}} {a b : Aut Γ} (h : a.hom = b.hom) : a = b :=
+  CategoryTheory.Aut.ext (CategoryTheory.Iso.ext h)
+
 /-- The permutation of the vertex set underlying an automorphism of `Γ`.
 
 @census none (helper)
@@ -161,10 +205,10 @@ abbrev Aut (Γ : RQuiver.{u}) : Type u := CategoryTheory.Aut Γ
 @[simps]
 def Aut.toPermV (Γ : RQuiver.{u}) : Aut Γ →* Equiv.Perm Γ.V where
   toFun a :=
-    { toFun := a.hom.onV
-      invFun := a.inv.onV
-      left_inv := fun v => congrFun (congrArg Hom.onV a.hom_inv_id) v
-      right_inv := fun v => congrFun (congrArg Hom.onV a.inv_hom_id) v }
+    { toFun := Aut.hom a |>.onV
+      invFun := Aut.inv a |>.onV
+      left_inv := fun v => congrFun (congrArg Hom.onV (Aut.hom_inv_id a)) v
+      right_inv := fun v => congrFun (congrArg Hom.onV (Aut.inv_hom_id a)) v }
   map_one' := rfl
   map_mul' _ _ := rfl
 
@@ -175,10 +219,10 @@ def Aut.toPermV (Γ : RQuiver.{u}) : Aut Γ →* Equiv.Perm Γ.V where
 @[simps]
 def Aut.toPermE (Γ : RQuiver.{u}) : Aut Γ →* Equiv.Perm Γ.E where
   toFun a :=
-    { toFun := a.hom.onE
-      invFun := a.inv.onE
-      left_inv := fun e => congrFun (congrArg Hom.onE a.hom_inv_id) e
-      right_inv := fun e => congrFun (congrArg Hom.onE a.inv_hom_id) e }
+    { toFun := Aut.hom a |>.onE
+      invFun := Aut.inv a |>.onE
+      left_inv := fun e => congrFun (congrArg Hom.onE (Aut.hom_inv_id a)) e
+      right_inv := fun e => congrFun (congrArg Hom.onE (Aut.inv_hom_id a)) e }
   map_one' := rfl
   map_mul' _ _ := rfl
 
@@ -194,7 +238,7 @@ def autOfAction (Γ : RQuiver.{u}) {G : Type*} [Group G]
     (hs : ∀ (g : G) (e : Γ.E), Γ.source (aE g e) = aV g (Γ.source e))
     (ht : ∀ (g : G) (e : Γ.E), Γ.target (aE g e) = aV g (Γ.target e)) :
     G →* Aut Γ where
-  toFun g :=
+  toFun g := .of
     { hom :=
         { onV := aV g
           onE := aE g
@@ -212,9 +256,9 @@ def autOfAction (Γ : RQuiver.{u}) {G : Type*} [Group G]
       inv_hom_id := by
         refine Hom.ext ?_ ?_ <;> funext x <;> simp }
   map_one' := by
-    refine CategoryTheory.Aut.ext (Hom.ext ?_ ?_) <;> funext x <;> simp <;> rfl
+    refine CategoryTheory.Aut.ext (CategoryTheory.Iso.ext (Hom.ext ?_ ?_)) <;> funext x <;> simp <;> rfl
   map_mul' _ _ := by
-    refine CategoryTheory.Aut.ext (Hom.ext ?_ ?_) <;> funext x <;> simp <;> rfl
+    refine CategoryTheory.Aut.ext (CategoryTheory.Iso.ext (Hom.ext ?_ ?_)) <;> funext x <;> simp <;> rfl
 
 /-! ### The bridge to mathlib's `Quiver` (design decision D4) -/
 
@@ -526,7 +570,7 @@ theorem isSplit_iff (Γ : RationalQuiver K L) :
       funext fun v => hV σ v
     have hE' : (Γ.ρ σ).hom.onE = (1 : RQuiver.Aut Γ.toRQuiver).hom.onE :=
       funext fun e => hE σ e
-    exact CategoryTheory.Aut.ext (RQuiver.Hom.ext hV' hE')
+    exact RQuiver.Aut.ext (RQuiver.Hom.ext hV' hE')
 
 /-- The kernel of a `K`-rational structure is an **open** subgroup of `Gal(L/K)`.
 
@@ -556,7 +600,7 @@ theorem isOpen_ker_ρ (Γ : RationalQuiver K L) :
     · rintro ⟨hV, hE⟩
       have hV' : (Γ.ρ σ).hom.onV = (1 : RQuiver.Aut Γ.toRQuiver).hom.onV := funext hV
       have hE' : (Γ.ρ σ).hom.onE = (1 : RQuiver.Aut Γ.toRQuiver).hom.onE := funext hE
-      exact CategoryTheory.Aut.ext (RQuiver.Hom.ext hV' hE')
+      exact RQuiver.Aut.ext (RQuiver.Hom.ext hV' hE')
   rw [hset]
   exact (isOpen_iInter_of_finite fun v => Γ.smooth_V v).inter
     (isOpen_iInter_of_finite fun e => Γ.smooth_E e)

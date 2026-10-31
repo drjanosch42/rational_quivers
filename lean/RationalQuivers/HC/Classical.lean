@@ -1,15 +1,19 @@
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import Mathlib.Analysis.Complex.Trigonometric
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Analysis.Complex.Exponential
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import RationalQuivers.HC.Pair
-import RationalQuivers.HC.Casimir
-import RationalQuivers.HC.Graded
-import RationalQuivers.HC.Noetherian
-import Mathlib.CategoryTheory.Limits.Constructions.FiniteProductsOfBinaryProducts
-import Mathlib.CategoryTheory.Abelian.Basic
+module
+
+public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+public import Mathlib.Analysis.Complex.Trigonometric
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Analysis.Complex.Exponential
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import RationalQuivers.HC.Pair
+public import RationalQuivers.HC.Casimir
+public import RationalQuivers.HC.Graded
+public import RationalQuivers.HC.Noetherian
+public import Mathlib.CategoryTheory.Limits.Constructions.FiniteProductsOfBinaryProducts
+public import Mathlib.CategoryTheory.Abelian.Basic
+
+@[expose] public section
 
 /-!
 # Harish-Chandra modules for `SL₂(ℝ)`, and the category `HC_λ(𝔤,K)_E`
@@ -1762,6 +1766,7 @@ theorem trivialHC_mem_category :
   · intro v
     show (1 : Representation ℂ (SO2_QStructure ℝ) ℂ) _ v = _
     simp
+    rfl
 
 /-- `HC_λ(𝔤,K)` at `ℓ = 1` is inhabited (`WORKFLOW.md` §4/G5.2 for `RQ2-3.03`).
 

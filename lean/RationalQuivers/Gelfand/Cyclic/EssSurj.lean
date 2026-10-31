@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Cyclic.FullyFaithful
+module
+
+public import RationalQuivers.Gelfand.Cyclic.FullyFaithful
+
+@[expose] public section
 
 /-!
 # the case `ℓ = 0`: essential surjectivity (§5.3, Step C-7)
@@ -81,7 +85,9 @@ carrier `Split.cz*` (`Gelfand/Split/Cyclic.lean`) read at `toSplitC V` is this e
 @census none (helper; OQ-7) -/
 noncomputable def toSplitCRep : RationalQuiver.FDRep (cyclicSplit Dq.carrier) where
   toRep := RationalQuiver.Rep.ofFiniteDimensional (Γ := cyclicSplit Dq.carrier)
-    (fun v => V.obj.toRep.M v) (fun _ _ => AddEquiv.refl _)
+    (fun v => V.obj.toRep.M v) (inst₁ := fun v => V.obj.toRep.addCommGroup v)
+    (inst₂ := fun v => V.obj.toRep.module v)
+    (fun _ v => letI := V.obj.toRep.addCommGroup v; AddEquiv.refl _)
     (fun σ v a m => by rw [galSelf_apply]; rfl) (fun _ _ _ _ => rfl)
     (fun e => V.obj.toRep.φEdge e) (fun _ _ _ _ h => by cases h; rfl)
   finiteDimensional v := V.obj.finiteDimensional v
@@ -579,6 +585,7 @@ noncomputable def csBaseChange :
   LinearEquiv.ofBijective (Descent.descentCounit E Dq.carrier (csVecK hcard V))
     (Descent.descentCounit_bijective E Dq.carrier (csVecK hcard V))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- @census none (helper; engine `E10`) -/
 theorem csConj_baseChange (v : ↥(csForm hcard V)) :
     csConj hcard V (csBaseChange hcard V ((1 : Dq.carrier) ⊗ₜ[E] v))
@@ -630,6 +637,7 @@ theorem cycRepEqCast_val {A : HCEObj 0 E Dq} (hA : ObjSpecC hcard A) {v w : (cyc
     (((E_Cyc_rep hcard A hA).eqCast h m : V2 A w)).1 = m.1 := by
   subst h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The transported `c`-structure of `𝔼_ℚ(M)` at `ℓ = 0`, on carrier values.
 @census none (helper) -/
 theorem cycRepPhi'_val {A : HCEObj 0 E Dq} (hA : ObjSpecC hcard A) {v w : (cyclicQ hcard).V}
@@ -672,6 +680,7 @@ def cycRepHomInv {M N : RationalQuiver.Rep (cyclicQ hcard)}
 
 
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The comparison map intertwines `φ_{v,c}` with the rational structure of `𝔼_ℚ(M)` — which at
 `ℓ = 0` is `c` itself.  @census none (helper; engine `E10`) -/
 theorem csEmb_rational_conj (hA : ObjSpecC hcard (csHCQObj hcard V)) :
@@ -905,7 +914,9 @@ section CyclicEssSurj
 noncomputable def toSplitRepZ (V : (RepNilTarget D 0).FullSubcategory) :
     RationalQuiver.FDRep (cyclicSplit D.L) where
   toRep := RationalQuiver.Rep.ofFiniteDimensional (Γ := cyclicSplit D.L)
-    (fun v => V.obj.toRep.M v) (fun _ _ => AddEquiv.refl _)
+    (fun v => V.obj.toRep.M v) (inst₁ := fun v => V.obj.toRep.addCommGroup v)
+    (inst₂ := fun v => V.obj.toRep.module v)
+    (fun _ v => letI := V.obj.toRep.addCommGroup v; AddEquiv.refl _)
     (fun σ v a m => by rw [galSelf_apply]; rfl) (fun _ _ _ _ => rfl)
     (fun e => V.obj.toRep.φEdge e) (fun _ _ _ _ h => by cases h; rfl)
   finiteDimensional v := V.obj.finiteDimensional v
@@ -974,6 +985,7 @@ theorem E_Cyc_repZ_eqCast_val (A : HC 0 E D)
     (((E_Cyc_repZ A).eqCast h m : V2Z A w)).1 = m.1 := by
   subst h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Essential surjectivity, `ℓ = 0`, `√-1 ∉ E`** (Step C-7): the module `M` of the `ℓ = 0`
 construction with `φ_c^M`, Galois descent, and `𝔼_E(M_E) = V` by the canonical embeddings.
 @census none (helper) -/

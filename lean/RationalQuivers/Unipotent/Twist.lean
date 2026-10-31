@@ -1,7 +1,11 @@
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import Mathlib.RingTheory.TensorProduct.Basic
-import RationalQuivers.Unipotent.Nilpotent
+module
+
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+public import Mathlib.RingTheory.TensorProduct.Basic
+public import RationalQuivers.Unipotent.Nilpotent
+
+@[expose] public section
 
 /-!
 # The `τ`-twist on `W_L = L ⊗_K W_K`
@@ -63,7 +67,6 @@ theorem galoisTwist_tmul (σ : Gal(L/K)) (a : L) (w : WK) :
 theorem galoisTwist_smul (σ : Gal(L/K)) (a : L) (x : L ⊗[K] WK) :
     galoisTwist σ (a • x) = σ a • galoisTwist σ x := by
   induction x with
-  | zero => simp
   | tmul b w =>
       rw [TensorProduct.smul_tmul', smul_eq_mul, galoisTwist_tmul, galoisTwist_tmul,
         TensorProduct.smul_tmul', smul_eq_mul, map_mul]

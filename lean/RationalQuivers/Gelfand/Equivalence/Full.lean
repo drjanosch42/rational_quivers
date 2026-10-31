@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Equivalence.Faithful
+module
+
+public import RationalQuivers.Gelfand.Equivalence.Faithful
+
+@[expose] public section
 
 /-!
 # fullness of `𝔼_E`, the `ζ`-argument (§5.3, Step O-17)
@@ -431,7 +435,8 @@ theorem E_E_full : (E_EGel (D := D) hℓ).Full := by
     have hRat : IsRatMap hℓ (A := A.toHCEObj h) (B := B.toHCEObj h) u := by
       intro v m hm
       have hkey := congrArg Subtype.val (g.1.rational σ (vtxE D v) ⟨m, hm⟩)
-      rw [← Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ, ← Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ B hσ]
+      rw [← Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ A hσ v m]
+      erw [← Gelfand.RationalStructure.E_E_φ_eq_phiC hℓ B hσ v (u m)]
       refine Eq.trans ?_ (Eq.trans hkey ?_)
       · exact (hval (σ • vtxE D v) (E_E_φEquiv hℓ A σ v ⟨m, hm⟩)).symm
       · exact congrArg (Gelfand.RationalStructure.E_E_φ hℓ B σ v) (hval v ⟨m, hm⟩)

@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.GelfandDescent
-import RationalQuivers.Species.Rep.Relations
+module
+
+public import RationalQuivers.Species.Rep.GelfandDescent
+public import RationalQuivers.Species.Rep.Relations
+
+@[expose] public section
 
 /-!
 # `R_Gelfand`, the species-side relation of `ex:gelfandspeciesrelation` (census `RQ2-2.37`)
@@ -155,6 +159,7 @@ noncomputable def evE {i j : (ES K L h).I} (ε : (GΓ K L h).EdgeOrbit i j) :
     (ES K L h).M i j →ₐ[K] L :=
   ((GΓ K L h).edgeOrbitField ε).val.comp (Pi.evalAlgHom K _ ε)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- the element of an edge algebra with every component `z`. 
 @census none (helper; RQ2-2.37 support) -/
 noncomputable def cst {i j : (ES K L h).I} (z : L) : (ES K L h).M i j :=
@@ -323,7 +328,6 @@ theorem balanced_eq_mk {A B Y X : Type} [Ring A] [Algebra K A] [Ring B] [Algebra
     (t : RationalQuivers.Balanced K A B Y X) : ∃ y : Y, t = Balanced.mk x₀ y := by
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
   induction s with
-  | zero => exact ⟨0, (Balanced.mk_zero_right' (A' := A) (B' := B) x₀).symm⟩
   | tmul y x =>
       obtain ⟨a, rfl⟩ := hX x
       exact ⟨a • y, Balanced.mk_smul (K := K) (B := B) a x₀ y⟩
@@ -627,6 +631,7 @@ theorem toStar_mem (M : FDRep (GΓ K L h)) (w : ((FFunctor (GΓ K L h)).obj M).W
 
 /-! ### Step 1: `f_{⋆±}` -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f_{⋆±}(w ⊗ z) = τ₁⁻¹(z)·u`, the one-term formula at the Gelfand species.
 @census none (helper; RQ2-2.37 support) -/
 theorem f_SP_eq (M : FDRep (GΓ K L h)) (w : ((FFunctor (GΓ K L h)).obj M).W (nStar K L h))
@@ -644,6 +649,7 @@ theorem f_SP_eq (M : FDRep (GΓ K L h)) (w : ((FFunctor (GΓ K L h)).obj M).W (n
 
 /-! ### Step 2: `f_{±⋆}` after `f_{⋆±}`, with the scalar out front -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f_p(w ⊗ z ⊗ 1) = β₀(z)·A(w) + c(β₀(z))·φ_{⋆,c}(A(w))`: the two-term formula with the
 scalar pushed out front through the semilinearity of every `φ'`.
 @census none (helper; RQ2-2.37 support) -/
@@ -879,6 +885,7 @@ theorem apply_neg_of_conj {c : Gal(L/K)} (hc : c ≠ 1) {α : L} (hα : c α = -
   · simpa using hα
   · rw [hα, map_neg, hα]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.37` — `ex:gelfandspeciesrelation`.**  `F(M)` satisfies `R_Gelfand` **iff** `M`
 satisfies the relation `a₋b₋ = a₊b₊` (clause `C3`'s conclusion; the formula is `exists_beta`).
 Clauses `C1` (`thetaEquiv`, `finrank_pathBimod`), `C2` (`RGelfand`, `theta_relGen`) and `C4`
@@ -1022,6 +1029,7 @@ theorem RGelfand_genuine {c : Gal(L/K)} (hc : c ≠ 1) {α : L} (hα : c α = -�
 
 /-! ### Transport across isomorphisms, and the coincidence theorem -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Satisfying `R_Gelfand` is invariant under isomorphism of species representations: on a
 length-two path `f_p` is two structure maps (`pathHom_one_mk`), and a morphism intertwines each
 (`Species.Rep.Hom.comm_mk`).  The shape is that of v1's S8 `satisfiesGelfandRelation_of_iso` (round

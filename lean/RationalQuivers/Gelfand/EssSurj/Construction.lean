@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.Equivalence.Full
-import RationalQuivers.Gelfand.Split.EssSurj
-import RationalQuivers.Unipotent.SquareRoots
-import RationalQuivers.Descent.Galois
+module
+
+public import RationalQuivers.Gelfand.Equivalence.Full
+public import RationalQuivers.Gelfand.Split.EssSurj
+public import RationalQuivers.Unipotent.SquareRoots
+public import RationalQuivers.Descent.Galois
+
+@[expose] public section
 
 /-!
 # essential surjectivity, the construction and its `c`-clauses (§5.3, Steps O-18a/b)
@@ -39,6 +43,31 @@ variable {E : Type} [Field E] [CharZero E] {Dq : SqrtNegOneExt E}
 open scoped TensorProduct Classical
 
 variable {ℓ : ℕ}
+
+section VMInstances
+
+variable (hcard : Nat.card (Dq.carrier ≃ₐ[E] Dq.carrier) = 2)
+
+/-- The additive group of `Split.VM (toSplitW hcard V) v`, keyed at `toSplitW` and the index type
+`Fin 3`: `Split.VM.instAddCommGroup` cannot fire here (its argument `W.obj` does not unify with
+`toSplitRep hcard V`). Port v4.35. @census none (helper) -/
+noncomputable instance VM.instAddCommGroupToSplitW (V : Gelfand.RationalStructure.RepNilQ hcard) (v : Fin 3) :
+    AddCommGroup (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) v) :=
+  Split.VM.instAddCommGroup _ v
+
+/-- The `L`-module `Split.VM (toSplitW hcard V) v` (see `VM.instAddCommGroupToSplitW`).
+Port v4.35. @census none (helper) -/
+noncomputable instance VM.instModuleToSplitW (V : Gelfand.RationalStructure.RepNilQ hcard) (v : Fin 3) :
+    Module Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) v) :=
+  Split.VM.instModule _ v
+
+/-- `Split.VM (toSplitW hcard V) v` is finite-dimensional (see `VM.instAddCommGroupToSplitW`).
+Port v4.35. @census none (helper) -/
+noncomputable instance VM.instFiniteDimensionalToSplitW (V : Gelfand.RationalStructure.RepNilQ hcard) (v : Fin 3) :
+    FiniteDimensional Dq.carrier (Split.VM (Gelfand.RationalStructure.toSplitW hcard V) v) :=
+  Split.VM.instFiniteDimensional _ v
+
+end VMInstances
 
 /-! ### Helpers for `essSurj_operators` (`C10`–`C12`, `C14`)
 
@@ -388,6 +417,7 @@ theorem Vphi_smul (V : Gelfand.RationalStructure.RepNilQ hcard) (v : Fin 3) (a :
     Vphi hcard V v (a • m) = Dq.conj a • Vphi hcard V v m :=
   RationalQuiver.Rep.φ'_smul _ _ _ _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The composite along `a₋b₋` is `n_⋆`.  @census none (helper) -/
 theorem pathMap_gelfandPathMinus (V : Gelfand.RationalStructure.RepNilQ hcard) :
     V.obj.toRep.pathMap (a := Gelfand.RationalStructure.vtxQ hcard 1) (b := Gelfand.RationalStructure.vtxQ hcard 1)
@@ -412,6 +442,7 @@ theorem pathMap_gelfandPathMinus (V : Gelfand.RationalStructure.RepNilQ hcard) :
   simp only [LinearMap.comp_id]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The composite along `a₊b₊` is `φ_{a₊}φ_{b₊}`.  @census none (helper) -/
 theorem pathMap_gelfandPathPlus (V : Gelfand.RationalStructure.RepNilQ hcard) :
     V.obj.toRep.pathMap (a := Gelfand.RationalStructure.vtxQ hcard 1) (b := Gelfand.RationalStructure.vtxQ hcard 1)
@@ -436,6 +467,7 @@ theorem pathMap_gelfandPathPlus (V : Gelfand.RationalStructure.RepNilQ hcard) :
   simp only [LinearMap.comp_id]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c`-conjugation carries `n_•` to `n_{c•}`.  @census none (helper) -/
 theorem conjBy_nOp (V : Gelfand.RationalStructure.RepNilQ hcard) (v : Fin 3) :
     conjBy Dq.conj (Vphi hcard V v) (Vphi_smul hcard V v) (Split.nOp (Gelfand.RationalStructure.toSplitW hcard V) v)
@@ -901,6 +933,7 @@ theorem essConjAmb_mem (ℓ : ℕ) (n : ℤ) (x : Split.EssTriple (Gelfand.Ratio
   · rw [Split.essRegion_bot_apply (Gelfand.RationalStructure.toSplitW hcard V) hpar hx, map_zero]
     exact Submodule.zero_mem _
 
+set_option backward.isDefEq.respectTransparency.types false in
 set_option maxHeartbeats 1000000 in
 /-- **`cX = Yc` in the ambient** — `eq:Xconjugation`/`eq:Yconjugation` for the constructed module.
 @census none (helper; engine `E2`) -/

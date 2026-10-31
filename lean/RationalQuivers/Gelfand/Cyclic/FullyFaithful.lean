@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Cyclic.Rational
+module
+
+public import RationalQuivers.Gelfand.Cyclic.Rational
+
+@[expose] public section
 
 /-!
 # the case `ℓ = 0`: full faithfulness (§5.3, Steps C-5a, C-6)

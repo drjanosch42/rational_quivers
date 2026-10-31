@@ -1,13 +1,17 @@
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Algebra.Order.Floor.Div
-import Mathlib.RingTheory.Nilpotent.Basic
-import Mathlib.Tactic.Abel
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.NoncommRing
-import Mathlib.Tactic.Ring
-import Mathlib.Algebra.Algebra.Basic
-import Mathlib.Algebra.Module.LinearMap.End
-import Mathlib.RingTheory.SimpleRing.Basic
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.Order.Floor.Div
+public import Mathlib.RingTheory.Nilpotent.Basic
+public import Mathlib.Tactic.Abel
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.Tactic.Ring
+public import Mathlib.Algebra.Algebra.Basic
+public import Mathlib.Algebra.Module.LinearMap.End
+public import Mathlib.RingTheory.SimpleRing.Basic
+
+@[expose] public section
 
 /-!
 # Unipotent operators: the elementary toolbox

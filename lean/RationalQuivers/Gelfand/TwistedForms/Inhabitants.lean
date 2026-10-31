@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.TwistedForms
-import Mathlib.NumberTheory.Real.Irrational
+module
+
+public import RationalQuivers.Gelfand.TwistedForms
+public import Mathlib.NumberTheory.Real.Irrational
+
+@[expose] public section
 
 /-!
 # Twisted forms without `√-1`: G5 inhabitants of variant (ii) (stage T6)

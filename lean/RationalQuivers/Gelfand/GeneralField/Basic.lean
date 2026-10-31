@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.GeneralBaseCategory
-import RationalQuivers.Gelfand.Split.Construction
+module
+
+public import RationalQuivers.Gelfand.GeneralBaseCategory
+public import RationalQuivers.Gelfand.Split.Construction
+
+@[expose] public section
 
 /-!
 # `rmk:generalbases` over an arbitrary field — vocabulary of the field-generic proof (WP-8c)

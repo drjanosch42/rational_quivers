@@ -1,4 +1,8 @@
-import RationalQuivers.Unipotent.SquareRoots
+module
+
+public import RationalQuivers.Unipotent.SquareRoots
+
+@[expose] public section
 
 /-!
 # Semilinear transport of unipotent square roots between two spaces (final-release WP-16a)

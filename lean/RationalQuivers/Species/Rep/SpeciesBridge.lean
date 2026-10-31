@@ -1,5 +1,10 @@
-import RationalQuivers.Species.Rep.Equivalence
-import RationalQuivers.Quiver.Rep.Nilpotent
+module
+
+public import RationalQuivers.Species.Rep.Equivalence
+public import RationalQuivers.Quiver.Rep.Nilpotent
+public import Mathlib.LinearAlgebra.Dual.Lemmas
+
+@[expose] public section
 
 /-!
 # Engine `E7` — the nilpotency bridge between `Rep^nil(Γ_K)` and `Rep^nil(S(Γ_K))`
@@ -130,6 +135,7 @@ theorem Reach_eq_bot (M : Rep Γ) {n N : ℕ}
 /-! ### `E7` step 4 — the descended structure maps move one step along the filtration -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 4 of `E7`**: the Galois descent `f_{ij}` of `Φ_{ij}` (`RQ2-2.24`) raises the reach by
 exactly one.  This is `IsEdgeDescent`'s first conjunct read as a filtration statement:
 `f_{ij}(w ⊗ m) = Σ_{ε,η} c_{ε,η} · φ'(φ_{e_ε}(φ'(w)))` (`phiTotal_e0_generator`), and each summand
@@ -451,6 +457,7 @@ end Species
 /-! ### `E7` step 8 — one `(ε,η)` term, recovered from the descent -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 8 of `E7`**: each single `(ε,η)` term `phiComp M (ch ε) η u` lies in the `L`-span of the
 values `f_{ij}(u ⊗ m)`.  This is the choosing lemma cashed in: `Pi.single` isolates the edge orbit
 `ε`, and `span_cosetEval_eq_top` isolates the coset `η`.
@@ -605,6 +612,7 @@ theorem TSpan_zero (M : FDRep Γ) (v : Γ.V) : TSpan M 0 v = ⊤ := by
 /-! ### `E7` step 10 — an edge map raises the transported reach by one -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 10 of `E7`**, the converse's engine: an edge map of `Γ` raises `TSpan` by exactly one.
 
 The route is the one `DESIGN-NOTES` §12.5(b) says the tree could not take: pull the edge back to

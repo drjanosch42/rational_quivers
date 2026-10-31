@@ -1,5 +1,9 @@
-import RationalQuivers.Species.AntiEquivalence
-import RationalQuivers.Quiver.BaseChange
+module
+
+public import RationalQuivers.Species.AntiEquivalence
+public import RationalQuivers.Quiver.BaseChange
+
+@[expose] public section
 
 /-!
 # General base change of `K`-rational quivers

@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Basic
+module
+
+public import RationalQuivers.Quiver.Basic
+
+@[expose] public section
 
 /-!
 # `K`-rational quivers as diagrams of finite continuous Galois sets

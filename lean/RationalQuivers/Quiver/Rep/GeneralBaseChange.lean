@@ -1,6 +1,10 @@
-import RationalQuivers.Quiver.Rep.Nilpotent
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import Mathlib.RingTheory.TensorProduct.Finite
+module
+
+public import RationalQuivers.Quiver.Rep.Nilpotent
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+public import Mathlib.RingTheory.TensorProduct.Finite
+
+@[expose] public section
 
 /-!
 # Quiver-side base change for an arbitrary extension
@@ -119,6 +123,7 @@ namespace Rep
 variable {K L : Type u} [Field K] [Field L] [Algebra K L] {Γ : RationalQuiver K L}
 variable (K'' : Type u) [Field K''] [Algebra L K'']
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Base change onto a split target.**  For a `K`-rational representation `M` of `Γ` with
 splitting field `L`, and any field extension `L → K''`, the family `K'' ⊗_L M(v)` with the
 base-changed edge maps and the **trivial** `Gal(K''/K'')`-action is a `K''`-rational representation
@@ -146,6 +151,7 @@ def toSplit (M : Rep Γ) : Rep (splitOf K'' Γ.toRQuiver) where
     subst hm
     rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Base change onto a split target, on morphisms.  @census none (helper) -/
 def Hom.toSplit {M N : Rep Γ} (f : Rep.Hom M N) :
     Rep.Hom (M.toSplit K'') (N.toSplit K'') where
@@ -175,6 +181,7 @@ theorem toSplit_pathMap_congr (M : Rep Γ) {a b : Γ.V} (p q : Quiver.Path a b)
     (M.toSplit K'').pathMap p = (M.toSplit K'').pathMap q := by
   rw [pathMap_toSplit, pathMap_toSplit, h]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Nilpotency survives base change onto a split target.**  @census none (helper) -/
 theorem toSplit_isNilpotent {M : Rep Γ} (h : M.IsNilpotent) : (M.toSplit K'').IsNilpotent := by
   obtain ⟨n, hn⟩ := h
@@ -193,6 +200,7 @@ namespace FDRep
 variable {K L : Type u} [Field K] [Field L] [Algebra K L] {Γ : RationalQuiver K L}
 variable (K'' : Type u) [Field K''] [Algebra L K'']
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Base change onto a split target preserves finite-dimensionality.  @census none (helper) -/
 def toSplit (M : FDRep Γ) : FDRep (splitOf K'' Γ.toRQuiver) where
   toRep := M.toRep.toSplit K''
@@ -207,6 +215,7 @@ namespace RepNil
 variable {K L : Type u} [Field K] [Field L] [Algebra K L] {Γ : RationalQuiver K L}
 variable (K'' : Type u) [Field K''] [Algebra L K'']
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The quiver-side base-change functor onto a split target**, `M ↦ K'' ⊗_L M`, for an
 **arbitrary** extension `L → K''`.  Constructed, not assumed: `RQ-5.08-C4a`'s quiver-side arrow in
 the `ss` and `ns` shapes.

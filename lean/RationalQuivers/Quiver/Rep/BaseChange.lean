@@ -1,5 +1,9 @@
-import RationalQuivers.Quiver.Rep.Nilpotent
-import RationalQuivers.Quiver.BaseChange
+module
+
+public import RationalQuivers.Quiver.Rep.Nilpotent
+public import RationalQuivers.Quiver.BaseChange
+
+@[expose] public section
 
 /-!
 # Base change of rational quiver representations
@@ -59,6 +63,8 @@ semi-linear structure maps of `M_K` restricted along `Gal(L/E') ↪ Gal(L/K)`.
 def baseChange (E' : IntermediateField K L) [FiniteDimensional K E'] (M : Rep Γ) :
     Rep ((RationalQuiver.baseChange K L E').obj Γ) where
   M v := M.M v
+  addCommGroup v := M.addCommGroup v
+  module v := M.module v
   φ σ v := M.φ (galRestrict K L E' σ) v
   semilinear σ v a m := M.semilinear (galRestrict K L E' σ) v a m
   cocycle σ τ v m := M.cocycle (galRestrict K L E' σ) (galRestrict K L E' τ) v m

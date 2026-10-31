@@ -1,9 +1,13 @@
-import RationalQuivers.HC.Normalization
-import RationalQuivers.HC.Category
-import RationalQuivers.HC.Graded
-import RationalQuivers.Quiver.Models
-import RationalQuivers.Quiver.Rep.Nilpotent
-import RationalQuivers.Quiver.Rep.GeneralBaseChange
+module
+
+public import RationalQuivers.HC.Normalization
+public import RationalQuivers.HC.Category
+public import RationalQuivers.HC.Graded
+public import RationalQuivers.Quiver.Models
+public import RationalQuivers.Quiver.Rep.Nilpotent
+public import RationalQuivers.Quiver.Rep.GeneralBaseChange
+
+@[expose] public section
 
 /-!
 # `𝔼_{L}` for `ℓ ≥ 1` over a characteristic-zero field containing `√-1` (tex §5.1, Steps O-7a…O-7d)
@@ -1555,8 +1559,7 @@ theorem qiLoop_pathMap_peel :
         have hloop_apply : ∀ u : vStar Q, (E_F_rep Q I hℓ).arrowMap g_last
               ((E_F_rep Q I hℓ).arrowMap g_prev u)
             = ((phiAMinus Q).comp (phiBMinus Q)) u := fun u => by
-          have h := LinearMap.congr_fun hloop u
-          rwa [LinearMap.comp_apply] at h
+          exact LinearMap.congr_fun hloop u
         have step1 : (E_F_rep Q I hℓ).pathMap ((q2.cons g_prev).cons g_last) v
             = (E_F_rep Q I hℓ).arrowMap g_last
                 ((E_F_rep Q I hℓ).arrowMap g_prev ((E_F_rep Q I hℓ).pathMap q2 v)) := by
@@ -1605,7 +1608,7 @@ theorem E_F_isNilpotent : (E_F_rep Q I hℓ).IsNilpotent := by
       have hzero : ∀ z : vStar Q, (0 : vStar Q →ₗ[F] vStar Q) z = 0 := fun _ => rfl
       have hmapzero : (E_F_rep Q I hℓ).arrowMap g_last (0 : vStar Q) = 0 :=
         (E_F_rep Q I hℓ).arrowMap g_last |>.map_zero
-      rw [RationalQuiver.Rep.pathMap_cons, LinearMap.comp_apply, hq, hm, hzero]
+      rw [RationalQuiver.Rep.pathMap_cons, LinearMap.comp_apply, hq, hm]
       exact hmapzero
 
 /-- `𝔼_{ℚ[√-1]}(M)` satisfies the relation of `ex:gelfand`, read in the representation: the
@@ -1659,8 +1662,7 @@ theorem E_F_rep_relation : SatisfiesGelfandRelationSplit F (E_F_rep Q I hℓ) :=
       RQuiver.pathMinus
     = (E_F_rep Q I hℓ).pathMap (a := vtxStar F) (b := vtxStar F)
       RQuiver.pathPlus
-  rw [hpm, hpp, hbm, hbp, hnil, ham, hbmv, hap, hbpv]
-  simp only [LinearMap.comp_id]
+  rw [hpm, hpp, hbm, hbp, hnil]
   have h : (phiAMinus Q).comp (phiBMinus Q) = (phiAPlus Q I).comp (phiBPlus Q hℓ) :=
     E_F_relation Q I hℓ
   exact h

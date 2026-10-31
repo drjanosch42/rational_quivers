@@ -1,8 +1,12 @@
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Tactic.NoncommRing
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.LinearAlgebra.Matrix.ToLin
-import RationalQuivers.Unipotent.Twist
+module
+
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Tactic.NoncommRing
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.LinearAlgebra.Matrix.ToLin
+public import RationalQuivers.Unipotent.Twist
+
+@[expose] public section
 
 /-!
 # Unipotent square roots

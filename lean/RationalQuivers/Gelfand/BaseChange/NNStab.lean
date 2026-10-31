@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.BaseChange.NNHC
-import RationalQuivers.HC.Normalization
+module
+
+public import RationalQuivers.Gelfand.BaseChange.NNHC
+public import RationalQuivers.HC.Normalization
+
+@[expose] public section
 
 /-!
 # Unipotent stabilization commutes with base change (WP-15, T1 case (2), the canonicity step)

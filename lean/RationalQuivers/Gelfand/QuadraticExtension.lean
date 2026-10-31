@@ -1,9 +1,13 @@
-import Mathlib.RingTheory.AdjoinRoot
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.FieldTheory.KummerPolynomial
-import Mathlib.FieldTheory.Normal.Basic
-import Mathlib.FieldTheory.Perfect
-import RationalQuivers.Gelfand.GaloisFacts
+module
+
+public import Mathlib.RingTheory.AdjoinRoot
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.FieldTheory.KummerPolynomial
+public import Mathlib.FieldTheory.Normal.Basic
+public import Mathlib.FieldTheory.Perfect
+public import RationalQuivers.Gelfand.GaloisFacts
+
+@[expose] public section
 
 /-!
 # Quadratic Galois extensions `D'/E` and the constructed `E(√-1)`, over a characteristic-zero base field

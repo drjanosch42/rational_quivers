@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.Rational
-import RationalQuivers.Gelfand.Species.Rational
-import RationalQuivers.Descent.Galois
-import RationalQuivers.Species.Rep.GelfandDescent
+module
+
+public import RationalQuivers.Gelfand.Rational
+public import RationalQuivers.Gelfand.Species.Rational
+public import RationalQuivers.Descent.Galois
+public import RationalQuivers.Species.Rep.GelfandDescent
+
+@[expose] public section
 
 /-!
 # Weight-line modules: the shared construction behind `§6`'s three examples
@@ -633,6 +637,7 @@ noncomputable def wtBaseChange (hsym : WtSymm S) :
     (Descent.descentCounit_bijective ℚ (Qi : Type) (wtVecK hsym))
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 theorem wtBaseChange_one_tmul (hsym : WtSymm S) (v : ↥(wtFormSubmodule hsym)) :
     wtBaseChange hsym ((1 : (Qi : Type)) ⊗ₜ[ℚ] v) = (v : WtCar S) := by
   show Descent.descentCounit ℚ (Qi : Type) (wtVecK hsym) ((1 : (Qi : Type)) ⊗ₜ[ℚ] v) = _
@@ -1310,12 +1315,14 @@ theorem node_cases : ∀ i : GQ.toSpecies.I, i = starNode ∨ i = pmNode := by
 theorem star_ne_pm : (starNode : GQ.toSpecies.I) ≠ pmNode :=
   RationalQuivers.Examples.gelfand_vertexClass_star_ne ℚ (Qi : Type) Qi.card_gal
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c` acts on the vertices of `Γ_ℚ` by the `±`-swap, `c = galConj`.  @census none (helper) -/
 theorem gelfandQ_smul_vertex (v : Fin 3) :
     galConj • vtxQ SqrtNegOneExt.qi.card_gal v
       = vtxQ SqrtNegOneExt.qi.card_gal (RQuiver.gelfandVertexSwap v) := by
   rw [← qi_conj]; exact RationalStructure.gelfandQ_smul_vertex _ v
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c` acts on the edges of `Γ_ℚ` by the `±`-swap, `c = galConj`.  @census none (helper) -/
 theorem gelfandQ_smul_edge (e : Fin 4) :
     galConj • edgeQ SqrtNegOneExt.qi.card_gal e
@@ -1323,6 +1330,7 @@ theorem gelfandQ_smul_edge (e : Fin 4) :
   rw [← qi_conj]; exact RationalStructure.gelfandQ_smul_edge _ e
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `σ • v` on `Γ_ℚ`, computed: `v` for `σ = 1`, the swap otherwise.  @census none (helper) -/
 theorem gelfandQ_smul_eq (σ : (Qi : Type) ≃ₐ[ℚ] (Qi : Type)) (v : Fin 3) :
     σ • vtxQ SqrtNegOneExt.qi.card_gal v
@@ -1331,6 +1339,7 @@ theorem gelfandQ_smul_eq (σ : (Qi : Type) ≃ₐ[ℚ] (Qi : Type)) (v : Fin 3) 
   · subst hσ; simp [vtxQ]
   · rw [if_neg hσ, eq_galConj_of_ne_one Qi.card_gal hσ, gelfandQ_smul_vertex]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `c` acts on the edges of the cyclic quiver by the swap, `c = galConj`.  @census none (helper) -/
 theorem cyclicQ_smul_edge (e : Fin 2) :
     galConj • edgeC SqrtNegOneExt.qi.card_gal e
@@ -1338,12 +1347,14 @@ theorem cyclicQ_smul_edge (e : Fin 2) :
   rw [← qi_conj]; exact Cyclic.cyclicQ_smul_edge _ e
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `σ • v` on the cyclic quiver, computed.  @census none (helper) -/
 theorem cyclicQ_smul_eq (σ : (Qi : Type) ≃ₐ[ℚ] (Qi : Type)) (v : Fin 2) :
     σ • vtxC SqrtNegOneExt.qi.card_gal v
       = vtxC SqrtNegOneExt.qi.card_gal (if σ = 1 then v else RQuiver.twoLoopsSwapPerm v) :=
   Cyclic.cyclicQ_smul_eq SqrtNegOneExt.qi.card_gal σ v
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem galConj_fix_star : galConj • vtxQ SqrtNegOneExt.qi.card_gal 1 = vtxQ SqrtNegOneExt.qi.card_gal 1 := by
   rw [gelfandQ_smul_vertex]; rfl
 
@@ -1355,6 +1366,7 @@ theorem vertexRep_starNode : GQ.vertexRep starNode = vtxQ SqrtNegOneExt.qi.card_
   · rw [eq_galConj_of_ne_one Qi.card_gal hne] at hσ
     exact MulAction.injective galConj (hσ.trans galConj_fix_star.symm)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The chosen representative of `{±}` is `−` or `+`. -/
 theorem vertexRep_pmNode :
     GQ.vertexRep pmNode = vtxQ SqrtNegOneExt.qi.card_gal 0 ∨ GQ.vertexRep pmNode = vtxQ SqrtNegOneExt.qi.card_gal 2 := by
@@ -1395,6 +1407,7 @@ end Finrank
 
 section NodeFinrank
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The `ℚ`-dimension of `W_i` splits as `[L_i : ℚ] · dim_{ℚ[√-1]} M(v_i)`. -/
 theorem finrank_W {Γ : RationalQuiver ℚ (Qi : Type)} (M : RationalQuiver.FDRep Γ)
     (i : Γ.toSpecies.I) :
@@ -1414,11 +1427,13 @@ theorem finrank_stabField_pm : Module.finrank ℚ ↥(stabField ℚ (Qi : Type) 
   rw [stabField_pm, IntermediateField.finrank_top']
   exact Qi.finrank_eq_two
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem finrank_W_star (M : RationalQuiver.FDRep GQ) :
     Module.finrank ℚ (((RationalQuiver.FFunctor GQ).obj M).W starNode)
       = Module.finrank (Qi : Type) (M.toRep.M (vtxQ SqrtNegOneExt.qi.card_gal 1)) := by
   rw [finrank_W, finrank_stabField_star, one_mul, vertexRep_starNode]
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem finrank_W_pm (M : RationalQuiver.FDRep GQ) :
     Module.finrank ℚ (((RationalQuiver.FFunctor GQ).obj M).W pmNode)
       = 2 * Module.finrank (Qi : Type) (M.toRep.M (GQ.vertexRep pmNode)) := by
@@ -1491,6 +1506,7 @@ variable {K L : Type} [Field K] [Field L] [Algebra K L] [IsGalois K L]
 
 open RationalQuiver
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The descent formula on a generator.**  `f_{ij}(w ⊗ m) = ∑_ε ∑_η (ητ_ε⁻¹)(m_ε)·Φ_{ε,η}(w)`,
 read inside `M(v_j)`. -/
 theorem edgeDescentOf_generator (M : Rep Γ) (i j : Γ.VertexOrbit)
@@ -1593,6 +1609,7 @@ noncomputable def eStarPm : GQ.edgeSet starNode pmNode := ⟨edgeQ SqrtNegOneExt
 /-- The arrow `a₋ : − → ⋆` as an element of `E_{{±},{⋆}}`. -/
 noncomputable def ePmStar : GQ.edgeSet pmNode starNode := ⟨edgeQ SqrtNegOneExt.qi.card_gal 0, rfl, rfl⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem edgeOrbit_star_pm_subsingleton : Subsingleton (GQ.EdgeOrbit starNode pmNode) := by
   refine ⟨Quotient.ind fun a => Quotient.ind fun b => Quotient.sound ?_⟩
   have key : ∀ x y : GQ.edgeSet starNode pmNode,
@@ -1609,6 +1626,7 @@ theorem edgeOrbit_star_pm_subsingleton : Subsingleton (GQ.EdgeOrbit starNode pmN
     · exact ⟨1, Subtype.ext (by rw [RationalQuiver.coe_smul_edgeSet, one_smul, hy, hx])⟩
   exact key a b (edgeSet_star_pm a) (edgeSet_star_pm b)
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem edgeOrbit_pm_star_subsingleton : Subsingleton (GQ.EdgeOrbit pmNode starNode) := by
   refine ⟨Quotient.ind fun a => Quotient.ind fun b => Quotient.sound ?_⟩
   have key : ∀ x y : GQ.edgeSet pmNode starNode,
@@ -1682,7 +1700,6 @@ theorem balanced_eq_mk {A B Y X : Type} [Ring A] [Algebra K A] [Ring B] [Algebra
     (t : Balanced K A B Y X) : ∃ y : Y, t = Balanced.mk x₀ y := by
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective (balancedRel K A B Y X) t
   induction s with
-  | zero => exact ⟨0, (mk_zero_right (K := K) (A := A) (B := B) x₀).symm⟩
   | tmul y x =>
       obtain ⟨a, rfl⟩ := hX x
       exact ⟨a • y, Balanced.mk_smul (K := K) (B := B) a x₀ y⟩
@@ -1705,6 +1722,7 @@ variable {K L : Type} [Field K] [Field L] [Algebra K L] [IsGalois K L]
 
 open RationalQuiver
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The descent formula when there is exactly one edge orbit from `i` to `j`. -/
 theorem edgeDescentOf_uniqueOrbit (M : Rep Γ) (i j : Γ.VertexOrbit)
     [Unique (Γ.EdgeOrbit i j)] [Fintype (Γ.EdgeOrbit i j)]
@@ -1796,22 +1814,27 @@ theorem wv_inj (M : RationalQuiver.FDRep GQ) (i : GQ.toSpecies.I)
     {a b : ((RationalQuiver.FFunctor GQ).obj M).W i} (h : wv M i a = wv M i b) : a = b :=
   Subtype.ext h
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem wv_zero (M : RationalQuiver.FDRep GQ) (i : GQ.toSpecies.I) :
     wv M i (0 : ((RationalQuiver.FFunctor GQ).obj M).W i) = 0 := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The balanced product `W_i ⊗_{L_i} {}_iM_j`. -/
 noncomputable abbrev Ten (M : RationalQuiver.FDRep GQ) (i j : GQ.toSpecies.I) : Type :=
   GQ.toSpecies.toSpecies.RepTensor i j (((RationalQuiver.FFunctor GQ).obj M).W i)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The generator `w ⊗ m`. -/
 noncomputable abbrev tmk (M : RationalQuiver.FDRep GQ) (i j : GQ.toSpecies.I)
     (w : ((RationalQuiver.FFunctor GQ).obj M).W i) (m : GQ.toSpecies.toSpecies.M i j) :
     Ten M i j := Balanced.mk w m
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem tmk_zero_right (M : RationalQuiver.FDRep GQ) (i j : GQ.toSpecies.I)
     (w : ((RationalQuiver.FFunctor GQ).obj M).W i) : tmk M i j w 0 = 0 :=
   mk_zero_right w
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem exists_tmk (M : RationalQuiver.FDRep GQ) (i j : GQ.toSpecies.I)
     (x₀ : ((RationalQuiver.FFunctor GQ).obj M).W i)
     (hX : ∀ x : ((RationalQuiver.FFunctor GQ).obj M).W i,
@@ -1824,6 +1847,7 @@ theorem exists_tmk (M : RationalQuiver.FDRep GQ) (i j : GQ.toSpecies.I)
 noncomputable abbrev chSP : GQ.EdgeChoice (default : GQ.EdgeOrbit starNode pmNode) :=
   EdgeChoice.choose GQ default
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem f_star_pm_generator (M : RationalQuiver.FDRep GQ)
     (w : ((RationalQuiver.FFunctor GQ).obj M).W starNode)
     (m : GQ.toSpecies.toSpecies.M starNode pmNode)
@@ -1832,6 +1856,7 @@ theorem f_star_pm_generator (M : RationalQuiver.FDRep GQ)
       = chSP.τ⁻¹ ((m default : (Qi : Type))) • phiComp M.toRep chSP η₀ w :=
   GelfandDescent.f_uniqueOrbit_generator M starNode pmNode stabilizer_pm w m η₀
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f_{{⋆},{±}}` is bijective as soon as the two `K`-type spaces are lines and the arrows
 `⋆ → ±` are injective. -/
 theorem species_star_pm_bijective (M : RationalQuiver.FDRep GQ)
@@ -1916,6 +1941,7 @@ theorem uPS_def (M : RationalQuiver.FDRep GQ)
         (M.toRep.φ' chPS.σ chPS.sourceVertex (wv M pmNode w))) :=
   GelfandDescent.uPS_def M pmNode starNode w
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem f_pm_star_generator (M : RationalQuiver.FDRep GQ)
     (w : ((RationalQuiver.FFunctor GQ).obj M).W pmNode)
     (m : GQ.toSpecies.toSpecies.M pmNode starNode) :
@@ -1927,6 +1953,7 @@ theorem f_pm_star_generator (M : RationalQuiver.FDRep GQ)
     (fun e => RationalQuivers.Examples.gelfand_stabilizer_E ℚ (Qi : Type) Qi.card_gal e)
     Qi.card_gal galConj_ne_one w m
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `f_{{±},{⋆}}` is surjective as soon as the `K`-type spaces are lines and the arrows
 `± → ⋆` are injective. -/
 theorem species_pm_star_surjective (M : RationalQuiver.FDRep GQ)

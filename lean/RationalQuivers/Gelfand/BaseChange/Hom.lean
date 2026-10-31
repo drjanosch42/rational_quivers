@@ -1,8 +1,12 @@
-import RationalQuivers.Quiver.Rep.HomDescent
-import RationalQuivers.Quiver.Rep.GeneralBaseChange
-import Mathlib.RingTheory.TensorProduct.IsBaseChangeHom
-import Mathlib.RingTheory.Flat.Equalizer
-import Mathlib.LinearAlgebra.TensorProduct.Pi
+module
+
+public import RationalQuivers.Quiver.Rep.HomDescent
+public import RationalQuivers.Quiver.Rep.GeneralBaseChange
+public import Mathlib.RingTheory.TensorProduct.IsBaseChangeHom
+public import Mathlib.RingTheory.Flat.Equalizer
+public import Mathlib.LinearAlgebra.TensorProduct.Pi
+
+@[expose] public section
 
 /-!
 # `Hom` commutes with base change (WP-15, T2)
@@ -141,7 +145,7 @@ theorem classicalHom_toSplit_eq_ker :
     have := congrArg (fun F => F e m) h
     simp only [homDefectBC, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.sub_apply,
       LinearMap.comp_apply, Pi.zero_apply, LinearMap.zero_apply] at this
-    exact sub_eq_zero.mp this
+    exact sub_eq_zero (G := L'' ⊗[L] N.toRep.M (Γ.toRQuiver.target e)).mp this
 
 /-- `L'' ⊗ ∏_v Hom(M_v, N_v) ≅ ∏_v Hom(L'' ⊗ M_v, L'' ⊗ N_v)`.  @census none (helper; WP-15) -/
 noncomputable def piHomBCEquiv :
@@ -254,9 +258,10 @@ theorem classicalHom_baseChange :
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe] at h
       rw [h, map_zero, LinearEquiv.apply_symm_apply]
       exact hy
-  let e₂ := ((piHomBCEquiv L'' M N).submoduleMap (p.baseChange L'')).trans (LinearEquiv.ofEq _ _ hmap)
+  let e₂ : p.baseChange L'' ≃ₗ[L'']
+      Rep.classicalHom (M.toRep.toSplit L'') (N.toRep.toSplit L'') :=
+    ((piHomBCEquiv L'' M N).submoduleMap (p.baseChange L'')).trans (LinearEquiv.ofEq _ _ hmap)
   refine ⟨e₁.trans e₂, fun a ψ v => ?_⟩
-  show piHomBCEquiv L'' M N (a ⊗ₜ[L] ψ.1) v = _
   exact piHomBCEquiv_tmul L'' M N a ψ.1 v
 
 end ClassicalHom
@@ -274,9 +279,8 @@ theorem splitOf_φ_eq (M : Rep (splitOf F Q)) (σ : Gal(F/F)) (v : (splitOf F Q)
   have hσ : σ = 1 := AlgEquiv.ext (fun a => galSelf_apply' σ a)
   have h : σ • v = v := rfl
   have h1 : (1 : Gal(F/F)) • v = v := rfl
-  calc M.φ σ v m = M.φ' σ h m := rfl
-    _ = M.φ' 1 h1 m := M.φ'_congr hσ h h1 m
-    _ = m := by rw [M.φ'_one h1 m]; rfl
+  have key : M.φ' σ h m = m := by rw [M.φ'_congr hσ h h1 m, M.φ'_one h1 m]; rfl
+  exact key
 
 /-- **For a split rational quiver, `Hom = classicalHom`**: every homomorphism of the underlying
 classical representations is a homomorphism of rational representations.  So `classicalHom_baseChange`
@@ -341,7 +345,8 @@ theorem homModule_baseChange_ns (M N : FDRep Γ) :
   have h3 : d ((1 : L) ⊗ₜ[K] ψ) = ψ.1 := by
     show Descent.descentCounit K L (Rep.homVecK M N) ((1 : L) ⊗ₜ[K] ψ) = ψ.1
     rw [Descent.descentCounit_tmul, one_smul]
-  rw [h1, h2, h3, hg]
+  rw [h1, h2, h3]
+  exact hg a ψ.1 v
 
 end NS
 

@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Models
+module
+
+public import RationalQuivers.Quiver.Models
+
+@[expose] public section
 
 /-!
 # Rational structures through a sign character
@@ -38,17 +42,17 @@ as `Species/Examples.lean`'s `RQuiver.cyclicSwap`, defined here so that §1.2 ca
 
 @census none (helper: the involution of `cyclicOfSign`)
 -/
-@[reducible] def cyclicSignSwap : RQuiver.Aut cyclic where
-  hom := { onV := Equiv.swap 0 1, onE := Equiv.swap 0 1,
-           onV_source := by decide, onV_target := by decide }
-  inv := { onV := Equiv.swap 0 1, onE := Equiv.swap 0 1,
-           onV_source := by decide, onV_target := by decide }
-  hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
-  inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+@[reducible] def cyclicSignSwap : RQuiver.Aut cyclic := CategoryTheory.Aut.of
+  { hom := { onV := Equiv.swap 0 1, onE := Equiv.swap 0 1,
+             onV_source := by decide, onV_target := by decide }
+    inv := { onV := Equiv.swap 0 1, onE := Equiv.swap 0 1,
+             onV_source := by decide, onV_target := by decide }
+    hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+    inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide) }
 
 /-- The cyclic `±`-swap is an involution.  @census none (helper) -/
 theorem cyclicSignSwap_mul_self : cyclicSignSwap * cyclicSignSwap = 1 := by
-  refine CategoryTheory.Aut.ext ?_
+  refine RQuiver.Aut.ext ?_
   refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
 
 /-- The cyclic `±`-swap is not the identity.  @census none (helper) -/
@@ -154,7 +158,7 @@ theorem gelfandOfSign_eq_gelfandOfCardTwo (h : Nat.card Gal(L/K) = 2) {χ : Gal(
   have hρ : (gelfandOfSign K L χ).ρ = (gelfandOfCardTwo K L h).ρ := by
     ext1 σ
     by_cases hσ : σ = 1
-    · subst hσ; rw [map_one, map_one]
+    · subst hσ; rw [map_one]; exact (map_one _).symm
     · have hχσ : χ σ ≠ 1 := fun h1 => hσ (hχ (h1.trans (map_one χ).symm))
       rw [show (gelfandOfSign K L χ).ρ σ = if χ σ = 1 then 1 else RQuiver.gelfandSwap from rfl,
         if_neg hχσ]

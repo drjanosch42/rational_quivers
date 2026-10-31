@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.BaseChange.Split
+module
+
+public import RationalQuivers.Gelfand.BaseChange.Split
+
+@[expose] public section
 
 
 /-!

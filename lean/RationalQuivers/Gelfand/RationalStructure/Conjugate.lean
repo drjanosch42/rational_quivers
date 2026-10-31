@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.RationalStructure.Bridge
-import RationalQuivers.Gelfand.GeneralField.Basic
-import RationalQuivers.Gelfand.Split.Chains
-import RationalQuivers.HC.Normalization
+module
+
+public import RationalQuivers.Gelfand.RationalStructure.Bridge
+public import RationalQuivers.Gelfand.GeneralField.Basic
+public import RationalQuivers.Gelfand.Split.Chains
+public import RationalQuivers.HC.Normalization
+
+@[expose] public section
 
 /-!
 # `eq:conjugatenormalizedcomparison` (§5.2, Step O-8)

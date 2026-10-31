@@ -1,7 +1,12 @@
-import RationalQuivers.Quiver.Basic
-import RationalQuivers.Species.Etale
-import Mathlib.FieldTheory.Galois.Infinite
-import Mathlib.RingTheory.Etale.Pi
+module
+
+public import RationalQuivers.Quiver.Basic
+public import RationalQuivers.Species.Etale
+public import Mathlib.FieldTheory.Galois.Infinite
+public import Mathlib.RingTheory.Etale.Pi
+public import Mathlib.Topology.Algebra.OpenSubgroup
+
+@[expose] public section
 
 /-!
 # The étale `K`-species `S(Γ_K)` associated to a `K`-rational quiver
@@ -305,7 +310,7 @@ theorem splits_minpoly_pi [FiniteDimensional K L] {J : Type u} [Finite J]
   have hdvd : minpoly K m ∣ ∏ j : J, minpoly K (m j) := minpoly.dvd K m key
   refine Polynomial.Splits.of_dvd ?_ ?_ (Polynomial.map_dvd _ hdvd)
   · rw [Polynomial.map_prod]
-    exact Polynomial.splits_prod fun j _ => splits_minpoly_intermediateField (E j) (m j)
+    exact Polynomial.Splits.prod fun j _ => splits_minpoly_intermediateField (E j) (m j)
   · rw [Polynomial.map_prod]
     exact Finset.prod_ne_zero_iff.mpr fun j _ =>
       Polynomial.map_ne_zero (minpoly.ne_zero_of_finite K (m j))
@@ -466,7 +471,7 @@ theorem edgeComponentLeft_coe {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
   have h : Γ.edgeComponentLeft ε α
       = IntermediateField.inclusion (Γ.stabField_source_le (Γ.edgeRep ε))
           (stabFieldEquivOrbit (Γ.source_edgeRep_mem_orbit ε) α) := rfl
-  rw [h, IntermediateField.coe_inclusion, stabFieldEquivOrbit_coe]
+  rw [h, IntermediateField.coe_inclusion]; exact stabFieldEquivOrbit_coe _ _
 
 /-- The right-hand analogue of `edgeComponentLeft_coe`.
 
@@ -479,7 +484,7 @@ theorem edgeComponentRight_coe {i j : Γ.VertexOrbit} (ε : Γ.EdgeOrbit i j)
   have h : Γ.edgeComponentRight ε α
       = IntermediateField.inclusion (Γ.stabField_target_le (Γ.edgeRep ε))
           (stabFieldEquivOrbit (Γ.target_edgeRep_mem_orbit ε) α) := rfl
-  rw [h, IntermediateField.coe_inclusion, stabFieldEquivOrbit_coe]
+  rw [h, IntermediateField.coe_inclusion]; exact stabFieldEquivOrbit_coe _ _
 
 /-- Every vertex lies in the orbit of the chosen representative of its own orbit. -/
 theorem mem_orbit_vertexRep (v : Γ.V) :

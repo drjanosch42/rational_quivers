@@ -1,4 +1,8 @@
-import RationalQuivers.Examples.Basic
+module
+
+public import RationalQuivers.Examples.Basic
+
+@[expose] public section
 
 /-!
 # §6.2 — the (limits of) discrete series `D_ℓ = D_ℓ⁺ ⊕ D_ℓ⁻`
@@ -305,6 +309,7 @@ theorem D_casimir (ℓ : ℕ) :
         • (1 : Module.End (Qi : Type) (D ℓ).carrier) :=
   wtCasimir_eq ℓ (D_sl2 ℓ) (D_cas ℓ)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.02-H1`'s second half and `RQ2-6.02-C3`** — `D_ℓ = D_ℓ⁺ ⊕ D_ℓ⁻`, the two summands are
 `(𝔤,K)`-submodules **defined over `ℚ[√-1]`** (they are `ℚ[√-1]`-submodules of the `ℚ[√-1]`-form,
 which is what "defined over `ℚ[√-1]`" says once `D_ℓ` itself is over `ℚ`), and `c` exchanges them
@@ -644,6 +649,7 @@ theorem D_quiverRep_eq (ℓ : ℕ) (hℓ : 1 ≤ ℓ) :
   · -- `T₋ = 𝟏` on `M(−)` (`RQ2-6.02-C6`), through the scalar Casimir
     exact fun v _ => tMinus_eq_one_of_casimir_scalar (qiSetupOf (D ℓ)) hℓ hcas v
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.02-C10`** — the displayed étale `ℚ`-species representation of `§6.2` at `ℓ ≥ 1`:
 `W_{⋆} = 0`, `W_{±} = M(+)^{G_+} = ℚ[√-1]` (two-dimensional over `ℚ`, one-dimensional over the
 node field `ℚ[√-1]`), all maps zero.
@@ -744,6 +750,7 @@ theorem D_zero_quiverRep_eq :
       (by exact wtComp_elt_ne_zero hSm)
       ((ECycObj (D 0)).toRep.φ galConj (vtxC SqrtNegOneExt.qi.card_gal 0))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-6.02-C11`** — the `ℓ = 0` étale `ℚ`-species representation: the species of the cyclic
 quiver has **one** node, with field `ℚ[√-1]` and twisted bimodule `ℚ[√-1]^{twisted}`
 (`ex:cyclic`), and the representation is a one-dimensional `ℚ[√-1]`-space — two-dimensional over

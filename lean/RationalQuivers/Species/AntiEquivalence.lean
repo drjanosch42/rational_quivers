@@ -1,11 +1,15 @@
-import RationalQuivers.Species.BaseChange
-import RationalQuivers.Species.OfQuiver
-import RationalQuivers.Species.ToQuiver
-import RationalQuivers.Species.Restriction
-import RationalQuivers.Quiver.BaseChange
-import RationalQuivers.Quiver.Restriction
-import RationalQuivers.Quiver.Adjunction
-import Mathlib.CategoryTheory.Adjunction.Opposites
+module
+
+public import RationalQuivers.Species.BaseChange
+public import RationalQuivers.Species.OfQuiver
+public import RationalQuivers.Species.ToQuiver
+public import RationalQuivers.Species.Restriction
+public import RationalQuivers.Quiver.BaseChange
+public import RationalQuivers.Quiver.Restriction
+public import RationalQuivers.Quiver.Adjunction
+public import Mathlib.CategoryTheory.Adjunction.Opposites
+
+@[expose] public section
 
 /-!
 # The anti-equivalence `Γ_K ↔ S` — stage **S4**
@@ -225,10 +229,12 @@ noncomputable def speciesMapOnEdgeField (f : Γ ⟶ Γ') {i j : Γ.VertexOrbit}
   (IntermediateField.inclusion (stabField_onE_le f (Γ.edgeRep ε))).comp
     (stabFieldEquivOrbit (onE_edgeRep_mem_orbit f ε)).toAlgHom
 
+set_option backward.isDefEq.respectTransparency.types false in
 noncomputable def speciesMapOnM (f : Γ ⟶ Γ') (s t : Γ.VertexOrbit) :
     Γ'.toSpecies.M (orbitMap f s) (orbitMap f t) →ₐ[K] Γ.toSpecies.M s t :=
   Pi.algHom K _ fun ε => (speciesMapOnEdgeField f ε).comp (Pi.evalAlgHom K _ (edgeOrbitMap f ε))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Compatibility of `S(f)`'s edge component with the **left** structure maps (clause `RQ2-2.04-C3`
 for the morphism `S(f)`).
 
@@ -262,6 +268,7 @@ theorem speciesMap_compat_left (f : Γ ⟶ Γ') (s t : Γ.VertexOrbit) :
       f.toRQuiverHom.onV_source]
   exact Subtype.ext (stabField_apply_eq_of_smul_eq (σ := ρ' * σ'') (τ := σ₃ * σ₄) key α)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Compatibility of `S(f)`'s edge component with the **right** structure maps.
 
 @census none (clause witness for `RQ2-2.13-C1`)
@@ -386,6 +393,7 @@ theorem edgeAlgebra_apply_val_congr {s₁ s₂ t₁ t₂ : Γ.VertexOrbit} (hs :
     ((x ε₁ : L)) = (y ε₂ : L) := by
   cases hs; cases ht; cases hxy; cases hε; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The value of `S(f)`'s vertex component in `L`: the chosen group element applied to the
 argument. Every functoriality computation below runs through this equation.
 
@@ -400,6 +408,7 @@ theorem speciesMapOnL_coe (f : Γ ⟶ Γ') (i : Γ.VertexOrbit)
           (stabFieldEquivOrbit (onV_vertexRep_mem_orbit f i) a) := rfl
   rw [h, IntermediateField.coe_inclusion, stabFieldEquivOrbit_coe]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge analogue of `speciesMapOnL_coe`.
 
 @census none (transport helper for clause `RQ2-2.13-C1`)
@@ -439,6 +448,7 @@ theorem heq_edgeOrbitMap_comp {Γ'' : RationalQuiver K L} (f : Γ ⟶ Γ') (g : 
   refine Quotient.inductionOn ε fun x => ?_
   exact heq_edgeOrbit_mk (orbitMap_comp_apply f g s) (orbitMap_comp_apply f g t) _ _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The vertex component of `S(𝟙)` is the identity. Both sides send `a` to `σ a` for a `σ` fixing
 the chosen representative, so `stabField_apply_eq_of_smul_eq` (with `τ = 1`) closes it.
 
@@ -460,6 +470,7 @@ theorem speciesMapOnL_heq_id (Γ : RationalQuiver K L) (i : Γ.VertexOrbit) :
     rw [orbitMap_id_apply Γ i]
   simpa using stabField_apply_eq_of_smul_eq hx ⟨a, ha⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge component of `S(𝟙)` is the identity.
 
 @census none (clause witness for `RQ2-2.13-C1`)
@@ -516,6 +527,7 @@ theorem speciesMapOnL_heq_comp {Γ'' : RationalQuiver K L} (f : Γ ⟶ Γ') (g :
     rfl
   simpa using stabField_apply_eq_of_smul_eq key ⟨a, ha⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge component of `S(−)` is functorial.
 
 @census none (clause witness for `RQ2-2.13-C1`)
@@ -664,6 +676,7 @@ noncomputable def kerMaximalSpectrum {A : Type u} [CommRing A] [Algebra K A] [Mo
     (φ : A →ₐ[K] L) : MaximalSpectrum A :=
   ⟨RingHom.ker φ, isMaximal_ker φ⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A `K`-algebra map `{}_iM_j → L` factors through the **bundled** residue field at its own
 kernel (`EtaleSpecies.residueField`, whose field and algebra instances are the bundle's — see
 `ResidueFieldData`). The factorisation is `Ideal.Quotient.lift`; what needs saying is only that it
@@ -741,6 +754,7 @@ theorem ker_smul_comp {A : Type u} [CommRing A] [Algebra K A] (φ : A →ₐ[K] 
   show σ (φ y) = 0 ↔ φ y = 0
   exact map_eq_zero_iff _ (σ : L ≃ₐ[K] L).injective
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The transport tool for the edge side.** Two edges of `Γ_K(S)` over the same pair of indices
 are equal as soon as their maximal ideals agree and the two embeddings agree *after the residue
 map*, i.e. on elements of `{}_iM_j`. As with `vertexSet_ext_of_val`, the `Sigma` transport is
@@ -758,6 +772,7 @@ theorem edgeSet_ext_of_val {S : EtaleSpecies.{u} K} {p : S.I × S.I}
   obtain ⟨x, rfl⟩ := S.residueMap_surjective _ y
   exact h2 x
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The transport tool in the form the summit uses it.** An edge of `Γ_K(S)` presented as
 "the kernel of `φ₁`, with the map `φ₁` induces on the residue field" equals *any* edge `⟨⟨p₂,m₂⟩,ψ⟩`
 as soon as the index pairs agree and `φ₁` agrees with `ψ ∘ (residue map)` on `HEq`-related
@@ -1335,6 +1350,7 @@ theorem vertexMap_target {X Y : SplitSpecies K L} (g : X ⟶ Y) (e : (toQuiver Y
   exact congrArg (fun z => e.2 (Y.obj.residueMap e.1 z))
     (AlgHom.ext_iff.mp (G.compat_right e.1.1.1 e.1.1.2) x).symm
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem vertexMap_equivariant {X Y : SplitSpecies K L} (g : X ⟶ Y) (σ : Gal(L/K))
     (v : (toQuiver Y).V) :
     EtaleSpecies.vertexMap ((EtaleSpecies.splitBy K L).ι.map g) L (σ • v)
@@ -1441,6 +1457,7 @@ noncomputable def unitEmb (Γ : RationalQuiver K L) (v : Γ.V) :
     Γ.vertexOrbitField (Γ.vertexClass v) →ₐ[K] L :=
   (stabField K L v).val.comp (stabFieldEquivOrbit (Γ.mem_orbit_vertexRep v)).toAlgHom
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge analogue of `unitEmb`: the `K`-algebra map `{}_iM_j → L` attached to an edge `e`,
 namely evaluation at the orbit of `e` followed by the embedding `L(e) ↪ L` twisted by the group
 element carrying the chosen representative to `e`.
@@ -1453,6 +1470,7 @@ noncomputable def unitEdgeEmb (Γ : RationalQuiver K L) {i j : Γ.VertexOrbit}
       (stabFieldEquivOrbit (Γ.mem_orbit_edgeRep x)).toAlgHom).comp
     (Pi.evalAlgHom K _ (Quotient.mk (orbitRel Gal(L/K) (Γ.edgeSet i j)) x))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The value of `φ_e` in `L`: the chosen group element applied to the `ε`-component. The edge
 analogue of `speciesMapOnL_coe`, and the equation every `Φ_E` computation runs through.
 
@@ -1488,6 +1506,7 @@ noncomputable def unitOnV (Γ : RationalQuiver K L) :
     Γ.V → (SplitSpecies.toQuiver (toSplitSpecies Γ)).V :=
   fun v => ⟨Γ.vertexClass v, Γ.unitEmb v⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The paper's `Φ_E`. -/
 noncomputable def unitOnE (Γ : RationalQuiver K L) :
     Γ.E → (SplitSpecies.toQuiver (toSplitSpecies Γ)).E :=
@@ -1598,6 +1617,7 @@ theorem heq_algHom_val {E F : IntermediateField K L} {A : Type u} [Semiring A] [
     (a : L) (ha : a ∈ E) (hb : a ∈ F) : φ ⟨a, ha⟩ = ψ ⟨a, hb⟩ := by
   cases hEF; cases h; rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The value of `φ_v` in `L`: the chosen group element carrying `v_{[v]}` to `v`.
 
 @census none (helper for clause `RQ2-2.13-C4`)
@@ -1608,6 +1628,7 @@ theorem unitEmb_coe (Γ : RationalQuiver K L) (v : Γ.V)
   show ((stabFieldEquivOrbit (Γ.mem_orbit_vertexRep v) α : L)) = _
   rw [stabFieldEquivOrbit_coe]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.13-C4`, vertices.** `Φ_V : V → ⨆_i Hom_K(L_i,L)` is a **bijection**.
 
 Injectivity is `smul_eq_of_stabField_apply_eq`: if `φ_v = φ_w` then the two chosen group elements
@@ -1659,6 +1680,7 @@ theorem unitOnV_bijective (Γ : RationalQuiver K L) : Function.Bijective Γ.unit
     rw [hval]
     exact (congrArg (fun f : Γ.vertexOrbitField i →ₐ[K] L => f ⟨a, hb⟩) hσ)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `Φ_E` is `Gal(L/K)`-equivariant.
 
 @census none (clause witness for `RQ2-2.13-C3`)
@@ -1705,6 +1727,7 @@ theorem unitOnE_equivariant (Γ : RationalQuiver K L) (σ : Gal(L/K)) (e : Γ.E)
       = σ (Γ.unitEdgeEmb (⟨e, he₂⟩ : Γ.edgeSet _ _) y)
   rw [unitEdgeEmb_coe, unitEdgeEmb_coe, hstab, AlgEquiv.mul_apply, hval]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.13-C4`, edges (surjectivity).** Every pair `(ε, τ)` with `ε ∈ Specm {}_iM_j` and
 `τ : L_ε → L` is `Φ_E` of an edge.
 
@@ -1815,6 +1838,7 @@ theorem edgeOrbit_eq_of_agree {Γ : RationalQuiver K L} {i j : Γ.VertexOrbit}
   rw [Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm hne)] at h1
   simp at h1
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem gal_agree_of_agree {Γ : RationalQuiver K L} {i j : Γ.VertexOrbit}
     {εe εf : Γ.EdgeOrbit i j} {ρe ρf : Gal(L/K)}
     (hagree : ∀ x : Γ.edgeAlgebra i j, ρe ((x εe : L)) = ρf ((x εf : L)))
@@ -1939,6 +1963,7 @@ noncomputable def counitOnI {K L : Type u} [Field K] [Field L] [Algebra K L] [Is
     (SplitSpecies.toQuiver X).VertexOrbit → X.obj.I :=
   fun t => ((SplitSpecies.toQuiver X).vertexRep t).1
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.13-C4`, vertex-algebra component.** `L_{ι(t)} ≅ L_t`: the chosen representative
 of the orbit `t` is an embedding `τ : L_{ι(t)} → L`, and by `stabField_vertexSet` its image is
 exactly `L(v_t) = L_t`. This is the algebra half of the counit `S ⟶ S(Γ_K(S))`.
@@ -2123,6 +2148,7 @@ noncomputable def edgeOrbitIndexEquiv {K L : Type u} [Field K] [Field L] [Algebr
       ≃ MaximalSpectrum (X.obj.M (counitOnI X s) (counitOnI X t)) :=
   Equiv.ofBijective _ (edgeOrbitIndex_bijective X s t)
 
+set_option backward.isDefEq.respectTransparency.types false in
 noncomputable def counitOnM {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
     [FiniteDimensional K L] (X : SplitSpecies K L)
     (s t : (SplitSpecies.toQuiver X).VertexOrbit) :
@@ -2166,6 +2192,7 @@ theorem counitOnM_coe {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois
             (X.obj.residueMap ⟨(counitOnI X s, counitOnI X t), edgeOrbitIndex X ε⟩ x)) := rfl
 
 open MulAction in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Clause `RQ2-2.13-C4`, the left compatibility square of the counit.** Unwound, the statement
 `ρ_s · v_s = s(e_ε)` — the choice defining `edgeComponentLeft` — *is* the equation
 `ρ_s ∘ (v_s)_2 = τ_ε ∘ τ_{ε,left}` between algebra maps out of `L_{ι(s)}`, once `edgeSource_congr`
@@ -2219,6 +2246,7 @@ theorem counit_compat_left {K L : Type u} [Field K] [Field L] [Algebra K L] [IsG
 
 
 open MulAction in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The right-hand compatibility square, verbatim with `target`/`structRight`/`edgeComponentRight`.
 
 @census none (clause witness for `RQ2-2.13-C4`)
@@ -2582,6 +2610,7 @@ supplied by `onV_vertexRep_mem_orbit` and the two sides matched by extracting th
 of the `Σ`-equality `σ · v_X = Γ_K(h)(v_Y)`.
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem counitOnI_naturality {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
     [FiniteDimensional K L] (X Y : SplitSpecies K L) (h : X ⟶ Y)
     (u : (SplitSpecies.toQuiver Y).VertexOrbit) :
@@ -2593,6 +2622,7 @@ theorem counitOnI_naturality {K L : Type u} [Field K] [Field L] [Algebra K L] [I
   rfl
 
 open MulAction in
+set_option backward.isDefEq.respectTransparency.types false in
 theorem counitOnL_naturality {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
     [FiniteDimensional K L] (X Y : SplitSpecies K L) (h : X ⟶ Y)
     (u : (SplitSpecies.toQuiver Y).VertexOrbit) :
@@ -2626,6 +2656,7 @@ theorem counitOnL_naturality {K L : Type u} [Field K] [Field L] [Algebra K L] [I
 
 
 open MulAction in
+set_option backward.isDefEq.respectTransparency.types false in
 theorem counitOnM_naturality {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
     [FiniteDimensional K L] (X Y : SplitSpecies K L) (h : X ⟶ Y)
     (s t : (SplitSpecies.toQuiver Y).VertexOrbit) :
@@ -2720,6 +2751,7 @@ theorem unitOnV_naturality (Γ Γ' : RationalQuiver K L) (f : Γ ⟶ Γ') (v : �
     = Γ'.unitEmb (f.toRQuiverHom.onV v) ⟨a, hb⟩
   rw [hL, hR, hstab, AlgEquiv.mul_apply]
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem unitOnE_naturality (Γ Γ' : RationalQuiver K L) (f : Γ ⟶ Γ') (e : Γ.E) :
     EtaleSpecies.edgeMap ((EtaleSpecies.splitBy K L).ι.map
         (⟨speciesMap f⟩ : toSplitSpecies Γ' ⟶ toSplitSpecies Γ)) L (Γ.unitOnE e)
@@ -2780,6 +2812,7 @@ end RationalQuiver
 
 /-! ### The equivalence itself (clause `RQ2-2.13-C5`) -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 noncomputable def counitIsoSplit {K L : Type u} [Field K] [Field L] [Algebra K L] [IsGalois K L]
     [FiniteDimensional K L] (X : SplitSpecies K L) :
     X ≅ RationalQuiver.toSplitSpecies (SplitSpecies.toQuiver X) :=
@@ -3247,6 +3280,7 @@ theorem baseChange_splits_L [Normal F L] [FiniteDimensional F L] (hS : S.IsSplit
   exact SplitAlg.splits_of_algHom (S.baseChangeProj F p) y (Algebra.IsIntegral.isIntegral y)
     (SplitAlg.tensor_splits (hS.splits_L p.1) y)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Each edge algebra `{}_kM'_ℓ` of the base-changed species is split by `L`. It is
 `L'_k ⊗_{A_i} ((F ⊗_K {}_iM_j) ⊗_{A_j} L'_ℓ)`, so `splits_of_two_gens` applies twice, over the
 three algebras `L'_k`, `F ⊗_K {}_iM_j`, `L'_ℓ`, each of which is already known to be split.
@@ -3566,6 +3600,7 @@ namespace EtaleSpecies
 section BC
 variable {K : Type u} [Field K] (S : EtaleSpecies.{u} K) (N : Type u) [Field N] [Algebra K N]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The middle structure map `N ⊗_K {}_iM_j → {}_kM'_ℓ` of the base-changed edge algebra.
 
 @census none (helper for `RQ2-2.08`)
@@ -3649,6 +3684,7 @@ theorem right_baseChangeProj (k l : S.baseChangeIndex N)
     rw [Algebra.smul_def, mul_one, RingHom.algebraMap_toAlgebra]; rfl
   rw [h1, ← TensorProduct.smul_tmul, h2]
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Two `N`-algebra maps out of the base-changed edge algebra agree as soon as they agree on the
 images of the three structure maps `left`, `edgeMid`, `right`.
 
@@ -3709,6 +3745,7 @@ def upgradeBase {R A C : Type u} [CommSemiring R] [Semiring A] [Semiring C]
 
 variable {S N}
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The universal property of the base-changed edge algebra, in the form the comparison needs:
 a map out of `N ⊗_K {}_iM_j` together with compatible maps out of the two vertex fields extends
 to `{}_kM'_ℓ`.
@@ -3903,6 +3940,7 @@ noncomputable def bcToEdge (S : EtaleSpecies.{u} K) (N : Type u) [Field N] [Alge
   fun e => ⟨⟨(e.1.1.1.1, e.1.1.2.1), kerMaximalSpectrum (bcEdgeHom e.1 e.2)⟩,
     S.kerResidueLift (bcEdgeHom e.1 e.2)⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The vertex comparison is a bijection: `Hom_K(L_i,L) ≃ Hom_N(N ⊗_K L_i, L)` by
 `AlgHom.liftEquiv`, and a map out of the finite product `∏_{k ∈ J(i)} L'_k` into a field factors
 through exactly one projection (`exists_pi_factor`).
@@ -3954,6 +3992,7 @@ theorem bcToVertex_bijective (S : EtaleSpecies.{u} K) (N : Type u) [Field N] [Al
     exact (congrArg (fun z => (AlgHom.liftEquiv K N (S.L i) L).symm z) hcomp).trans
       ((AlgHom.liftEquiv K N (S.L i) L).symm_apply_apply φ)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Two base-changed edges over the same index pair with the same associated map on
 `N ⊗_K {}_iM_j` are equal: the map determines the maximal ideal (its kernel) and, by
 `baseChangeEdge_hom_ext`, the embedding.
@@ -4033,6 +4072,7 @@ theorem bcToEdge_injective (S : EtaleSpecies.{u} K) (N : Type u) [Field N] [Alge
   subst hn
   exact bcEdge_theta_eq ⟨i₁, m₁⟩ ⟨j₁, n₁⟩ ψ₁ ψ₂ hG
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge comparison is surjective: a `K`-algebra map `{}_iM_j → L` extends, by
 `AlgHom.liftEquiv`, to `N ⊗_K {}_iM_j`; its two restrictions to the base-changed vertex algebras
 factor through unique summands `L'_k`, `L'_ℓ` (`exists_pi_factor`), and `edgeLift` assembles the
@@ -4096,6 +4136,7 @@ theorem bcToVertex_source (S : EtaleSpecies.{u} K) (N : Type u) [Field N] [Algeb
   rw [S.left_baseChangeProj N e.1.1.1 e.1.1.2 ((1 : N) ⊗ₜ[K] a)]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The comparison commutes with the target maps.
 
 @census none (helper for `RQ2-2.08`)
@@ -4218,6 +4259,7 @@ theorem exists_gal_of_eq {A : Type u} [Field A] [Algebra (E' : Type u) A]
 
 variable {Y : EtaleSpecies.{u} (E' : Type u)}
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- An `E'`-embedding of a vertex field, read as a `K`-embedding of the *restricted* vertex field.
 The carrier is unchanged (`restriction_L`), so only the `commutes'` field has content, and it is
 `φ.commutes` at `algebraMap K E' r`.
@@ -4233,6 +4275,7 @@ noncomputable def restrictVertexEmb (i : Y.I) (φ : Y.L i →ₐ[(E' : Type u)] 
   map_add' := φ.map_add
   commutes' := fun r => φ.commutes (algebraMap K (E' : Type u) r)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The same for an edge residue field.
 
 @census none (helper for `RQ2-2.08`)
@@ -4269,6 +4312,7 @@ noncomputable def indToVertex :
       rw [show ((galRestrict K L E' h)⁻¹) (h (φ x)) = φ x from
         (galRestrict K L E' h).symm_apply_apply (φ x)])
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge comparison `Gal(L/K) ×_{Gal(L/E')} E(Γ_{E'}(Y)) → E(Γ_K(res Y))`.
 
 @census none (helper for `RQ2-2.08`)
@@ -4289,6 +4333,7 @@ noncomputable def indToEdge :
       rw [show ((galRestrict K L E' h)⁻¹) (h (φ x)) = φ x from
         (galRestrict K L E' h).symm_apply_apply (φ x)])
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The vertex comparison is a bijection.
 
 @census none (helper for `RQ2-2.08`)
@@ -4330,6 +4375,7 @@ theorem nonempty_residueField_emb (hY : Y.IsSplitBy L) (c : Y.edgeIndexSet) :
     (fun x _ => ⟨Algebra.IsIntegral.isIntegral x, Y.splits_minpoly_residueField L hY c x⟩)
     (IntermediateField.adjoin_univ _ _)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge comparison is a bijection.
 
 @census none (helper for `RQ2-2.08`)
@@ -4358,6 +4404,7 @@ theorem indToEdge_bijective (hY : Y.IsSplitBy L) :
       ((EtaleSpecies.restriction (K := K) Y).residueField c) (restrictEdgeEmb (K := K) c φ₀) ψ
     exact ⟨Quotient.mk _ (g, ⟨c, φ₀⟩), Sigma.ext rfl (heq_of_eq hg)⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The restriction of a species split by `L` is again split by `L`.** Every vertex field embeds
 into `L` over `E'`, hence over `K`, and `L/K` is normal; every edge algebra injects into a finite
 product of copies of `L` through its residue fields.
@@ -4733,6 +4780,7 @@ variable {K : Type u} [Field K] (S : EtaleSpecies.{u} K)
   (N : Type u) [Field N] [Algebra K N] (N' : Type u) [Field N'] [Algebra K N'] [Algebra N N']
   [IsScalarTower K N N']
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The middle comparison `N' ⊗_K {}_iM_j → N' ⊗_N {}_kM'_ℓ`.
 
 @census none (helper for `RQ2-2.34`)
@@ -4742,6 +4790,7 @@ noncomputable def transMid (k l : S.baseChangeIndex N) :
   (Algebra.TensorProduct.map (AlgHom.id N' N') (S.edgeMid N k l)).comp
     (transCan K N N' (S.M k.1 l.1)).symm.toAlgHom
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transMid_left (k l : S.baseChangeIndex N) (a : S.vertexAlg N' k.1) :
     S.transMid N N' k l (S.edgeHomLeft N' k.1 l.1 a)
       = (S.baseChange N).edgeHomLeft N' k l
@@ -4760,6 +4809,7 @@ theorem transMid_left (k l : S.baseChangeIndex N) (a : S.vertexAlg N' k.1) :
     rfl
   exact AlgHom.ext_iff.mp h a
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transMid_right (k l : S.baseChangeIndex N) (b : S.vertexAlg N' l.1) :
     S.transMid N N' k l (S.edgeHomRight N' k.1 l.1 b)
       = (S.baseChange N).edgeHomRight N' k l
@@ -4778,6 +4828,7 @@ theorem transMid_right (k l : S.baseChangeIndex N) (b : S.vertexAlg N' l.1) :
     rfl
   exact AlgHom.ext_iff.mp h b
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The middle datum of the transitivity comparison on edges.
 
 @census none (helper for `RQ2-2.34`)
@@ -4786,6 +4837,7 @@ noncomputable def transG (s t : (S.baseChange N).baseChangeIndex N') :
     S.edgeAlg N' s.1.1 t.1.1 →ₐ[N'] ((S.baseChange N).baseChange N').M s t :=
   ((S.baseChange N).edgeMid N' s t).comp (S.transMid N N' s.1 t.1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHk (s t : (S.baseChange N).baseChangeIndex N')
     (a : S.vertexAlg N' (S.transOnI N N' s).1) :
     (((S.baseChange N).baseChange N').left s t)
@@ -4802,6 +4854,7 @@ theorem transHk (s t : (S.baseChange N).baseChangeIndex N')
   rw [S.transMid_left N N' s.1 t.1 a]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHl (s t : (S.baseChange N).baseChangeIndex N')
     (b : S.vertexAlg N' (S.transOnI N N' t).1) :
     (((S.baseChange N).baseChange N').right s t)
@@ -4818,6 +4871,7 @@ theorem transHl (s t : (S.baseChange N).baseChangeIndex N')
   rw [S.transMid_right N N' s.1 t.1 b]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The edge component of the transitivity comparison.
 
 @census none (helper for `RQ2-2.34`)
@@ -4830,6 +4884,7 @@ noncomputable def transOnM (s t : (S.baseChange N).baseChangeIndex N') :
     ((((S.baseChange N).baseChange N').right s t).comp (S.transOnL N N' t))
     (S.transHk N N' s t) (S.transHl N N' s t)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The transitivity comparison** `S ⊗_K N' ⟶ (S ⊗_K N) ⊗_N N'`.
 
 @census none (helper for `RQ2-2.34`)
@@ -4968,6 +5023,7 @@ theorem bigProj_transNu (s : (S.baseChange N).baseChangeIndex N') (a : S.vertexA
   rw [transCan_symm_transNu N N' (S.L s.1.1) a]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The middle datum of the inverse comparison, at the `N` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -4982,6 +5038,7 @@ noncomputable def transGinv (s t : (S.baseChange N).baseChangeIndex N') :
     (S.edgeMid N' (S.transOnI N N' s) (S.transOnI N N' t))).comp
       (transNu N N' (S.M s.1.1 t.1.1))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The left datum of the inverse comparison, at the `N` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -4998,6 +5055,7 @@ noncomputable def transPsiK (s t : (S.baseChange N).baseChangeIndex N') :
         ((S.baseChange N).baseChangeProj N' s)))).comp
     (Algebra.TensorProduct.includeRight (R := N) (A := N') (B := (S.baseChange N).L s.1))
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The right datum of the inverse comparison, at the `N` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -5014,6 +5072,7 @@ noncomputable def transPsiL (s t : (S.baseChange N).baseChangeIndex N') :
         ((S.baseChange N).baseChangeProj N' t)))).comp
     (Algebra.TensorProduct.includeRight (R := N) (A := N') (B := (S.baseChange N).L t.1))
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHkInv (s t : (S.baseChange N).baseChangeIndex N') (a : S.vertexAlg N s.1.1) :
     S.transPsiK N N' s t (S.baseChangeProj N s.1 a)
       = S.transGinv N N' s t (S.edgeHomLeft N s.1.1 t.1.1 a) := by
@@ -5028,6 +5087,7 @@ theorem transHkInv (s t : (S.baseChange N).baseChangeIndex N') (a : S.vertexAlg 
   rw [transNu_edgeHomLeft S N N' s.1.1 t.1.1 a]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHlInv (s t : (S.baseChange N).baseChangeIndex N') (b : S.vertexAlg N t.1.1) :
     S.transPsiL N N' s t (S.baseChangeProj N t.1 b)
       = S.transGinv N N' s t (S.edgeHomRight N s.1.1 t.1.1 b) := by
@@ -5042,6 +5102,7 @@ theorem transHlInv (s t : (S.baseChange N).baseChangeIndex N') (b : S.vertexAlg 
   rw [transNu_edgeHomRight S N N' s.1.1 t.1.1 b]
   rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The inverse comparison at the `N` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -5055,6 +5116,7 @@ noncomputable def transH (s t : (S.baseChange N).baseChangeIndex N') :
   edgeLift (S := S) (N := N) s.1 t.1 (S.transGinv N N' s t) (S.transPsiK N N' s t)
     (S.transPsiL N N' s t) (S.transHkInv N N' s t) (S.transHlInv N N' s t)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The middle datum of the inverse comparison, at the `N'` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -5066,6 +5128,7 @@ noncomputable def transGinv' (s t : (S.baseChange N).baseChangeIndex N') :
   letI := towerOfTower N N' ((S.baseChange N').M (S.transOnI N N' s) (S.transOnI N N' t))
   AlgHom.liftEquiv N N' ((S.baseChange N).M s.1 t.1) _ (S.transH N N' s t)
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transGinv'_tmul (s t : (S.baseChange N).baseChangeIndex N') (n : N')
     (y : (S.baseChange N).M s.1 t.1) :
     S.transGinv' N N' s t (n ⊗ₜ[N] y) = n • S.transH N N' s t y := by
@@ -5073,6 +5136,7 @@ theorem transGinv'_tmul (s t : (S.baseChange N).baseChangeIndex N') (n : N')
   letI := towerOfTower N N' ((S.baseChange N').M (S.transOnI N N' s) (S.transOnI N N' t))
   exact liftEquiv_tmul (S.transH N N' s t) n y
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The left datum of the inverse comparison, at the `N'` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -5083,6 +5147,7 @@ noncomputable def transPhiKinv (s t : (S.baseChange N).baseChangeIndex N') :
   ((S.baseChange N').left (S.transOnI N N' s) (S.transOnI N N' t)).comp
     (S.transOnLEquiv N N' s).symm.toAlgHom
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The right datum of the inverse comparison, at the `N'` level.
 
 @census none (helper for `RQ2-2.34`)
@@ -5093,6 +5158,7 @@ noncomputable def transPhiLinv (s t : (S.baseChange N).baseChangeIndex N') :
   ((S.baseChange N').right (S.transOnI N N' s) (S.transOnI N N' t)).comp
     (S.transOnLEquiv N N' t).symm.toAlgHom
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transH_left (s t : (S.baseChange N).baseChangeIndex N')
     (f : (S.baseChange N).L s.1) :
     S.transH N N' s t ((S.baseChange N).left s.1 t.1 f) = S.transPsiK N N' s t f := by
@@ -5101,6 +5167,7 @@ theorem transH_left (s t : (S.baseChange N).baseChangeIndex N')
   exact edgeLift_left (S := S) (N := N) s.1 t.1 (S.transGinv N N' s t) (S.transPsiK N N' s t)
     (S.transPsiL N N' s t) (S.transHkInv N N' s t) (S.transHlInv N N' s t) f
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transH_right (s t : (S.baseChange N).baseChangeIndex N')
     (f : (S.baseChange N).L t.1) :
     S.transH N N' s t ((S.baseChange N).right s.1 t.1 f) = S.transPsiL N N' s t f := by
@@ -5109,6 +5176,7 @@ theorem transH_right (s t : (S.baseChange N).baseChangeIndex N')
   exact edgeLift_right (S := S) (N := N) s.1 t.1 (S.transGinv N N' s t) (S.transPsiK N N' s t)
     (S.transPsiL N N' s t) (S.transHkInv N N' s t) (S.transHlInv N N' s t) f
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transH_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
     (z : S.edgeAlg N s.1.1 t.1.1) :
     S.transH N N' s t (S.edgeMid N s.1 t.1 z) = S.transGinv N N' s t z := by
@@ -5117,6 +5185,7 @@ theorem transH_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
   exact edgeLift_edgeMid (S := S) (N := N) s.1 t.1 (S.transGinv N N' s t) (S.transPsiK N N' s t)
     (S.transPsiL N N' s t) (S.transHkInv N N' s t) (S.transHlInv N N' s t) z
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHkInv' (s t : (S.baseChange N).baseChangeIndex N')
     (a : (S.baseChange N).vertexAlg N' s.1) :
     S.transPhiKinv N N' s t ((S.baseChange N).baseChangeProj N' s a)
@@ -5140,6 +5209,7 @@ theorem transHkInv' (s t : (S.baseChange N).baseChangeIndex N')
     rfl
   exact AlgHom.ext_iff.mp h a
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transHlInv' (s t : (S.baseChange N).baseChangeIndex N')
     (b : (S.baseChange N).vertexAlg N' t.1) :
     S.transPhiLinv N N' s t ((S.baseChange N).baseChangeProj N' t b)
@@ -5163,6 +5233,7 @@ theorem transHlInv' (s t : (S.baseChange N).baseChangeIndex N')
     rfl
   exact AlgHom.ext_iff.mp h b
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The inverse of the edge comparison.
 
 @census none (helper for `RQ2-2.34`)
@@ -5174,6 +5245,7 @@ noncomputable def transOnMinv (s t : (S.baseChange N).baseChangeIndex N') :
     (S.transPhiKinv N N' s t) (S.transPhiLinv N N' s t)
     (S.transHkInv' N N' s t) (S.transHlInv' N N' s t)
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transGinv'_transMid (s t : (S.baseChange N).baseChangeIndex N')
     (z : S.edgeAlg N' s.1.1 t.1.1) :
     S.transGinv' N N' s t (S.transMid N N' s.1 t.1 z)
@@ -5202,6 +5274,7 @@ theorem transGinv'_transMid (s t : (S.baseChange N).baseChangeIndex N')
     rfl
   exact AlgHom.ext_iff.mp h z
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_left (s t : (S.baseChange N).baseChangeIndex N')
     (a : S.baseChangeField N' (S.transOnI N N' s)) :
     S.transOnM N N' s t
@@ -5212,6 +5285,7 @@ theorem transOnM_left (s t : (S.baseChange N).baseChangeIndex N')
     ((((S.baseChange N).baseChange N').right s t).comp (S.transOnL N N' t))
     (S.transHk N N' s t) (S.transHl N N' s t) a
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_right (s t : (S.baseChange N).baseChangeIndex N')
     (b : S.baseChangeField N' (S.transOnI N N' t)) :
     S.transOnM N N' s t
@@ -5222,6 +5296,7 @@ theorem transOnM_right (s t : (S.baseChange N).baseChangeIndex N')
     ((((S.baseChange N).baseChange N').right s t).comp (S.transOnL N N' t))
     (S.transHk N N' s t) (S.transHl N N' s t) b
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
     (z : S.edgeAlg N' s.1.1 t.1.1) :
     S.transOnM N N' s t (S.edgeMid N' (S.transOnI N N' s) (S.transOnI N N' t) z)
@@ -5231,6 +5306,7 @@ theorem transOnM_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
     ((((S.baseChange N).baseChange N').right s t).comp (S.transOnL N N' t))
     (S.transHk N N' s t) (S.transHl N N' s t) z
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnMinv_left (s t : (S.baseChange N).baseChangeIndex N')
     (c : (S.baseChange N).baseChangeField N' s) :
     S.transOnMinv N N' s t (((S.baseChange N).baseChange N').left s t c)
@@ -5239,6 +5315,7 @@ theorem transOnMinv_left (s t : (S.baseChange N).baseChangeIndex N')
     (S.transPhiKinv N N' s t) (S.transPhiLinv N N' s t)
     (S.transHkInv' N N' s t) (S.transHlInv' N N' s t) c
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnMinv_right (s t : (S.baseChange N).baseChangeIndex N')
     (c : (S.baseChange N).baseChangeField N' t) :
     S.transOnMinv N N' s t (((S.baseChange N).baseChange N').right s t c)
@@ -5247,6 +5324,7 @@ theorem transOnMinv_right (s t : (S.baseChange N).baseChangeIndex N')
     (S.transPhiKinv N N' s t) (S.transPhiLinv N N' s t)
     (S.transHkInv' N N' s t) (S.transHlInv' N N' s t) c
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnMinv_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
     (w : (S.baseChange N).edgeAlg N' s.1 t.1) :
     S.transOnMinv N N' s t ((S.baseChange N).edgeMid N' s t w) = S.transGinv' N N' s t w :=
@@ -5254,6 +5332,7 @@ theorem transOnMinv_edgeMid (s t : (S.baseChange N).baseChangeIndex N')
     (S.transPhiKinv N N' s t) (S.transPhiLinv N N' s t)
     (S.transHkInv' N N' s t) (S.transHlInv' N N' s t) w
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnMinv_transOnM (s t : (S.baseChange N).baseChangeIndex N')
     (x : (S.baseChange N').M (S.transOnI N N' s) (S.transOnI N N' t)) :
     S.transOnMinv N N' s t (S.transOnM N N' s t x) = x := by
@@ -5282,6 +5361,7 @@ theorem transOnMinv_transOnM (s t : (S.baseChange N).baseChangeIndex N')
       rfl
   exact AlgHom.ext_iff.mp h x
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_transH (s t : (S.baseChange N).baseChangeIndex N')
     (y : (S.baseChange N).M s.1 t.1) :
     S.transOnM N N' s t (S.transH N N' s t y)
@@ -5331,6 +5411,7 @@ theorem transOnM_transH (s t : (S.baseChange N).baseChangeIndex N')
       rfl
   exact AlgHom.ext_iff.mp h y
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_transGinv' (s t : (S.baseChange N).baseChangeIndex N')
     (w : (S.baseChange N).edgeAlg N' s.1 t.1) :
     S.transOnM N N' s t (S.transGinv' N N' s t w) = (S.baseChange N).edgeMid N' s t w := by
@@ -5348,6 +5429,7 @@ theorem transOnM_transGinv' (s t : (S.baseChange N).baseChangeIndex N')
     exact congrArg ((S.baseChange N).edgeMid N' s t) hn.symm
   exact AlgHom.ext_iff.mp h w
 
+set_option backward.isDefEq.respectTransparency.types false in
 theorem transOnM_transOnMinv (s t : (S.baseChange N).baseChangeIndex N')
     (y : ((S.baseChange N).baseChange N').M s t) :
     S.transOnM N N' s t (S.transOnMinv N N' s t y) = y := by

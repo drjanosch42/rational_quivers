@@ -1,15 +1,19 @@
-import Mathlib.Algebra.Algebra.Rat
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Algebra.Lie.Classical
-import Mathlib.Algebra.Lie.Sl2
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Complex.Module
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.RingTheory.Nilpotent.Defs
-import RationalQuivers.HC.ImagUnit
+module
+
+public import Mathlib.Algebra.Algebra.Rat
+public import Mathlib.Algebra.DirectSum.Module
+public import Mathlib.Algebra.Lie.Classical
+public import Mathlib.Algebra.Lie.Sl2
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+public import Mathlib.LinearAlgebra.Basis.Basic
+public import Mathlib.LinearAlgebra.Complex.Module
+public import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+public import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.RingTheory.Nilpotent.Defs
+public import RationalQuivers.HC.ImagUnit
+
+@[expose] public section
 
 /-!
 # The classical `sl₂` triple, its Galois symmetry over `L_E`, and the weight bookkeeping

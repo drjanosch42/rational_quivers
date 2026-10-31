@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.BaseChange.Cyclic
-import RationalQuivers.Gelfand.BaseChange.Hom
+module
+
+public import RationalQuivers.Gelfand.BaseChange.Cyclic
+public import RationalQuivers.Gelfand.BaseChange.Hom
+
+@[expose] public section
 
 /-!
 # `rmk:generalbases`, *Base change*: `𝔼` is compatible with base change (WP-15, T1 umbrella)

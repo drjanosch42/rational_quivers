@@ -1,4 +1,8 @@
-import RationalQuivers.Quiver.Basic
+module
+
+public import RationalQuivers.Quiver.Basic
+
+@[expose] public section
 
 /-!
 # Quivers with relations and their `K`-rational structures

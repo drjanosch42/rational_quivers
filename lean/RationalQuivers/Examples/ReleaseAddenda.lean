@@ -1,4 +1,8 @@
-import RationalQuivers.Examples.FiniteDimensional
+module
+
+public import RationalQuivers.Examples.FiniteDimensional
+
+@[expose] public section
 
 /-!
 # §6 release addenda (final-release WP-16a)

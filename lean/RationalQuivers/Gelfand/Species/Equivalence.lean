@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.Compat
-import RationalQuivers.Gelfand.TargetBaseChange
-import RationalQuivers.Species.Rep.SpeciesBridge
-import RationalQuivers.Species.Rep.GelfandRelation
+module
+
+public import RationalQuivers.Gelfand.Compat
+public import RationalQuivers.Gelfand.TargetBaseChange
+public import RationalQuivers.Species.Rep.SpeciesBridge
+public import RationalQuivers.Species.Rep.GelfandRelation
+
+@[expose] public section
 
 /-!
 # The species form of `𝔼_E` over every `E` (tex §5.3, `thm:speciesE`, stage T4)
@@ -149,6 +153,7 @@ noncomputable def FRestrictPos :
     ObjectProperty.lift _ ((RationalStructure.RepNilRelQ (Dq := D.sqrtExt (hcE D h)) (cardE D h)).ι ⋙
       RationalQuiver.FFunctor _) (hF_pos D h)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`thm:speciesE` (b)**, `ℓ ≥ 1`, `√-1 ∉ E`: `HC_λ(𝔤,K)_E ≃ Rep^nil(S(Γ_E), R_E)`, the functor `𝔼_E`
 followed by the re-indexing and `F`.  @census none (helper; clauses `RQ2-5.16-H3`, `C2`, `C6`) -/
 theorem speciesE_pos (k : ℕ) :

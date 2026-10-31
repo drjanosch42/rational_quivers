@@ -1,4 +1,8 @@
-import RationalQuivers.Gelfand.Main
+module
+
+public import RationalQuivers.Gelfand.Main
+
+@[expose] public section
 
 /-!
 # `rmk:EEabelian` (§5.3, stage T5)

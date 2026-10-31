@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Rep.Relations
-import RationalQuivers.Species.BaseChange
+module
+
+public import RationalQuivers.Species.Rep.Relations
+public import RationalQuivers.Species.BaseChange
+
+@[expose] public section
 
 /-!
 # Functoriality of length-two path bimodules (stage T6, T4-B)
@@ -58,6 +62,7 @@ structure PathDatum (S : EtaleSpecies.{u} K) (T : EtaleSpecies.{u} N) : Type u w
 abbrev P2 (S : EtaleSpecies.{u} K) (i0 i1 i2 : S.I) : Type u :=
   Balanced K (S.L i1) (S.L i2) (S.M i1 i2) (S.M i0 i1)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `P2` is the path bimodule of `def:speciesrelations` at the path `(idx 0, idx 1, idx 2)`.  @census none (helper) -/
 theorem pathBimod_one_eq (S : EtaleSpecies.{u} K) (idx : ℕ → S.I) :
     (Species.pathBimod S.toSpecies idx 1).carrier = P2 S (idx 0) (idx 1) (idx 2) := rfl
@@ -297,6 +302,7 @@ noncomputable def baseChange : PathDatum S (S.baseChange N) where
     rw [h1, AlgHom.commutes, AlgHom.commutes]
     rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **B2.** The canonical `N`-linear map from the base change of a length-two path bimodule of `S` to the path bimodule
 of `S ⊗_K N` over a lift of the path: `N ⊗_K {}M_{(π k₀, π k₁, π k₂)}(S) → {}M_{(k₀, k₁, k₂)}(S ⊗_K N)`,
 `n ⊗ (x ⊗ y) ↦ n · (ι x ⊗ ι y)` with `ι m = 1 ⊗ ((1 ⊗ m) ⊗ 1)`. This is what "`R ⊗_K N`" means inside the path
@@ -305,6 +311,7 @@ noncomputable def pathBaseChange (k0 k1 k2 : S.baseChangeIndex N) :
     N ⊗[K] P2 S (S.fibreMap N k0) (S.fibreMap N k1) (S.fibreMap N k2) →ₗ[N] P2 (S.baseChange N) k0 k1 k2 :=
   (baseChange N S).pathLift k0 k1 k2
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- B2 on pure tensors.  @census none (value guard) -/
 @[simp] theorem pathBaseChange_tmul_mk (k0 k1 k2 : S.baseChangeIndex N) (n : N)
     (x : S.M (S.fibreMap N k0) (S.fibreMap N k1)) (y : S.M (S.fibreMap N k1) (S.fibreMap N k2)) :

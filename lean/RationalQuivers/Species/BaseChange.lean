@@ -1,8 +1,12 @@
-import RationalQuivers.Species.Hom
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.Data.Finite.Sigma
-import Mathlib.CategoryTheory.Iso
-import Mathlib.RingTheory.TensorProduct.Pi
+module
+
+public import RationalQuivers.Species.Hom
+public import Mathlib.RingTheory.TensorProduct.Basic
+public import Mathlib.Data.Finite.Sigma
+public import Mathlib.CategoryTheory.Iso
+public import Mathlib.RingTheory.TensorProduct.Pi
+
+@[expose] public section
 
 /-!
 # Base change for étale species

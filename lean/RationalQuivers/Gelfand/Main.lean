@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.Cyclic.EssSurj
-import RationalQuivers.HC.Abelian
-import Mathlib.CategoryTheory.Abelian.Transfer
-import Mathlib.CategoryTheory.Preadditive.Transfer
+module
+
+public import RationalQuivers.Gelfand.Cyclic.EssSurj
+public import RationalQuivers.HC.Abelian
+public import Mathlib.CategoryTheory.Abelian.Transfer
+public import Mathlib.CategoryTheory.Preadditive.Transfer
+
+@[expose] public section
 
 /-!
 # `thm:EEequivalence`, `thm:cyclicEEequivalence`, Theorem B (§5.3, stage T3)

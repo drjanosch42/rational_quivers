@@ -1,7 +1,11 @@
-import RationalQuivers.Gelfand.RationalStructure.Stabilization
-import RationalQuivers.Gelfand.Target
-import RationalQuivers.Quiver.Rep.Category
-import RationalQuivers.Species.Rep.Gelfand
+module
+
+public import RationalQuivers.Gelfand.RationalStructure.Stabilization
+public import RationalQuivers.Gelfand.Target
+public import RationalQuivers.Quiver.Rep.Category
+public import RationalQuivers.Species.Rep.Gelfand
+
+@[expose] public section
 
 /-!
 # `eq:varphiplus`, `eq:varphiminus`, `eq:varphistar` (§5.2, Steps O-9, O-12)
@@ -101,7 +105,9 @@ those of `V`, so the `c`-free core read at `toSplitW V` is the non-split engine'
 @census none (spike; route (α)) -/
 noncomputable def toSplitRep (V : RepNilQ hcard) : RationalQuiver.FDRep (gelfandSplit Dq.carrier) where
   toRep := RationalQuiver.Rep.ofFiniteDimensional (Γ := gelfandSplit Dq.carrier)
-    (fun v => V.obj.toRep.M v) (fun _ _ => AddEquiv.refl _)
+    (fun v => V.obj.toRep.M v) (inst₁ := fun v => V.obj.toRep.addCommGroup v)
+    (inst₂ := fun v => V.obj.toRep.module v)
+    (fun _ v => letI := V.obj.toRep.addCommGroup v; AddEquiv.refl _)
     (fun σ v a m => by rw [galSelf_apply]; rfl) (fun _ _ _ _ => rfl)
     (fun e => V.obj.toRep.φEdge e) (fun _ _ _ _ h => by cases h; rfl)
   finiteDimensional v := V.obj.finiteDimensional v
@@ -270,7 +276,8 @@ theorem setup_toHC {hc : ∃ σ : D.L ≃ₐ[E] D.L, D.chi σ = -1} (B : HCEObj 
     ext v
     exact HCEObj.galActOf_conj (⟨form, carrier, ⟨bc, w, gic, conj, cs, ci, cb, cc, cX, cY, cH⟩,
       adm, cc', fg⟩ : HCEObj ℓ E (D.sqrtExt hc)) v
-  simp only [HC.setup, HCEObj.toHC, RationalSetupOver.mk.injEq, hconj, true_and]
+  simp only [HC.setup, HCEObj.toHC, hconj]
+  rfl
 
 theorem phiC_toHC {hc : ∃ σ : D.L ≃ₐ[E] D.L, D.chi σ = -1} (B : HCEObj ℓ E (D.sqrtExt hc))
     (v : Fin 3) (m : B.carrier) : phiC hℓ (B.toHC.toHCEObj hc) v m = phiC hℓ B v m := by

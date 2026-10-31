@@ -1,5 +1,9 @@
-import RationalQuivers.Species.Etale
-import Mathlib.CategoryTheory.Category.Basic
+module
+
+public import RationalQuivers.Species.Etale
+public import Mathlib.CategoryTheory.Category.Basic
+
+@[expose] public section
 
 /-!
 # Morphisms of étale `K`-species

@@ -1,9 +1,13 @@
-import RationalQuivers.HC.Classical
-import RationalQuivers.HC.ImagUnit
-import RationalQuivers.Unipotent.Twist
-import Mathlib.CategoryTheory.Preadditive.Basic
-import Mathlib.CategoryTheory.Linear.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Tower
+module
+
+public import RationalQuivers.HC.Classical
+public import RationalQuivers.HC.ImagUnit
+public import RationalQuivers.Unipotent.Twist
+public import Mathlib.CategoryTheory.Preadditive.Basic
+public import Mathlib.CategoryTheory.Linear.Basic
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+
+@[expose] public section
 
 /-!
 # `HC_λ(𝔤,K)_E` over every field `E` of characteristic `0` (`def:HClambdaE`)
@@ -747,7 +751,6 @@ noncomputable def ofLambda (h : ∃ a : E, a * a = -1) (B : HCLambda.{0} ℓ D.L
   have hone : ∀ x : D.L ⊗[E] B.obj.carrier, x = (1 : D.L) ⊗ₜ[E] φ x := by
     intro x
     induction x with
-    | zero => simp
     | tmul a v =>
         obtain ⟨e, rfl⟩ := (D.algebraMap_bijective_of_sqrt h).2 a
         rw [hφ, show (algebraMap E D.L e • v) = e • v from rfl, TensorProduct.tmul_smul,

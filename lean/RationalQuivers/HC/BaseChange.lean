@@ -1,6 +1,10 @@
-import RationalQuivers.HC.Category
-import Mathlib.LinearAlgebra.TensorProduct.Decomposition
-import Mathlib.LinearAlgebra.TensorProduct.Tower
+module
+
+public import RationalQuivers.HC.Category
+public import Mathlib.LinearAlgebra.TensorProduct.Decomposition
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+
+@[expose] public section
 
 /-!
 # Base change `HC(𝔤,K)_E → HC(𝔤,K)_{E''}`
@@ -109,18 +113,17 @@ noncomputable def baseChange (W : WeightData E M) : WeightData E'' (E'' ⊗[E] M
         exact Submodule.tmul_mem_baseChange_of_mem a (W.Y_mem n m m.2)
     | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
   lie_H_X := by
-    have h := congrArg (Module.End.baseChangeHom E E'' M) W.lie_H_X
-    simp only [Module.End.baseChangeHom, map_sub, map_mul,
-      AlgHom.ofLinearMap_apply, LinearMap.baseChangeHom_apply, LinearMap.baseChange_smul] at h
+    have h := congrArg (fun f : Module.End E M => LinearMap.baseChange E'' f) W.lie_H_X
+    simp only [LinearMap.baseChange_sub, LinearMap.baseChange_mul, LinearMap.baseChange_smul] at h
     rw [h, smul_base (E'' := E'') (2 : E) (LinearMap.baseChange E'' W.X), map_ofNat]
   lie_H_Y := by
-    have h := congrArg (Module.End.baseChangeHom E E'' M) W.lie_H_Y
-    simp only [Module.End.baseChangeHom, map_sub, map_mul, map_neg,
-      AlgHom.ofLinearMap_apply, LinearMap.baseChangeHom_apply, LinearMap.baseChange_smul] at h
+    have h := congrArg (fun f : Module.End E M => LinearMap.baseChange E'' f) W.lie_H_Y
+    simp only [LinearMap.baseChange_sub, LinearMap.baseChange_mul, LinearMap.baseChange_neg,
+      LinearMap.baseChange_smul] at h
     rw [h, smul_base (E'' := E'') (2 : E) (LinearMap.baseChange E'' W.Y), map_ofNat]
   lie_X_Y := by
-    have h := congrArg (Module.End.baseChangeHom E E'' M) W.lie_X_Y
-    simpa [Module.End.baseChangeHom, LinearMap.baseChange_mul] using h
+    have h := congrArg (fun f : Module.End E M => LinearMap.baseChange E'' f) W.lie_X_Y
+    simpa only [LinearMap.baseChange_sub, LinearMap.baseChange_mul] using h
 
 /-- The projection onto `M_n` commutes with `v ↦ 1 ⊗ v`.  The base-change counterpart of
 `WeightData.proj_comm_of_map` (which is stated for two weight data over the *same* field, so it

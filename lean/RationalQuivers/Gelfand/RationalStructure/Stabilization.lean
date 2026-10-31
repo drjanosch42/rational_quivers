@@ -1,5 +1,9 @@
-import RationalQuivers.Gelfand.RationalStructure.Conjugate
-import RationalQuivers.Unipotent.Addendum
+module
+
+public import RationalQuivers.Gelfand.RationalStructure.Conjugate
+public import RationalQuivers.Unipotent.Addendum
+
+@[expose] public section
 
 /-!
 # unipotent stabilization for `L_E/E`, `τ = c` (§5.2, Steps O-9 … O-11)

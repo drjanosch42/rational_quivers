@@ -1,6 +1,10 @@
-import RationalQuivers.Gelfand.Compat
-import RationalQuivers.Gelfand.Species.Rational
-import RationalQuivers.HC.ClassicalComparison
+module
+
+public import RationalQuivers.Gelfand.Compat
+public import RationalQuivers.Gelfand.Species.Rational
+public import RationalQuivers.HC.ClassicalComparison
+
+@[expose] public section
 
 /-!
 # Over `ℚ`, `ℂ` and `ℝ` (tex §5.4, stage T4)

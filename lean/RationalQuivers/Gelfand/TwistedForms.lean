@@ -1,6 +1,10 @@
-import RationalQuivers.Gelfand.Main
-import RationalQuivers.Gelfand.Compat
-import RationalQuivers.Descent.Galois
+module
+
+public import RationalQuivers.Gelfand.Main
+public import RationalQuivers.Gelfand.Compat
+public import RationalQuivers.Descent.Galois
+
+@[expose] public section
 
 /-!
 # Twisted forms: `thm:twistedEEequivalence` (§5, "Twisted forms", stage T5)

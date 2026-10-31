@@ -1,9 +1,13 @@
-import RationalQuivers.Species.OfQuiver
-import RationalQuivers.Species.Hom
-import RationalQuivers.Quiver.Models
-import RationalQuivers.Quiver.Restriction
-import RationalQuivers.Quiver.BaseChange
-import RationalQuivers.Quiver.Relations
+module
+
+public import RationalQuivers.Species.OfQuiver
+public import RationalQuivers.Species.Hom
+public import RationalQuivers.Quiver.Models
+public import RationalQuivers.Quiver.Restriction
+public import RationalQuivers.Quiver.BaseChange
+public import RationalQuivers.Quiver.Relations
+
+@[expose] public section
 
 /-!
 # The three worked examples of §2.4
@@ -69,15 +73,16 @@ namespace RQuiver
 @census none (clause witness for `RQ2-2.14-C2`)
 -/
 @[reducible] def twoLoopsSwap : RQuiver.Aut twoLoops where
-  hom := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
-           onV_source := by decide, onV_target := by decide }
-  inv := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
-           onV_source := by decide, onV_target := by decide }
-  hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
-  inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+  asIso :=
+  { hom := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
+             onV_source := by decide, onV_target := by decide }
+    inv := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
+             onV_source := by decide, onV_target := by decide }
+    hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+    inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide) }
 
 theorem twoLoopsSwap_mul_self : twoLoopsSwap * twoLoopsSwap = 1 := by
-  refine CategoryTheory.Aut.ext ?_
+  refine RQuiver.Aut.ext ?_
   refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
 
 theorem twoLoopsSwap_ne_one : twoLoopsSwap ≠ 1 := by
@@ -91,15 +96,16 @@ cyclic quiver.
 @census none (clause witness for `RQ2-2.15-C2`)
 -/
 @[reducible] def cyclicSwap : RQuiver.Aut cyclic where
-  hom := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
-           onV_source := by decide, onV_target := by decide }
-  inv := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
-           onV_source := by decide, onV_target := by decide }
-  hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
-  inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+  asIso :=
+  { hom := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
+             onV_source := by decide, onV_target := by decide }
+    inv := { onV := twoLoopsSwapPerm, onE := twoLoopsSwapPerm,
+             onV_source := by decide, onV_target := by decide }
+    hom_inv_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+    inv_hom_id := by refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide) }
 
 theorem cyclicSwap_mul_self : cyclicSwap * cyclicSwap = 1 := by
-  refine CategoryTheory.Aut.ext ?_
+  refine RQuiver.Aut.ext ?_
   refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
 
 theorem cyclicSwap_ne_one : cyclicSwap ≠ 1 := by
@@ -557,7 +563,7 @@ theorem resToTwoLoops_source (h : Nat.card Gal(L/K) = 2)
     resToTwoLoopsV K L h
         (((RationalQuiver.restriction K L ⊤).obj (oneLoopOverTop K L)).toRQuiver.source e)
       = (twoLoopsOfCardTwo K L h).toRQuiver.source (resToTwoLoopsE K L h e) := by
-  rw [twoLoops_source_id]
+  rw [twoLoops_source_id K L h (resToTwoLoopsE K L h e)]
   refine Quotient.inductionOn e ?_
   rintro ⟨a, x⟩
   exact indToFin2_mk_eq K L a _ x
@@ -567,7 +573,7 @@ theorem resToTwoLoops_target (h : Nat.card Gal(L/K) = 2)
     resToTwoLoopsV K L h
         (((RationalQuiver.restriction K L ⊤).obj (oneLoopOverTop K L)).toRQuiver.target e)
       = (twoLoopsOfCardTwo K L h).toRQuiver.target (resToTwoLoopsE K L h e) := by
-  rw [twoLoops_target_id]
+  rw [twoLoops_target_id K L h (resToTwoLoopsE K L h e)]
   refine Quotient.inductionOn e ?_
   rintro ⟨a, x⟩
   exact indToFin2_mk_eq K L a _ x
@@ -576,14 +582,14 @@ theorem twoLoopsToRes_source (h : Nat.card Gal(L/K) = 2) (n : (twoLoopsOfCardTwo
     twoLoopsToResV K L h ((twoLoopsOfCardTwo K L h).toRQuiver.source n)
       = ((RationalQuiver.restriction K L ⊤).obj (oneLoopOverTop K L)).toRQuiver.source
           (twoLoopsToResE K L h n) := by
-  rw [twoLoops_source_id]
+  rw [twoLoops_source_id K L h n]
   rfl
 
 theorem twoLoopsToRes_target (h : Nat.card Gal(L/K) = 2) (n : (twoLoopsOfCardTwo K L h).E) :
     twoLoopsToResV K L h ((twoLoopsOfCardTwo K L h).toRQuiver.target n)
       = ((RationalQuiver.restriction K L ⊤).obj (oneLoopOverTop K L)).toRQuiver.target
           (twoLoopsToResE K L h n) := by
-  rw [twoLoops_target_id]
+  rw [twoLoops_target_id K L h n]
   rfl
 
 theorem twoLoopsToResV_equivariant (h : Nat.card Gal(L/K) = 2) (σ : Gal(L/K))
@@ -1046,6 +1052,7 @@ def algHomToSubsingleton (A B : Type) [CommRing A] [Algebra K A] [CommRing B] [A
   map_add' _ _ := Subsingleton.elim _ _
   commutes' _ := Subsingleton.elim _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- A printed-shape morphism from the one-vertex split quiver's species into `S(Q_Gelfand)`, sending
 the single index to a **chosen** orbit `i₀`. The existence of this family for *every* `i₀` is the
 non-canonicity of `printedHom_onI_not_unique`.
@@ -1069,6 +1076,7 @@ noncomputable def constPrintedHom (h : Nat.card Gal(L/K) = 2)
     haveI := gelfand_edgeAlgebra_diag_subsingleton K L h i₀
     AlgHom.ext fun _ => Subsingleton.elim _ _
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Witness 1 for finding S4-F1** (the contravariant reading fails: the printed shape is
 *uninhabited* where the functor needs it).
 There is no printed-shape morphism from `S(Q_Gelfand)` to the species of the one-vertex split
@@ -1351,8 +1359,8 @@ theorem trivialToComplexLoop_onL_not_surjective :
     ¬ Function.Surjective (trivialToComplexLoop.onL PUnit.unit) := by
   intro hs
   obtain ⟨x, hx⟩ := hs Complex.I
-  have hx' : (algebraMap ℝ ℂ) x = Complex.I := hx
-  have := congrArg Complex.im hx'
+  obtain ⟨r, hr⟩ : ∃ r : ℝ, (algebraMap ℝ ℂ) r = Complex.I := ⟨x, hx⟩
+  have := congrArg Complex.im hr
   simp at this
 
 end EtaleSpecies

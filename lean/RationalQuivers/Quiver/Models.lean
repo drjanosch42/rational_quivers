@@ -1,9 +1,13 @@
-import RationalQuivers.Quiver.GaloisSet
-import RationalQuivers.Quiver.Hom
-import RationalQuivers.Quiver.Relations
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.Data.Fin.VecNotation
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+module
+
+public import RationalQuivers.Quiver.GaloisSet
+public import RationalQuivers.Quiver.Hom
+public import RationalQuivers.Quiver.Relations
+public import Mathlib.Analysis.Complex.Polynomial.Basic
+public import Mathlib.Data.Fin.VecNotation
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+
+@[expose] public section
 
 /-!
 # Concrete models (gate G5)
@@ -142,28 +146,28 @@ inhabitant of `RQuiver.Aut`, as G5.2 requires.
 
 @census none (G5 inhabitant of `RQuiver.Aut`)
 -/
-@[reducible] def gelfandSwap : RQuiver.Aut gelfand where
-  hom :=
-    { onV := gelfandVertexSwap
-      onE := gelfandEdgeSwap
-      onV_source := by decide
-      onV_target := by decide }
-  inv :=
-    { onV := gelfandVertexSwap
-      onE := gelfandEdgeSwap
-      onV_source := by decide
-      onV_target := by decide }
-  hom_inv_id := by
-    refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
-  inv_hom_id := by
-    refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+@[reducible] def gelfandSwap : RQuiver.Aut gelfand := CategoryTheory.Aut.of
+  { hom :=
+      { onV := gelfandVertexSwap
+        onE := gelfandEdgeSwap
+        onV_source := by decide
+        onV_target := by decide }
+    inv :=
+      { onV := gelfandVertexSwap
+        onE := gelfandEdgeSwap
+        onV_source := by decide
+        onV_target := by decide }
+    hom_inv_id := by
+      refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
+    inv_hom_id := by
+      refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide) }
 
 /-- The `±`-swap is an involution: `c² = 1`.
 
 @census none (helper for the G5 inhabitant)
 -/
 theorem gelfandSwap_mul_self : gelfandSwap * gelfandSwap = 1 := by
-  refine CategoryTheory.Aut.ext ?_
+  refine RQuiver.Aut.ext ?_
   refine Hom.ext ?_ ?_ <;> (funext x; revert x; decide)
 
 /-- The `±`-swap is not the identity: the Gelfand quiver really does carry a non-trivial
@@ -754,7 +758,8 @@ theorem gelfandComplexReal_relationsCompat :
   intro σ
   by_cases hσ : σ = 1
   · subst hσ
-    rw [map_one, RQuiver.Aut.onRelation_one_eq_id, Set.image_id]
+    rw [map_one, RQuiver.Aut.onRelation_one_eq_id]
+    exact Set.image_id _
   · rw [show gelfandComplexReal.ρ σ = RQuiver.gelfandSwap from
       RationalQuiver.gelfandOfCardTwo_rho_apply ℝ ℂ card_gal_complex_real hσ]
     exact RQuiver.onRelation_gelfandSwap_image

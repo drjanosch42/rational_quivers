@@ -1,4 +1,8 @@
-import RationalQuivers.Species.Rep.FunctorH
+module
+
+public import RationalQuivers.Species.Rep.FunctorH
+
+@[expose] public section
 
 /-!
 # `Rep(Γ_K) ≃ Rep(S(Γ_K))` — the paper's second main theorem (§2.6, census `RQ2-2.29`)
@@ -88,6 +92,7 @@ noncomputable def galLinearStab (v : Γ.V) (k : Gal(L/K)) (hk : k • v = v) :
     congr 1
     exact (IntermediateField.mem_fixedField_iff _ _).mp c.2 k hk
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.21`'s descent is `G_v`-equivariant.**  `φ'_k` on `M(v)` is `k ⊗ 1` on
 `L ⊗_{L(v)} M(v)^{G_v}` — because the fixed vectors are fixed and `φ'` is `k`-semi-linear.
 @census none (helper for `RQ2-2.29`) -/
@@ -128,6 +133,8 @@ one `op`.
 
 section Summit
 variable {Γ}
+-- Port v4.35: section-scoped, the `variable` binders below need the pre-v4.35 mvar-type check.
+set_option backward.isDefEq.respectTransparency.types false
 variable
   (F : CategoryTheory.Functor (FDRep Γ) (EtaleSpecies.Rep Γ.toSpecies))
   (H : CategoryTheory.Functor (EtaleSpecies.Rep Γ.toSpecies) (FDRep Γ))
@@ -136,18 +143,21 @@ variable
   (eHfix : ∀ (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit),
     ↥((H.obj V).toRep.vertexFixed (Γ.vertexRep i)) ≃ₗ[(Γ.toSpecies.L i)ᵐᵒᵖ] V.W i)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `eF` read `L_i`-linearly.  @census none (helper) -/
 noncomputable def eFL (M : FDRep Γ) (i : Γ.VertexOrbit) :
     (F.obj M).W i ≃ₗ[Γ.toSpecies.L i] ↥(M.toRep.vertexFixed (Γ.vertexRep i)) :=
   AddEquiv.toLinearEquiv (eF M i).toAddEquiv
     (fun c x => (eF M i).map_smul (MulOpposite.op c) x)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- `eHfix` read `L_i`-linearly.  @census none (helper) -/
 noncomputable def eHfixL (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit) :
     ↥((H.obj V).toRep.vertexFixed (Γ.vertexRep i)) ≃ₗ[Γ.toSpecies.L i] V.W i :=
   AddEquiv.toLinearEquiv (eHfix V i).toAddEquiv
     (fun c x => (eHfix V i).map_smul (MulOpposite.op c) x)
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The counit's components**: `F(H V)`'s `W_i` is `(H V)`'s fixed points by `eF`, and those are
 `V.W i` by `eHfix`.  @census none (helper for `RQ2-2.29`) -/
 noncomputable def counitComp (V : EtaleSpecies.Rep Γ.toSpecies) (i : Γ.VertexOrbit) :
@@ -407,6 +417,7 @@ agree.
 @census none (G4 engine for `RQ2-2.29`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- The unit on the fixed points: `eF^{-1}` then `eHfix^{-1}`.  @census none (helper) -/
 noncomputable def unitFix (M : FDRep Γ) (i : Γ.VertexOrbit) :
     ↥(M.toRep.vertexFixed (Γ.vertexRep i))
@@ -414,6 +425,7 @@ noncomputable def unitFix (M : FDRep Γ) (i : Γ.VertexOrbit) :
   ((eHfix (F.obj M) i).symm.trans (LinearEquiv.refl _ _)).toLinearMap ∘ₗ
     (eF M i).symm.toLinearMap
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The unit intertwines the two descents.**  @census none (helper for `RQ2-2.29`) -/
 theorem unitFix_descent (M : FDRep Γ) {i j : Γ.VertexOrbit}
     (chij : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -465,6 +477,7 @@ every other summand by `map_zero`.  The `η`-separation is a8148a6.
 -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Steps 1–2**: applying the unit to `M`'s descent equation gives `N`'s, so the two `(ε,η)`
 double sums agree.  @census none (helper) -/
 theorem unitFix_sum (M : FDRep Γ) {i j : Γ.VertexOrbit}
@@ -517,6 +530,7 @@ theorem unitFix_sum (M : FDRep Γ) {i j : Γ.VertexOrbit}
   rw [LinearMap.map_smul]
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Step 3**: the `(ε,η)`-components agree.  `Pi.single` collapses the `ε`-sum by `map_zero`,
 and `eta_separation` separates the `η`-sum.  @census none (helper for `RQ2-2.29`) -/
 theorem unitFix_phiComp (M : FDRep Γ) {i j : Γ.VertexOrbit}
@@ -739,6 +753,7 @@ comparison.
 @census none (G4 engine for `RQ2-2.29`)
 -/
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **`RQ2-2.17-C5` for the counit** — its `comm` axiom on pure tensors.  @census none (helper) -/
 theorem counitComp_comm (V : EtaleSpecies.Rep Γ.toSpecies) {i j : Γ.VertexOrbit}
     (chij : ∀ ε : Γ.EdgeOrbit i j, Γ.EdgeChoice ε)
@@ -771,6 +786,7 @@ for the pinned `e₀`, then `isEdgeDescent_edgeDescentMap`.
 -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The counit as a species morphism.**  @census none (helper for `RQ2-2.29`) -/
 noncomputable def counitHom
     (hF1 : ∀ (M : FDRep Γ) (i j : Γ.VertexOrbit)
@@ -883,6 +899,7 @@ theorem unitPsi_fix (M : FDRep Γ) (i : Γ.VertexOrbit)
   rw [unitRep_coe]
   exact (unitFix F H eF eHfix M i x).2 ⟨1, one_smul _ _⟩
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **The unit, bundled.**  `ψ` is `unitPsi`; `rational` is `unitPsi_rational` read through
 `φ'_rfl`; `edge` is the whole `unitFix_*` chain, whose three abstract inputs (`hrat`, `hfixi`,
 `hcomp`) are now discharged.  @census none (helper for `RQ2-2.29`) -/
@@ -1335,6 +1352,7 @@ noncomputable def counitIso (hF1 : ∀ (M : FDRep Γ) (i j : Γ.VertexOrbit)
 
 end Summit
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Theorem `thm:species_equivalence`** (census `RQ2-2.29`) — the paper's second main theorem.
 
 For a `K`-rational quiver `Γ_K` (clause `RQ2-2.29-H1`), the category `Rep(Γ_K)` of
@@ -1549,6 +1567,7 @@ of them would be a weakening of the row, and `rqaudit clauses` reads the row.
 -/
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Theorem B, instantiated at the tree's own functors.**  `species_equivalence` applied to
 `FFunctor` (`RQ2-2.26`) and `hFunctor` (`RQ2-2.28`), with all eight hypotheses discharged by named
 theorems of this stage.  The two arguments that remain are genuine data of `H` itself — the family
@@ -1575,6 +1594,7 @@ theorem species_equivalence_at_tree_functors
     (fun V V' ψ ψ' hψ' i u => hFunctor_hH3 WK hWK ch V V' ψ ψ' hψ' i u)).2
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Theorem B, unconditionally, at the tree's own functors.**  There *are* `K`-rational
 structures (`exists_isKRationalStructure`) and there *is* an edge choice (`EdgeChoice.choose`), so
 `Rep(Γ_K)` and `Rep(S(Γ_K))` are equivalent through this tree's `F` and `H` with no hypothesis at
@@ -1649,6 +1669,7 @@ def _root_.RationalQuivers.Species.Rep.toAllTrivialHom (S : Species K) (V : Spec
   ψ _ := 0
   comm _ _ := rfl
 
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Probe 3 — `IsKRationalStructure` at `⊥`, the choice `V-S5b-2` was about.**
 
 **It does not type-check as a proof — the interpretation is *refuted*.**  *Verdict: this is the
@@ -1678,6 +1699,7 @@ theorem not_isKRationalStructure_bot (V : EtaleSpecies.Rep Γ.toSpecies)
   exact hxy ((ht.symm.trans (hzero t)).trans ((hzero s).symm.trans hs))
 
 open scoped Classical in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- **Probe 4 — `IsEdgeDescent` at `f := 0`.**
 
 *Verdict: conditional, and that is the informative answer.*  The zero descent forces `Φ ∘ e₀` to

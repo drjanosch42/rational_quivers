@@ -1,10 +1,14 @@
-import RationalQuivers.Descent.KStructure
-import Mathlib.Algebra.Category.ModuleCat.Basic
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.CategoryTheory.Equivalence
-import Mathlib.FieldTheory.Galois.Infinite
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-import Mathlib.LinearAlgebra.TensorProduct.Basis
+module
+
+public import RationalQuivers.Descent.KStructure
+public import Mathlib.Algebra.Category.ModuleCat.Basic
+public import Mathlib.Analysis.Complex.Polynomial.Basic
+public import Mathlib.CategoryTheory.Equivalence
+public import Mathlib.FieldTheory.Galois.Infinite
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.LinearAlgebra.TensorProduct.Basis
+
+@[expose] public section
 
 /-!
 # Galois descent for vector spaces
@@ -186,7 +190,6 @@ private theorem baseChange_repr_smul {ι : Type u} (M : Type u) [AddCommGroup M]
         = σ ((b.baseChange L).repr y i) := by
     intro y
     induction y with
-    | zero => simp
     | tmul a m =>
         rw [TensorProduct.map_tmul]
         simp only [Module.Basis.baseChange_repr_tmul, LinearMap.id_coe, id_eq,
@@ -267,7 +270,6 @@ private theorem isKRational_descentCounit [Algebra.IsIntegral K L] (X : VecK K L
         = σ • descentCounit K L X v := by
     intro v
     induction v with
-    | zero => simp
     | tmul a w =>
         rw [TensorProduct.map_tmul]
         simp only [LinearMap.id_coe, id_eq, AlgEquiv.toLinearMap_apply, descentCounit_tmul]
@@ -465,7 +467,6 @@ private theorem descentCounit_naturality [Algebra.IsIntegral K L] {X Y : VecK K 
     f.1 (descentCounit K L X u)
       = descentCounit K L Y (LinearMap.baseChange L (fixedPointsMap K L f) u) := by
   induction u with
-  | zero => simp
   | tmul a w =>
       rw [LinearMap.baseChange_tmul, descentCounit_tmul, descentCounit_tmul, fixedPointsMap_coe,
         map_smul]

@@ -1,4 +1,8 @@
-import RationalQuivers.HC.Category
+module
+
+public import RationalQuivers.HC.Category
+
+@[expose] public section
 
 /-!
 # `HC_λ(𝔤,K)_ℂ` and the classical Harish-Chandra modules (`rmk:HClambdaC`)
@@ -54,7 +58,8 @@ theorem linearMap_ext_of_comp {N : Type} [AddCommGroup N] [Module ℂ N] (W : We
 theorem decompEquiv_of_mem (W : WeightData ℂ M) {n : ℤ} {v : M} (hv : v ∈ W.comp n) :
     W.decompEquiv v = DirectSum.lof ℂ ℤ (fun m => W.comp m) n ⟨v, hv⟩ := by
   rw [WeightData.decompEquiv, LinearEquiv.symm_apply_eq]
-  simp [DirectSum.lof_eq_of, DirectSum.coeLinearMap_of]
+  simp only [DirectSum.lof_eq_of]
+  exact (DirectSum.coeLinearMap_of (fun m => W.comp m) n ⟨v, hv⟩).symm
 
 /-- The operator `g ↦ χ_n(g)` on `M_n`, assembled along `M = ⨁_n M_n`.
 
